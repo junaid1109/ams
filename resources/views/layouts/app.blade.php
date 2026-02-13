@@ -47,16 +47,6 @@
           <li><a href="{{ route('portfolio.index') }}" class="@if(str_contains(Route::currentRouteName(), 'portfolio')) active @endif">Portfolio</a></li>
           <li><a href="{{ route('team') }}" class="@if(Route::currentRouteName() == 'team') active @endif">Team</a></li>
           <li><a href="{{ route('contact.index') }}" class="@if(Route::currentRouteName() == 'contact.index') active @endif">Contact</a></li>
-          @auth
-            <li class="dropdown"><a href="#"><span>Admin</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-              <ul>
-                <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li><form method="POST" action="{{ route('logout') }}" style="margin:0;"><@csrf<button type="submit" style="background:none; border:none; color:inherit; cursor:pointer;">Logout</button></form></li>
-              </ul>
-            </li>
-          @else
-            <li><a href="{{ route('login') }}">Login</a></li>
-          @endauth
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
