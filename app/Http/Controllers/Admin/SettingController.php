@@ -8,6 +8,17 @@ use App\Helpers\SettingHelper;
 
 class SettingController extends \App\Http\Controllers\Controller
 {
+    public function __construct()
+    {
+        // Settings can only be accessed by admins
+        $this->middleware(function ($request, $next) {
+            if (auth()->user()->role !== 'admin') {
+                abort(403, 'Unauthorized. Only admins can modify settings.');
+            }
+            return $next($request);
+        });
+    }
+
     public function index()
     {
         $settings = Setting::all()->pluck('value', 'key');

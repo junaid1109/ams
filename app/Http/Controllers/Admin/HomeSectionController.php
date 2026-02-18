@@ -8,6 +8,17 @@ use App\Http\Controllers\Controller;
 
 class HomeSectionController extends Controller
 {
+    public function __construct()
+    {
+        // Viewers can only view, not create/edit/delete
+        $this->middleware(function ($request, $next) {
+            if (auth()->user()->role === 'viewer' && in_array($request->route()->getActionMethod(), ['create', 'store', 'edit', 'update', 'destroy'])) {
+                abort(403, 'Unauthorized. Viewers have read-only access.');
+            }
+            return $next($request);
+        });
+    }
+
     /**
      * Display a listing of the resource.
      */

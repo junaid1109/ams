@@ -22,6 +22,11 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'two_factor_enabled',
+        'two_factor_secret',
+        'two_factor_backup_codes',
+        'two_factor_confirmed_at',
+        'is_active',
     ];
 
     /**
@@ -41,6 +46,9 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'two_factor_confirmed_at' => 'datetime',
+        'two_factor_enabled' => 'boolean',
+        'is_active' => 'boolean',
     ];
 
     /**
@@ -49,5 +57,21 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->role === 'admin';
+    }
+
+    /**
+     * Check if 2FA is enabled
+     */
+    public function isTwoFactorEnabled()
+    {
+        return $this->two_factor_enabled && !is_null($this->two_factor_confirmed_at);
+    }
+
+    /**
+     * Check if user is active
+     */
+    public function isActive()
+    {
+        return $this->is_active;
     }
 }

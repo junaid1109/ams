@@ -7,6 +7,17 @@ use App\Models\Contact;
 
 class ContactController extends \App\Http\Controllers\Controller
 {
+    public function __construct()
+    {
+        // Viewers can only view, not delete
+        $this->middleware(function ($request, $next) {
+            if (auth()->user()->role === 'viewer' && in_array($request->route()->getActionMethod(), ['destroy', 'deleteAll'])) {
+                abort(403, 'Unauthorized. Viewers have read-only access.');
+            }
+            return $next($request);
+        });
+    }
+
     public function index()
     {
         $contacts = Contact::latest()->paginate(15);

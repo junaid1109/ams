@@ -4,10 +4,10 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>@yield('title', 'Admin Panel - AMS')</title>
+  <title><?php echo $__env->yieldContent('title', 'Admin Panel - AMS'); ?></title>
 
   <!-- Favicons -->
-  <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
+  <link href="<?php echo e(asset('assets/img/favicon.png')); ?>" rel="icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -15,8 +15,8 @@
   <link href="https://fonts.googleapis.com/css2?family=roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link href="<?php echo e(asset('assets/vendor/bootstrap/css/bootstrap.min.css')); ?>" rel="stylesheet">
+  <link href="<?php echo e(asset('assets/vendor/bootstrap-icons/bootstrap-icons.css')); ?>" rel="stylesheet">
 
   <!-- Admin CSS -->
   <style>
@@ -319,7 +319,7 @@
     }
   </style>
 
-  @stack('css')
+  <?php echo $__env->yieldPushContent('css'); ?>
 </head>
 
 <body>
@@ -333,70 +333,70 @@
 
       <ul class="sidebar-nav">
         <li>
-          <a href="{{ route('admin.dashboard') }}" class="@if(Route::currentRouteName() == 'admin.dashboard') active @endif">
+          <a href="<?php echo e(route('admin.dashboard')); ?>" class="<?php if(Route::currentRouteName() == 'admin.dashboard'): ?> active <?php endif; ?>">
             <i class="bi bi-speedometer2"></i> Dashboard
           </a>
         </li>
 
         <li>
-          <a href="{{ route('admin.services.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.services')) active @endif">
+          <a href="<?php echo e(route('admin.services.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.services')): ?> active <?php endif; ?>">
             <i class="bi bi-gear"></i> Services
           </a>
         </li>
 
         <li>
-          <a href="{{ route('admin.portfolio.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.portfolio')) active @endif">
+          <a href="<?php echo e(route('admin.portfolio.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.portfolio')): ?> active <?php endif; ?>">
             <i class="bi bi-images"></i> Portfolio
           </a>
         </li>
 
         <li>
-          <a href="{{ route('admin.team.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.team')) active @endif">
+          <a href="<?php echo e(route('admin.team.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.team')): ?> active <?php endif; ?>">
             <i class="bi bi-people"></i> Team
           </a>
         </li>
 
         <li>
-          <a href="{{ route('admin.pages.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.pages')) active @endif">
+          <a href="<?php echo e(route('admin.pages.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.pages')): ?> active <?php endif; ?>">
             <i class="bi bi-file-text"></i> Pages
           </a>
         </li>
 
         <li>
-          <a href="{{ route('admin.contacts.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.contacts')) active @endif">
+          <a href="<?php echo e(route('admin.contacts.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.contacts')): ?> active <?php endif; ?>">
             <i class="bi bi-envelope"></i> Contacts
-            @php
+            <?php
             $unreadCount = App\Models\Contact::where('is_read', false)->count();
-            @endphp
-            @if($unreadCount > 0)
-            <span class="badge badge-danger" style="float: right;">{{ $unreadCount }}</span>
-            @endif
+            ?>
+            <?php if($unreadCount > 0): ?>
+            <span class="badge badge-danger" style="float: right;"><?php echo e($unreadCount); ?></span>
+            <?php endif; ?>
           </a>
         </li>
 
-        @if(auth()->user()->role === 'admin')
+        <?php if(auth()->user()->role === 'admin'): ?>
         <li>
-          <a href="{{ route('admin.settings.index') }}" class="@if(Route::currentRouteName() == 'admin.settings.index') active @endif">
+          <a href="<?php echo e(route('admin.settings.index')); ?>" class="<?php if(Route::currentRouteName() == 'admin.settings.index'): ?> active <?php endif; ?>">
             <i class="bi bi-sliders"></i> Settings
           </a>
         </li>
 
         <li>
-          <a href="{{ route('admin.users.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.users')) active @endif">
+          <a href="<?php echo e(route('admin.users.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.users')): ?> active <?php endif; ?>">
             <i class="bi bi-people"></i> Manage Admins
           </a>
         </li>
-        @endif
+        <?php endif; ?>
 
         <li style="border-top: 1px solid #34495e; margin-top: 20px; padding-top: 20px;">
-          <a href="{{ route('admin.profile.show') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.profile')) active @endif">
+          <a href="<?php echo e(route('admin.profile.show')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.profile')): ?> active <?php endif; ?>">
             <i class="bi bi-person-circle"></i> My Profile
           </a>
         </li>
 
         <li>
-          <form method="POST" action="{{ route('logout') }}" style="padding: 0;">
-            @csrf
+          <form method="POST" action="<?php echo e(route('logout')); ?>" style="padding: 0;">
+            <?php echo csrf_field(); ?>
             <button type="submit" style="background: none; border: none; color: #ecf0f1; padding: 12px 20px; width: 100%; text-align: left; cursor: pointer; transition: all 0.3s; border-left: 3px solid transparent;">
               <i class="bi bi-box-arrow-right"></i> Logout
             </button>
@@ -408,39 +408,41 @@
     <!-- Main Content -->
     <div class="main-content">
       <div class="topbar">
-        <h1 class="page-title">@yield('page-title', 'Admin Panel')</h1>
+        <h1 class="page-title"><?php echo $__env->yieldContent('page-title', 'Admin Panel'); ?></h1>
         <div class="user-menu">
-          <span>{{ Auth::user()->name }}</span>
-          <a href="{{ route('home') }}" target="_blank">View Site</a>
+          <span><?php echo e(Auth::user()->name); ?></span>
+          <a href="<?php echo e(route('home')); ?>" target="_blank">View Site</a>
         </div>
       </div>
 
-      @if ($errors->any())
+      <?php if($errors->any()): ?>
       <div class="alert alert-danger">
         <h4>Please fix the following errors:</h4>
         <ul>
-          @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-          @endforeach
+          <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <li><?php echo e($error); ?></li>
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </ul>
       </div>
-      @endif
+      <?php endif; ?>
 
-      @if (session('success'))
+      <?php if(session('success')): ?>
       <div class="alert alert-success">
-        <strong>Success!</strong> {{ session('success') }}
-      </div>
-      @endif
+        <strong>Success!</strong> <?php echo e(session('success')); ?>
 
-      @yield('content')
+      </div>
+      <?php endif; ?>
+
+      <?php echo $__env->yieldContent('content'); ?>
     </div>
   </div>
 
   <!-- Scripts -->
-  <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="<?php echo e(asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')); ?>"></script>
 
-  @stack('js')
+  <?php echo $__env->yieldPushContent('js'); ?>
 
 </body>
 
 </html>
+<?php /**PATH D:\xampp\htdocs\project\sanq\mike\Axis-Laravel\resources\views/layouts/admin.blade.php ENDPATH**/ ?>

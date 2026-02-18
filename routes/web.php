@@ -30,8 +30,11 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 Route::middleware('guest')->group(function () {
     Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login.store');
-    Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
-    Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register.store');
+    Route::get('/login/2fa', [App\Http\Controllers\Auth\LoginController::class, 'show2FAForm'])->name('login.2fa');
+    Route::post('/login/2fa', [App\Http\Controllers\Auth\LoginController::class, 'verify2FA'])->name('login.verify2fa');
+    // Registration disabled - admins are created by administrators only via Manage Admins page
+    // Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+    // Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register.store');
 });
 
 Route::middleware('auth')->group(function () {
@@ -72,4 +75,17 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::post('settings', [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
 
     Route::get('home-sections', [App\Http\Controllers\Admin\HomeSectionController::class, 'index'])->name('home-sections.index');
+
+    // Admin Users Management
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class);
+    Route::put('users/{user}/password', [App\Http\Controllers\Admin\UserController::class, 'updatePassword'])->name('users.updatePassword');
+    Route::put('users/{user}/disable-2fa', [App\Http\Controllers\Admin\UserController::class, 'disable2FA'])->name('users.disable2FA');
+
+    // Profile & Account Settings
+    Route::get('profile', [App\Http\Controllers\Admin\ProfileController::class, 'show'])->name('profile.show');
+    Route::get('profile/password', [App\Http\Controllers\Admin\ProfileController::class, 'editPassword'])->name('profile.editPassword');
+    Route::post('profile/password', [App\Http\Controllers\Admin\ProfileController::class, 'updatePassword'])->name('profile.updatePassword');
+    Route::get('profile/2fa/setup', [App\Http\Controllers\Admin\ProfileController::class, 'setup2FA'])->name('profile.setup2FA');
+    Route::post('profile/2fa/enable', [App\Http\Controllers\Admin\ProfileController::class, 'enable2FA'])->name('profile.enable2FA');
+    Route::post('profile/2fa/disable', [App\Http\Controllers\Admin\ProfileController::class, 'disable2FA'])->name('profile.disable2FA');
 });
