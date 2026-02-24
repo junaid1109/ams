@@ -83,10 +83,12 @@ class PageController extends \App\Http\Controllers\Controller
             $path = $request->file('image')->store('pages', 'public');
             $validated['image'] = $path;
         }
-
-        $validated['slug'] = Str::slug($validated['title']);
+        if($validated['title']=='About Us'){
+            $validated['slug'] = 'about';
+        }else{
+            $validated['slug'] = Str::slug($validated['title']);
+        }
         $validated['published'] = $request->has('published');
-
         $page->update($validated);
 
         return redirect()->route('admin.pages.index')->with('success', 'Page updated successfully');

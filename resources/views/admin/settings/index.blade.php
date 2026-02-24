@@ -10,10 +10,38 @@
     <div class="card">
       <div class="card-header">Website Settings</div>
       <div class="card-body" style="padding: 20px;">
-        <form method="POST" action="{{ route('admin.settings.update') }}">
+        <form method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data">
           @csrf
 
           <h4 class="mb-3">General Settings</h4>
+
+          <div class="form-group">
+            <label>Site Logo</label>
+            @if(isset($settings['site_logo']) && $settings['site_logo'])
+            <div style="margin-bottom: 10px;">
+              <img src="{{ asset('storage/' . $settings['site_logo']) }}" alt="Site Logo" style="max-width: 200px; max-height: 100px;">
+              <br><small class="text-muted">Current logo</small>
+            </div>
+            @endif
+            <input type="file" name="site_logo" id="logo-input" class="form-control @error('site_logo') is-invalid @enderror" accept="image/*">
+            <small class="form-text text-muted">Upload a new logo to replace the current one. Max 2MB</small>
+            <div id="logo-preview" style="margin-top: 15px;"></div>
+            @error('site_logo')<span class="invalid-feedback">{{ $message }}</span>@enderror
+          </div>
+
+          <script>
+          document.getElementById('logo-input')?.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function(event) {
+                let previewContainer = document.getElementById('logo-preview');
+                previewContainer.innerHTML = '<div style="margin-top: 10px;"><strong>Preview:</strong><br><img src="' + event.target.result + '" style="max-width: 200px; max-height: 100px; border-radius: 5px; margin-top: 10px;"></div>';
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+          </script>
 
           <div class="form-group">
             <label>Site Name</label>
@@ -49,6 +77,19 @@
             <label>Site Description</label>
             <textarea name="site_description" class="form-control @error('site_description') is-invalid @enderror" rows="4">{{ old('site_description', $settings['site_description'] ?? '') }}</textarea>
             @error('site_description')<span class="invalid-feedback">{{ $message }}</span>@enderror
+          </div>
+
+          <div class="form-group">
+            <label>Footer Description</label>
+            <textarea name="footer_description" class="form-control @error('footer_description') is-invalid @enderror" rows="3">{{ old('footer_description', $settings['footer_description'] ?? '') }}</textarea>
+            @error('footer_description')<span class="invalid-feedback">{{ $message }}</span>@enderror
+          </div>
+
+          <div class="form-group">
+            <label>Demo Video URL</label>
+            <input type="url" name="demo_video_url" class="form-control @error('demo_video_url') is-invalid @enderror" value="{{ old('demo_video_url', $settings['demo_video_url'] ?? 'https://www.youtube.com/watch?v=Y7f98aduVJ8') }}" placeholder="https://www.youtube.com/watch?v=...">
+            <small class="form-text text-muted">YouTube or Vimeo URL for the hero section demo video</small>
+            @error('demo_video_url')<span class="invalid-feedback">{{ $message }}</span>@enderror
           </div>
 
           <hr>

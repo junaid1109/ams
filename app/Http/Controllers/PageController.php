@@ -13,7 +13,6 @@ class PageController extends Controller
         if (!$page->published) {
             abort(404);
         }
-        
         $siteName = SettingHelper::get('site_name', 'AMS');
         return view('frontend.page', compact('page', 'siteName'));
     }

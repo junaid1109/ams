@@ -52,16 +52,45 @@
 
           <div class="form-group">
             <label>Image</label>
-            <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" accept="image/*">
+            <input type="file" name="image" id="image-input" class="form-control @error('image') is-invalid @enderror" accept="image/*">
             <small class="form-text text-muted">Upload an image for this section</small>
+            <div id="preview-container" style="margin-top: 15px;"></div>
             @error('image')<span class="invalid-feedback">{{ $message }}</span>@enderror
           </div>
+          <script>
+          document.getElementById('image-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function(event) {
+                let previewContainer = document.getElementById('preview-container');
+                previewContainer.innerHTML = '<div style="margin-top: 10px;"><strong>Preview:</strong><br><img src="' + event.target.result + '" style="max-width: 300px; max-height: 300px; border-radius: 5px; margin-top: 10px;"></div>';
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+          </script>
 
           <div class="form-group">
             <label>Display Order</label>
             <input type="number" name="display_order" class="form-control @error('display_order') is-invalid @enderror" value="{{ old('display_order', 0) }}" min="0">
             <small class="form-text text-muted">Lower numbers appear first</small>
             @error('display_order')<span class="invalid-feedback">{{ $message }}</span>@enderror
+          </div>
+
+          <!-- Stats Section (for Hero/About/Stats sections) -->
+          <div id="stats-section" style="display: none;">
+            <div class="form-group">
+              <label><strong>Stats Items (Numbers with Labels)</strong></label>
+              <small class="form-text text-muted d-block mb-3">Add stat items with a number and label. Examples: 500+|Successful Projects, 98%|Client Satisfaction, 10+|Years Experience</small>
+              
+              <div id="stats-container">
+                <!-- Stats will be added here -->
+              </div>
+
+              <button type="button" class="btn btn-sm btn-success" onclick="addStatItem()">+ Add Stat Item</button>
+              <input type="hidden" name="content" id="content-field" value="[]">
+            </div>
           </div>
 
           <div class="form-group">
@@ -78,5 +107,67 @@
     </div>
   </div>
 </div>
+
+<script>
+function showStatsSection() {
+  const sectionName = document.querySelector('input[name="section_name"]').value.toLowerCase();
+  const statsSection = document.getElementById('stats-section');
+  if (sectionName === 'hero' || sectionName === 'about' || sectionName === 'why-us' || sectionName.includes('stats')) {
+    statsSection.style.display = 'block';
+  } else {
+    statsSection.style.display = 'none';
+  }
+}
+
+function addStatItem() {
+  const container = document.getElementById('stats-container');
+  const html = `
+    <div class="stat-item-group" style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 10px; border-left: 3px solid #007bff;">
+      <div style="display: flex; gap: 10px; align-items: flex-start;">
+        <div style="flex: 1;">
+          <label style="font-size: 0.85rem; color: #666; margin-bottom: 5px; display: block;">Number</label>
+          <input type="text" class="form-control stat-number" placeholder="e.g., 850" style="font-weight: 600; font-size: 1.2rem;">
+        </div>
+        <div style="flex: 2;">
+          <label style="font-size: 0.85rem; color: #666; margin-bottom: 5px; display: block;">Label</label>
+          <input type="text" class="form-control stat-label" placeholder="e.g., Projects Completed">
+        </div>
+        <div style="padding-top: 24px;">
+          <button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.parentElement.parentElement.remove()">Remove</button>
+        </div>
+      </div>
+    </div>
+  `;
+  container.insertAdjacentHTML('beforeend', html);
+}
+
+// Show stats section based on section name
+document.addEventListener('DOMContentLoaded', function() {
+  const sectionNameInput = document.querySelector('input[name="section_name"]');
+  if (sectionNameInput) {
+    sectionNameInput.addEventListener('change', showStatsSection);
+    sectionNameInput.addEventListener('blur', showStatsSection);
+  }
+
+  // Update hidden field on form submit
+  const form = document.querySelector('form');
+  if (form) {
+    form.addEventListener('submit', function() {
+      const stats = [];
+      document.querySelectorAll('.stat-item-group').forEach(group => {
+        const number = group.querySelector('.stat-number').value;
+        const label = group.querySelector('.stat-label').value;
+        if (number || label) {
+          stats.push({ number, label });
+        }
+      });
+      const contentField = document.getElementById('content-field');
+      if (contentField) {
+        contentField.value = JSON.stringify(stats);
+      }
+    });
+  }
+});
+</script>
 
 @endsection

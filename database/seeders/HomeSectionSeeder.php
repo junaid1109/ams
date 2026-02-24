@@ -14,6 +14,20 @@ class HomeSectionSeeder extends Seeder
      */
     public function run()
     {
+        // Hero stats
+        $heroStats = json_encode([
+            ['number' => '500+', 'label' => 'Successful Projects'],
+            ['number' => '98%', 'label' => 'Client Satisfaction'],
+            ['number' => '10+', 'label' => 'Years Experience'],
+        ]);
+
+        // About stats
+        $aboutStats = json_encode([
+            ['number' => '15', 'label' => 'Years Experience'],
+            ['number' => '850', 'label' => 'Projects Completed'],
+            ['number' => '240', 'label' => 'Happy Clients'],
+        ]);
+
         $sections = [
             [
                 'section_name' => 'hero',
@@ -22,6 +36,7 @@ class HomeSectionSeeder extends Seeder
                 'description' => 'We create innovative solutions that help businesses grow. Our expertise spans web design, development, and digital marketing.',
                 'button_text' => 'Get Started Today',
                 'button_link' => '/',
+                'content' => $heroStats,
                 'display_order' => 1,
                 'is_active' => true,
             ],
@@ -32,6 +47,7 @@ class HomeSectionSeeder extends Seeder
                 'description' => 'We are passionate professionals committed to delivering exceptional results that exceed expectations and drive meaningful transformation.',
                 'button_text' => 'Learn More',
                 'button_link' => '/about',
+                'content' => $aboutStats,
                 'display_order' => 2,
                 'is_active' => true,
             ],

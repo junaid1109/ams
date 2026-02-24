@@ -10,15 +10,15 @@
     <div class="card">
       <div class="card-header">Edit Section: {{ ucwords(str_replace('-', ' ', $homeSection->section_name)) }}</div>
       <div class="card-body" style="padding: 20px;">
-        <form method="POST" action="{{ route('admin.home-sections.update', $homeSection) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('admin.home-sections.update', $homeSection) }}" enctype="multipart/form-data" id="section-form">
           @csrf
           @method('PUT')
 
           <div class="form-group">
             <label>Section Name (Unique identifier) *</label>
-            <input type="text" name="section_name" class="form-control @error('section_name') is-invalid @enderror" value="{{ old('section_name', $homeSection->section_name) }}" required placeholder="e.g., hero, about, services">
-            <small class="form-text text-muted">Use lowercase with hyphens (e.g., hero, hero-banner, why-us)</small>
-            @error('section_name')<span class="invalid-feedback">{{ $message }}</span>@enderror
+            <input type="text" class="form-control" value="{{ $homeSection->section_name }}" disabled>
+            <input type="hidden" name="section_name" value="{{ $homeSection->section_name }}">
+            <small class="form-text text-muted">Cannot be changed after creation</small>
           </div>
 
           <div class="form-group">
@@ -55,12 +55,13 @@
             <label>Image</label>
             @if($homeSection->image)
             <div style="margin-bottom: 10px;">
-              <img src="{{ asset('storage/' . $homeSection->image) }}" alt="{{ $homeSection->title }}" style="max-width: 200px; max-height: 150px;">
+              <img src="{{ asset('storage/' . $homeSection->image) }}" alt="{{ $homeSection->title }}" style="max-width: 200px; max-height: 150px;" id="image-preview">
               <br><small class="text-muted">Current image</small>
             </div>
             @endif
-            <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" accept="image/*">
+            <input type="file" name="image" id="image-input" class="form-control @error('image') is-invalid @enderror" accept="image/*">
             <small class="form-text text-muted">Upload a new image to replace the current one</small>
+            <div id="preview-container" style="margin-top: 15px;"></div>
             @error('image')<span class="invalid-feedback">{{ $message }}</span>@enderror
           </div>
 
@@ -70,6 +71,71 @@
             <small class="form-text text-muted">Lower numbers appear first</small>
             @error('display_order')<span class="invalid-feedback">{{ $message }}</span>@enderror
           </div>
+
+          <!-- Stats Section -->
+          @if($homeSection->section_name === 'hero' || $homeSection->section_name === 'about' || $homeSection->section_name === 'why-us' || strpos($homeSection->section_name, 'stats') !== false)
+          <div class="form-group">
+            <label><strong>Stats Items (Numbers with Labels)</strong></label>
+            @php
+              $isPredefined = in_array($homeSection->section_name, ['hero', 'about']);
+              $rawContent = $homeSection->content;
+              $stats = [];
+              
+              if (is_array($rawContent)) {
+                $stats = $rawContent;
+              } elseif (is_string($rawContent) && !empty($rawContent)) {
+                $decoded = json_decode($rawContent, true);
+                $stats = (is_array($decoded)) ? $decoded : [];
+              }
+              
+              if (!is_array($stats)) {
+                $stats = [];
+              }
+            @endphp
+
+            @if($isPredefined)
+            <small class="form-text text-muted d-block mb-3">Edit existing stats below. You cannot add new stats to this section.</small>
+            @else
+            <small class="form-text text-muted d-block mb-3">Update existing stats or add new ones.</small>
+            @endif
+
+            @if(count($stats) > 0)
+            <div style="background: #d4edda; padding: 10px; border-radius: 5px; margin-bottom: 15px; border-left: 4px solid #28a745;">
+              <small class="text-success"><strong>{{ count($stats) }} stat(s) found.</strong></small>
+            </div>
+            @else
+            <div style="background: #fff3cd; padding: 10px; border-radius: 5px; margin-bottom: 15px; border-left: 4px solid #ffc107;">
+              <small class="text-warning"><strong>No stats yet.</strong></small>
+            </div>
+            @endif
+
+            <div id="stats-container">
+              @foreach($stats as $index => $stat)
+              <div class="stat-item-group" style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 10px; border-left: 3px solid #007bff;">
+                <div style="display: flex; gap: 10px; align-items: flex-start;">
+                  <div style="flex: 1;">
+                    <label style="font-size: 0.85rem; color: #666; margin-bottom: 5px; display: block;">Number</label>
+                    <input type="text" name="stats[{{ $index }}][number]" class="form-control stat-number" placeholder="e.g., 850" value="{{ $stat['number'] ?? '' }}" style="font-weight: 600; font-size: 1.2rem;">
+                  </div>
+                  <div style="flex: 2;">
+                    <label style="font-size: 0.85rem; color: #666; margin-bottom: 5px; display: block;">Label</label>
+                    <input type="text" name="stats[{{ $index }}][label]" class="form-control stat-label" placeholder="e.g., Projects Completed" value="{{ $stat['label'] ?? '' }}">
+                  </div>
+                  @if(!$isPredefined)
+                  <div style="padding-top: 24px;">
+                    <button type="button" class="btn btn-danger btn-sm remove-stat-btn">Remove</button>
+                  </div>
+                  @endif
+                </div>
+              </div>
+              @endforeach
+            </div>
+
+            @if(!$isPredefined)
+            <button type="button" class="btn btn-sm btn-success" id="add-stat-btn">+ Add Another Stat</button>
+            @endif
+          </div>
+          @endif
 
           <div class="form-group">
             <label>
@@ -85,5 +151,66 @@
     </div>
   </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  
+  // Image Preview
+  const imageInput = document.getElementById('image-input');
+  if (imageInput) {
+    imageInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          let previewContainer = document.getElementById('preview-container');
+          previewContainer.innerHTML = '<div style="margin-top: 10px;"><strong>Preview:</strong><br><img src="' + event.target.result + '" style="max-width: 300px; max-height: 300px; border-radius: 5px; margin-top: 10px;"></div>';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  // Stats Counter for unique names
+  let statsCounter = {{ count($stats ?? []) }};
+
+  // Add Stat Button
+  const addStatBtn = document.getElementById('add-stat-btn');
+  if (addStatBtn) {
+    addStatBtn.addEventListener('click', function() {
+      const container = document.getElementById('stats-container');
+      if (!container) return;
+      
+      const html = `
+        <div class="stat-item-group" style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 10px; border-left: 3px solid #007bff;">
+          <div style="display: flex; gap: 10px; align-items: flex-start;">
+            <div style="flex: 1;">
+              <label style="font-size: 0.85rem; color: #666; margin-bottom: 5px; display: block;">Number</label>
+              <input type="text" name="stats[${statsCounter}][number]" class="form-control stat-number" placeholder="e.g., 850" style="font-weight: 600; font-size: 1.2rem;">
+            </div>
+            <div style="flex: 2;">
+              <label style="font-size: 0.85rem; color: #666; margin-bottom: 5px; display: block;">Label</label>
+              <input type="text" name="stats[${statsCounter}][label]" class="form-control stat-label" placeholder="e.g., Projects Completed">
+            </div>
+            <div style="padding-top: 24px;">
+              <button type="button" class="btn btn-danger btn-sm remove-stat-btn">Remove</button>
+            </div>
+          </div>
+        </div>
+      `;
+      container.insertAdjacentHTML('beforeend', html);
+      statsCounter++;
+    });
+  }
+
+  // Remove Stat Button (Event Delegation)
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('remove-stat-btn')) {
+      e.target.closest('.stat-item-group').remove();
+    }
+  });
+
+});
+</script>
 
 @endsection

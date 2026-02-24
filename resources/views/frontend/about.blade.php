@@ -36,6 +36,42 @@
   </div>
 </section>
 
+@php
+  // Helper function for home sections
+  $getSection = function($name) use ($homeSections) {
+    if ($homeSections) {
+      return $homeSections->firstWhere('section_name', $name);
+    }
+    return null;
+  };
+  $aboutHomeSection = $getSection('about');
+@endphp
+
+@if($aboutHomeSection && $aboutHomeSection->content)
+<!-- About Stats Section from Home Sections -->
+<section class="about-stats section light-background">
+  <div class="container" data-aos="fade-up">
+    <div class="section-title">
+      <h2>{{ $aboutHomeSection->title ?? 'About Us' }}</h2>
+    </div>
+    <div class="stats-row" style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+      @php
+        $stats = $aboutHomeSection->content ?? [];
+        if (!is_array($stats)) {
+          $stats = json_decode($stats, true) ?? [];
+        }
+      @endphp
+      @foreach($stats as $stat)
+      <div class="stat-item" style="text-align: center;">
+        <div class="stat-number purecounter" style="font-size: 2.5rem; font-weight: bold; color: var(--accent-color);" data-purecounter-start="0" data-purecounter-end="{{ intval($stat['number'] ?? 0) }}" data-purecounter-duration="1">{{ $stat['number'] ?? 0 }}</div>
+        <div class="stat-label" style="margin-top: 10px; color: var(--default-color);">{{ $stat['label'] ?? 'Statistic' }}</div>
+      </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+@endif
+
 <!-- Team Section -->
 <section class="team section light-background">
   <div class="container">

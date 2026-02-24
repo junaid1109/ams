@@ -48,9 +48,16 @@ class HomeSectionController extends Controller
             'description' => 'nullable|string',
             'button_text' => 'nullable|string',
             'button_link' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'display_order' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
+            'content' => 'nullable|json',
         ]);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('home-sections', 'public');
+            $validated['image'] = $path;
+        }
 
         $validated['is_active'] = $request->has('is_active');
 
@@ -65,6 +72,13 @@ class HomeSectionController extends Controller
      */
     public function edit(HomeSection $homeSection)
     {
+        // Ensure content is decoded for the view
+        if (is_string($homeSection->content)) {
+            $homeSection->content = json_decode($homeSection->content, true) ?? [];
+        }
+        if (!is_array($homeSection->content)) {
+            $homeSection->content = [];
+        }
         return view('admin.home-sections.edit', compact('homeSection'));
     }
 
@@ -74,16 +88,52 @@ class HomeSectionController extends Controller
     public function update(Request $request, HomeSection $homeSection)
     {
         $validated = $request->validate([
+            'section_name' => 'required|string',
             'title' => 'nullable|string',
             'subtitle' => 'nullable|string',
             'description' => 'nullable|string',
             'button_text' => 'nullable|string',
             'button_link' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'display_order' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
+            'stats' => 'nullable|array',
+            'stats.*.number' => 'nullable|string',
+            'stats.*.label' => 'nullable|string',
         ]);
 
+        // Handle Image Upload
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($homeSection->image && \Storage::disk('public')->exists($homeSection->image)) {
+                \Storage::disk('public')->delete($homeSection->image);
+            }
+            $path = $request->file('image')->store('home-sections', 'public');
+            $validated['image'] = $path;
+        }
+
+        // Handle is_active checkbox
         $validated['is_active'] = $request->has('is_active');
+
+        // Handle Stats - convert to content field
+        if ($request->has('stats')) {
+            $stats = [];
+            foreach ($request->input('stats', []) as $stat) {
+                // Only add if number or label is not empty
+                if (!empty($stat['number']) || !empty($stat['label'])) {
+                    $stats[] = [
+                        'number' => $stat['number'] ?? '',
+                        'label' => $stat['label'] ?? '',
+                    ];
+                }
+            }
+            $validated['content'] = $stats;
+        }
+
+        // Remove stats from validated (not a DB column)
+        unset($validated['stats']);
+
+        // Debug - remove this after testing
 
         $homeSection->update($validated);
 

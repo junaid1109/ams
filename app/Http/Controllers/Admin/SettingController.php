@@ -33,12 +33,21 @@ class SettingController extends \App\Http\Controllers\Controller
             'site_phone' => 'nullable|string',
             'site_address' => 'nullable|string',
             'site_description' => 'nullable|string',
+            'footer_description' => 'nullable|string',
+            'demo_video_url' => 'nullable|url',
+            'site_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'site_tagline' => 'nullable|string|max:255',
             'facebook_url' => 'nullable|url',
             'twitter_url' => 'nullable|url',
             'linkedin_url' => 'nullable|url',
             'instagram_url' => 'nullable|url',
         ]);
+
+        // Handle logo upload
+        if ($request->hasFile('site_logo')) {
+            $path = $request->file('site_logo')->store('settings', 'public');
+            $validated['site_logo'] = $path;
+        }
 
         foreach ($validated as $key => $value) {
             Setting::updateOrCreate(

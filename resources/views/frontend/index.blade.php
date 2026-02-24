@@ -21,30 +21,42 @@
     <div class="row align-items-center">
       <div class="col-lg-6">
         <div class="hero-content">
+          @if($getSection('hero')?->subtitle)
+          <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="150">{{ $getSection('hero')->subtitle }}</p>
+          @endif
           <h1 data-aos="fade-up" data-aos-delay="200">{{ $getSection('hero')?->title ?? 'Transform Your Business Vision Into Reality' }}</h1>
           <p data-aos="fade-up" data-aos-delay="300">{{ $getSection('hero')?->description ?? 'We create innovative solutions that help businesses grow. Our expertise spans web design, development, and digital marketing.' }}</p>
           <div class="hero-cta" data-aos="fade-up" data-aos-delay="400">
             @php $heroSection = $getSection('hero'); @endphp
             <a href="{{ $heroSection?->button_link ?? route('contact.index') }}" class="btn-primary">{{ $heroSection?->button_text ?? 'Get Started Today' }}</a>
-            <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="btn-secondary glightbox">
+            <a href="{{ \App\Helpers\SettingHelper::get('demo_video_url', 'https://www.youtube.com/watch?v=Y7f98aduVJ8') }}" class="btn-secondary glightbox">
               <i class="bi bi-play-circle"></i>
               Watch Demo
             </a>
           </div>
           <!-- Hero Stats -->
           <div class="hero-stats" data-aos="fade-up" data-aos-delay="500">
+            @php
+              $heroSection = $getSection('hero');
+              $heroStats = $heroSection?->content ?? [];
+              if (!is_array($heroStats)) {
+                $heroStats = json_decode($heroStats, true) ?? [];
+              }
+              // Fallback stats if none configured
+              if (empty($heroStats)) {
+                $heroStats = [
+                  ['number' => '500+', 'label' => 'Successful Projects'],
+                  ['number' => '98%', 'label' => 'Client Satisfaction'],
+                  ['number' => '10+', 'label' => 'Years Experience'],
+                ];
+              }
+            @endphp
+            @foreach($heroStats as $stat)
             <div class="stat-item">
-              <div class="stat-number">500+</div>
-              <div class="stat-label">Successful Projects</div>
+              <div class="stat-number">{{ $stat['number'] ?? '0' }}</div>
+              <div class="stat-label">{{ $stat['label'] ?? 'Statistic' }}</div>
             </div>
-            <div class="stat-item">
-              <div class="stat-number">98%</div>
-              <div class="stat-label">Client Satisfaction</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number">10+</div>
-              <div class="stat-label">Years Experience</div>
-            </div>
+            @endforeach
           </div>
         </div>
       </div>
@@ -69,18 +81,27 @@
 
           <!-- About Stats with Counters -->
           <div class="stats-row">
+            @php
+              $aboutSection = $getSection('about');
+              $stats = $aboutSection?->content ?? [];
+              if (!is_array($stats)) {
+                $stats = json_decode($stats, true) ?? [];
+              }
+              // Fallback to hardcoded stats if none configured
+              if (empty($stats)) {
+                $stats = [
+                  ['number' => 15, 'label' => 'Years Experience'],
+                  ['number' => 850, 'label' => 'Projects Completed'],
+                  ['number' => 240, 'label' => 'Happy Clients'],
+                ];
+              }
+            @endphp
+            @foreach($stats as $stat)
             <div class="stat-item">
-              <div class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1"></div>
-              <div class="stat-label">Years Experience</div>
+              <div class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="{{ $stat['number'] ?? 0 }}" data-purecounter-duration="1"></div>
+              <div class="stat-label">{{ $stat['label'] ?? 'Statistic' }}</div>
             </div>
-            <div class="stat-item">
-              <div class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="850" data-purecounter-duration="1"></div>
-              <div class="stat-label">Projects Completed</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="240" data-purecounter-duration="1"></div>
-              <div class="stat-label">Happy Clients</div>
-            </div>
+            @endforeach
           </div>
 
           <div class="cta-section">
@@ -214,12 +235,6 @@
 
   <div class="container" data-aos="fade-up" data-aos-delay="100">
     <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
-      <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="200">
-        <li data-filter="*" class="filter-active">All Work</li>
-        <li data-filter=".filter-web">Web Design</li>
-        <li data-filter=".filter-app">Development</li>
-        <li data-filter=".filter-design">Design</li>
-      </ul>
 
       <div class="row gy-5 isotope-container" data-aos="fade-up" data-aos-delay="300">
         @forelse($portfolios as $portfolio)
@@ -267,7 +282,6 @@
                 <div class="project-details">
                   <div class="project-header">
                     <span class="project-category">{{ $portfolio->category }}</span>
-                    <time class="project-year">2024</time>
                   </div>
                   <h3 class="project-title">{{ $portfolio->title }}</h3>
                   <p class="project-description">{{ $portfolio->description }}</p>
@@ -347,6 +361,7 @@
 </section>
 
 <!-- Testimonials Section -->
+@if($getSection('testimonials'))
 <section id="testimonials" class="testimonials section light-background">
   <div class="container section-title" data-aos="fade-up">
     @php $testimonialSection = $getSection('testimonials'); @endphp
@@ -519,6 +534,7 @@
     </div>
   </div>
 </section>
+@endif
 
 <!-- Contact CTA Section -->
 <section id="contact-cta" class="contact-cta section light-background">

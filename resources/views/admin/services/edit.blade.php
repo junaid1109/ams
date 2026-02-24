@@ -51,13 +51,13 @@
 
           <div class="form-group">
             <label>Features (HTML)</label>
-            <textarea name="features" class="form-control @error('features') is-invalid @enderror" rows="4">{{ old('features', $service->features) }}</textarea>
+            <textarea id="features-editor" name="features" class="form-control @error('features') is-invalid @enderror" rows="4">{{ old('features', $service->features) }}</textarea>
             @error('features')<span class="invalid-feedback">{{ $message }}</span>@enderror
           </div>
 
           <div class="form-group">
             <label>Pricing (HTML)</label>
-            <textarea name="pricing" class="form-control @error('pricing') is-invalid @enderror" rows="4">{{ old('pricing', $service->pricing) }}</textarea>
+            <textarea id="pricing-editor" name="pricing" class="form-control @error('pricing') is-invalid @enderror" rows="4">{{ old('pricing', $service->pricing) }}</textarea>
             @error('pricing')<span class="invalid-feedback">{{ $message }}</span>@enderror
           </div>
 
@@ -81,5 +81,34 @@
     </div>
   </div>
 </div>
+
+<script>
+  const editorConfig = {
+    toolbar: {
+      items: [
+        'heading', '|',
+        'bold', 'italic', 'underline', 'strikethrough', '|',
+        'bulletedList', 'numberedList', '|',
+        'link', 'blockQuote', 'codeBlock', '|',
+        'insertTable', '|',
+        'undo', 'redo'
+      ]
+    },
+    heading: {
+      options: [
+        { model: 'paragraph', title: 'Paragraph' },
+        { model: 'heading1', view: 'h1', title: 'Heading 1' },
+        { model: 'heading2', view: 'h2', title: 'Heading 2' },
+        { model: 'heading3', view: 'h3', title: 'Heading 3' }
+      ]
+    }
+  };
+
+  ClassicEditor.create(document.querySelector('#features-editor'), editorConfig)
+    .catch(err => console.error('Features Editor:', err));
+
+  ClassicEditor.create(document.querySelector('#pricing-editor'), editorConfig)
+    .catch(err => console.error('Pricing Editor:', err));
+</script>
 
 @endsection

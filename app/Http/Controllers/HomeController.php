@@ -19,7 +19,7 @@ class HomeController extends Controller
         $siteTagline = SettingHelper::get('site_tagline', 'Professional Business Solutions');
         
         $services = Service::where('published', true)->orderBy('order')->take(6)->get();
-        $portfolios = Portfolio::where('published', true)->orderBy('order')->take(6)->get();
+        $portfolios = Portfolio::where('published', true)->orderBy('order')->take(3)->get();
         $teamMembers = TeamMember::where('published', true)->orderBy('order')->get();
         
         // Get homepage sections data
@@ -40,7 +40,8 @@ class HomeController extends Controller
         $siteName = SettingHelper::get('site_name', 'AMS');
         $page = Page::where('slug', 'about')->where('published', true)->first();
         $teamMembers = TeamMember::where('published', true)->orderBy('order')->get();
+        $homeSections = HomeSection::where('is_active', true)->orderBy('display_order')->get();
         
-        return view('frontend.about', compact('page', 'teamMembers', 'siteName'));
+        return view('frontend.about', compact('page', 'teamMembers', 'siteName', 'homeSections'));
     }
 }

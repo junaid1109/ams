@@ -10,7 +10,6 @@
     <div class="card">
       <div class="card-header">
         Home Page Sections
-        <a href="{{ route('admin.home-sections.create') }}" class="btn btn-primary" style="float: right;">+ Add Section</a>
       </div>
       <div style="overflow-x: auto;">
         <table class="table">

@@ -33,7 +33,7 @@
 
           <div class="form-group">
             <label>Content *</label>
-            <textarea name="content" class="form-control @error('content') is-invalid @enderror" rows="10" required>{{ old('content', $page->content) }}</textarea>
+            <textarea id="content-editor" name="content" class="form-control @error('content') is-invalid @enderror" rows="10" required>{{ old('content', $page->content) }}</textarea>
             @error('content')<span class="invalid-feedback">{{ $message }}</span>@enderror
           </div>
 
@@ -74,5 +74,28 @@
     </div>
   </div>
 </div>
+
+<script>
+  ClassicEditor.create(document.querySelector('#content-editor'), {
+    toolbar: {
+      items: [
+        'heading', '|',
+        'bold', 'italic', 'underline', 'strikethrough', '|',
+        'bulletedList', 'numberedList', '|',
+        'link', 'blockQuote', 'codeBlock', '|',
+        'insertTable', '|',
+        'undo', 'redo'
+      ]
+    },
+    heading: {
+      options: [
+        { model: 'paragraph', title: 'Paragraph' },
+        { model: 'heading1', view: 'h1', title: 'Heading 1' },
+        { model: 'heading2', view: 'h2', title: 'Heading 2' },
+        { model: 'heading3', view: 'h3', title: 'Heading 3' }
+      ]
+    }
+  }).catch(err => console.error(err));
+</script>
 
 @endsection

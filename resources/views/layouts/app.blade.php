@@ -36,7 +36,14 @@
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
       <a href="{{ route('home') }}" class="logo d-flex align-items-center">
+        @php
+          $logo = \App\Helpers\SettingHelper::get('site_logo');
+        @endphp
+        @if($logo)
+        <img src="{{ asset('storage/' . $logo) }}" alt="{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}" style="max-height: 50px;">
+        @else
         <h1 class="sitename">{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}</h1>
+        @endif
       </a>
 
       <nav id="navmenu" class="navmenu">
@@ -62,10 +69,10 @@
     <div class="container">
       <div class="row gy-4">
         <div class="col-lg-5 col-md-12 footer-info">
-          <a href="index.html" class="logo d-flex align-items-center">
+          <a href="" class="logo d-flex align-items-center">
             <span>{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}</span>
           </a>
-          <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada dirèita venèka trimenda infkleinur.</p>
+          <p>{{ \App\Helpers\SettingHelper::get('footer_description', 'Your company description goes here. This is a professional business template.') }}</p>
           <div class="social-links d-flex mt-4">
             <a href="#"><i class="bi bi-twitter-x"></i></a>
             <a href="#"><i class="bi bi-facebook"></i></a>
@@ -80,17 +87,23 @@
             <li><a href="{{ route('home') }}">Home</a></li>
             <li><a href="{{ route('about') }}">About us</a></li>
             <li><a href="{{ route('services.index') }}">Services</a></li>
-            <li><a href="#">Terms of service</a></li>
+            @forelse(\App\Models\Page::where('published', 1)->orderBy('title')->get() as $page)
+            <li><a href="{{ route('page.show', $page) }}">{{ $page->title }}</a></li>
+            @empty
+            @endforelse
           </ul>
         </div>
 
         <div class="col-lg-2 col-6 footer-links">
           <h4>Our Services</h4>
           <ul>
+            @forelse(\App\Models\Service::where('published', 1)->orderBy('order')->limit(4)->get() as $service)
+            <li><a href="{{ route('services.show', $service->id) }}">{{ $service->title }}</a></li>
+            @empty
             <li><a href="#">Web Design</a></li>
             <li><a href="#">Web Development</a></li>
             <li><a href="#">Product Management</a></li>
-            <li><a href="#">Marketing</a></li>
+            @endforelse
           </ul>
         </div>
 
