@@ -10,10 +10,52 @@
     <div class="card">
       <div class="card-header">Website Settings</div>
       <div class="card-body" style="padding: 20px;">
-        <form method="POST" action="<?php echo e(route('admin.settings.update')); ?>">
+        <form method="POST" action="<?php echo e(route('admin.settings.update')); ?>" enctype="multipart/form-data">
           <?php echo csrf_field(); ?>
 
           <h4 class="mb-3">General Settings</h4>
+
+          <div class="form-group">
+            <label>Site Logo</label>
+            <?php if(isset($settings['site_logo']) && $settings['site_logo']): ?>
+            <div style="margin-bottom: 10px;">
+              <img src="<?php echo e(asset('storage/' . $settings['site_logo'])); ?>" alt="Site Logo" style="max-width: 200px; max-height: 100px;">
+              <br><small class="text-muted">Current logo</small>
+            </div>
+            <?php endif; ?>
+            <input type="file" name="site_logo" id="logo-input" class="form-control <?php $__errorArgs = ['site_logo'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" accept="image/*">
+            <small class="form-text text-muted">Upload a new logo to replace the current one. Max 2MB</small>
+            <div id="logo-preview" style="margin-top: 15px;"></div>
+            <?php $__errorArgs = ['site_logo'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?><span class="invalid-feedback"><?php echo e($message); ?></span><?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+          </div>
+
+          <script>
+          document.getElementById('logo-input')?.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function(event) {
+                let previewContainer = document.getElementById('logo-preview');
+                previewContainer.innerHTML = '<div style="margin-top: 10px;"><strong>Preview:</strong><br><img src="' + event.target.result + '" style="max-width: 200px; max-height: 100px; border-radius: 5px; margin-top: 10px;"></div>';
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+          </script>
 
           <div class="form-group">
             <label>Site Name</label>
@@ -133,6 +175,93 @@ $message = $__bag->first($__errorArgs[0]); ?><span class="invalid-feedback"><?ph
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
+          </div>
+
+          <div class="form-group">
+            <label>Footer Description</label>
+            <textarea name="footer_description" class="form-control <?php $__errorArgs = ['footer_description'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" rows="3"><?php echo e(old('footer_description', $settings['footer_description'] ?? '')); ?></textarea>
+            <?php $__errorArgs = ['footer_description'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?><span class="invalid-feedback"><?php echo e($message); ?></span><?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+          </div>
+
+          <div class="form-group">
+            <label>Demo Video URL</label>
+            <input type="url" name="demo_video_url" class="form-control <?php $__errorArgs = ['demo_video_url'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" value="<?php echo e(old('demo_video_url', $settings['demo_video_url'] ?? 'https://www.youtube.com/watch?v=Y7f98aduVJ8')); ?>" placeholder="https://www.youtube.com/watch?v=...">
+            <small class="form-text text-muted">YouTube or Vimeo URL for the hero section demo video</small>
+            <?php $__errorArgs = ['demo_video_url'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?><span class="invalid-feedback"><?php echo e($message); ?></span><?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+          </div>
+
+          <hr>
+          <h4 class="mb-3">Hero Section Button Display</h4>
+
+          <div class="form-group">
+            <div class="form-check">
+              <input type="checkbox" name="hero_cta_button_enabled" id="hero_cta_button_enabled" class="form-check-input" value="1" <?php if($settings['hero_cta_button_enabled'] ?? true): ?>checked <?php endif; ?>>
+              <label class="form-check-label" for="hero_cta_button_enabled">
+                <strong>Enable "Get Started Today" Button</strong>
+                <small class="d-block text-muted">Show/hide the CTA button in the hero section</small>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-check">
+              <input type="checkbox" name="demo_video_button_enabled" id="demo_video_button_enabled" class="form-check-input" value="1" <?php if($settings['demo_video_button_enabled'] ?? true): ?>checked <?php endif; ?>>
+              <label class="form-check-label" for="demo_video_button_enabled">
+                <strong>Enable "Watch Demo" Button</strong>
+                <small class="d-block text-muted">Show/hide the demo video button in the hero section</small>
+              </label>
+            </div>
+          </div>
+
+          <hr>
+          <h4 class="mb-3">Portfolio Section Button Display</h4>
+
+          <div class="form-group">
+            <div class="form-check">
+              <input type="checkbox" name="portfolio_cta_button_enabled" id="portfolio_cta_button_enabled" class="form-check-input" value="1" <?php if($settings['portfolio_cta_button_enabled'] ?? true): ?>checked <?php endif; ?>>
+              <label class="form-check-label" for="portfolio_cta_button_enabled">
+                <strong>Enable "Start Conversation" Button</strong>
+                <small class="d-block text-muted">Show/hide the CTA button in the portfolio conclusion section</small>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-check">
+              <input type="checkbox" name="portfolio_more_projects_button_enabled" id="portfolio_more_projects_button_enabled" class="form-check-input" value="1" <?php if($settings['portfolio_more_projects_button_enabled'] ?? true): ?>checked <?php endif; ?>>
+              <label class="form-check-label" for="portfolio_more_projects_button_enabled">
+                <strong>Enable "View All Projects" Button</strong>
+                <small class="d-block text-muted">Show/hide the view all projects button in the portfolio conclusion section</small>
+              </label>
+            </div>
           </div>
 
           <hr>

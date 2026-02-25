@@ -21,18 +21,23 @@
     <div class="row align-items-center">
       <div class="col-lg-6">
         <div class="hero-content">
-          @if($getSection('hero')?->subtitle)
+         
+          <h1 data-aos="fade-up" data-aos-delay="200">{{ $getSection('hero')?->title ?? 'Transform Your Business Vision Into Reality' }}</h1>
+           @if($getSection('hero')?->subtitle)
           <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="150">{{ $getSection('hero')->subtitle }}</p>
           @endif
-          <h1 data-aos="fade-up" data-aos-delay="200">{{ $getSection('hero')?->title ?? 'Transform Your Business Vision Into Reality' }}</h1>
           <p data-aos="fade-up" data-aos-delay="300">{{ $getSection('hero')?->description ?? 'We create innovative solutions that help businesses grow. Our expertise spans web design, development, and digital marketing.' }}</p>
           <div class="hero-cta" data-aos="fade-up" data-aos-delay="400">
             @php $heroSection = $getSection('hero'); @endphp
+            @if(\App\Helpers\SettingHelper::get('hero_cta_button_enabled', true))
             <a href="{{ $heroSection?->button_link ?? route('contact.index') }}" class="btn-primary">{{ $heroSection?->button_text ?? 'Get Started Today' }}</a>
+            @endif
+            @if(\App\Helpers\SettingHelper::get('demo_video_button_enabled', true))
             <a href="{{ \App\Helpers\SettingHelper::get('demo_video_url', 'https://www.youtube.com/watch?v=Y7f98aduVJ8') }}" class="btn-secondary glightbox">
               <i class="bi bi-play-circle"></i>
               Watch Demo
             </a>
+            @endif
           </div>
           <!-- Hero Stats -->
           <div class="hero-stats" data-aos="fade-up" data-aos-delay="500">
@@ -97,11 +102,22 @@
               }
             @endphp
             @foreach($stats as $stat)
-            <div class="stat-item">
-              <div class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="{{ $stat['number'] ?? 0 }}" data-purecounter-duration="1"></div>
-              <div class="stat-label">{{ $stat['label'] ?? 'Statistic' }}</div>
-            </div>
-            @endforeach
+              <div class="stat-item">
+                  @php
+                      $rawNumber = $stat['number'] ?? '0';
+                      preg_match('/[\d.]+/', $rawNumber, $matches);
+                      $numericValue = $matches[0] ?? 0;
+                      $suffix = preg_replace('/[\d.]+/', '', $rawNumber);
+                  @endphp
+                  <div class="stat-number" style="font-size: 2rem; font-weight: 300; color: #313131;">
+                      <span class="purecounter" 
+                            data-purecounter-start="0" 
+                            data-purecounter-end="{{ $numericValue }}" 
+                            data-purecounter-duration="1">0</span>{{ $suffix }}
+                  </div>
+                  <div class="stat-label">{{ $stat['label'] ?? 'Statistic' }}</div>
+              </div>
+              @endforeach
           </div>
 
           <div class="cta-section">
@@ -173,53 +189,27 @@
 
     <div class="features-grid" data-aos="fade-up" data-aos-delay="400">
       <div class="row g-5">
+        @forelse($features as $feature)
         <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
           <div class="feature-item">
             <div class="icon-wrapper">
+              @if($feature->icon)
+              <i class="{{ $feature->icon }}"></i>
+              @else
               <i class="bi bi-lightbulb"></i>
+              @endif
             </div>
             <div class="feature-content">
-              <h3>Innovation Leadership</h3>
-              <p>We stay ahead of industry trends, implementing cutting-edge technologies and methodologies that drive transformational results.</p>
+              <h3>{{ $feature->title }}</h3>
+              <p>{{ $feature->description }}</p>
             </div>
           </div>
         </div>
-
-        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-          <div class="feature-item">
-            <div class="icon-wrapper">
-              <i class="bi bi-award"></i>
-            </div>
-            <div class="feature-content">
-              <h3>Proven Expertise</h3>
-              <p>Our team brings decades of combined experience across multiple industries, ensuring strategic insights and tactical execution.</p>
-            </div>
-          </div>
+        @empty
+        <div class="col-lg-12 text-center">
+          <p>No features available yet.</p>
         </div>
-
-        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-          <div class="feature-item">
-            <div class="icon-wrapper">
-              <i class="bi bi-headset"></i>
-            </div>
-            <div class="feature-content">
-              <h3>24/7 Dedicated Support</h3>
-              <p>Round-the-clock availability with personalized attention from dedicated account managers.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-          <div class="feature-item">
-            <div class="icon-wrapper">
-              <i class="bi bi-graph-up-arrow"></i>
-            </div>
-            <div class="feature-content">
-              <h3>Cost Efficiency</h3>
-              <p>Streamlined processes and intelligent resource allocation reduce overhead while maximizing ROI.</p>
-            </div>
-          </div>
-        </div>
+        @endforelse
       </div>
     </div>
   </div>
@@ -303,16 +293,21 @@
 
     <div class="portfolio-conclusion" data-aos="fade-up" data-aos-delay="400">
       <div class="conclusion-content">
-        <h4>Ready to elevate your business?</h4>
-        <p>Let's discuss how we can transform your digital presence and drive meaningful results for your organization.</p>
+        @php $portfolioConclusion = $getSection('portfolio-conclusion'); @endphp
+        <h4>{{ $portfolioConclusion?->title ?? 'Ready to elevate your business?' }}</h4>
+        <p>{{ $portfolioConclusion?->description ?? 'Let\'s discuss how we can transform your digital presence and drive meaningful results for your organization.' }}</p>
         <div class="conclusion-actions">
-          <a href="{{ route('contact.index') }}" class="primary-action">
-            Start Conversation
+          @if(\App\Helpers\SettingHelper::get('portfolio_cta_button_enabled', true))
+          <a href="{{ $portfolioConclusion?->button_link ?? route('contact.index') }}" class="primary-action">
+            {{ $portfolioConclusion?->button_text ?? 'Start Conversation' }}
             <i class="bi bi-arrow-right"></i>
           </a>
+          @endif
+          @if(\App\Helpers\SettingHelper::get('portfolio_more_projects_button_enabled', true))
           <a href="{{ route('portfolio.index') }}" class="secondary-action">
             View All Projects
           </a>
+          @endif
         </div>
       </div>
     </div>
@@ -536,13 +531,5 @@
 </section>
 @endif
 
-<!-- Contact CTA Section -->
-<section id="contact-cta" class="contact-cta section light-background">
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <h2>Ready to get started?</h2>
-    <p>Contact us today to discuss your project and how we can help you achieve your goals.</p>
-    <a href="{{ route('contact.index') }}" class="cta-btn">Get In Touch</a>
-  </div>
-</section>
 
 @endsection

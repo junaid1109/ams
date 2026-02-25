@@ -21,30 +21,47 @@
     <div class="row align-items-center">
       <div class="col-lg-6">
         <div class="hero-content">
+         
           <h1 data-aos="fade-up" data-aos-delay="200"><?php echo e($getSection('hero')?->title ?? 'Transform Your Business Vision Into Reality'); ?></h1>
+           <?php if($getSection('hero')?->subtitle): ?>
+          <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="150"><?php echo e($getSection('hero')->subtitle); ?></p>
+          <?php endif; ?>
           <p data-aos="fade-up" data-aos-delay="300"><?php echo e($getSection('hero')?->description ?? 'We create innovative solutions that help businesses grow. Our expertise spans web design, development, and digital marketing.'); ?></p>
           <div class="hero-cta" data-aos="fade-up" data-aos-delay="400">
             <?php $heroSection = $getSection('hero'); ?>
+            <?php if(\App\Helpers\SettingHelper::get('hero_cta_button_enabled', true)): ?>
             <a href="<?php echo e($heroSection?->button_link ?? route('contact.index')); ?>" class="btn-primary"><?php echo e($heroSection?->button_text ?? 'Get Started Today'); ?></a>
-            <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="btn-secondary glightbox">
+            <?php endif; ?>
+            <?php if(\App\Helpers\SettingHelper::get('demo_video_button_enabled', true)): ?>
+            <a href="<?php echo e(\App\Helpers\SettingHelper::get('demo_video_url', 'https://www.youtube.com/watch?v=Y7f98aduVJ8')); ?>" class="btn-secondary glightbox">
               <i class="bi bi-play-circle"></i>
               Watch Demo
             </a>
+            <?php endif; ?>
           </div>
           <!-- Hero Stats -->
           <div class="hero-stats" data-aos="fade-up" data-aos-delay="500">
+            <?php
+              $heroSection = $getSection('hero');
+              $heroStats = $heroSection?->content ?? [];
+              if (!is_array($heroStats)) {
+                $heroStats = json_decode($heroStats, true) ?? [];
+              }
+              // Fallback stats if none configured
+              if (empty($heroStats)) {
+                $heroStats = [
+                  ['number' => '500+', 'label' => 'Successful Projects'],
+                  ['number' => '98%', 'label' => 'Client Satisfaction'],
+                  ['number' => '10+', 'label' => 'Years Experience'],
+                ];
+              }
+            ?>
+            <?php $__currentLoopData = $heroStats; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="stat-item">
-              <div class="stat-number">500+</div>
-              <div class="stat-label">Successful Projects</div>
+              <div class="stat-number"><?php echo e($stat['number'] ?? '0'); ?></div>
+              <div class="stat-label"><?php echo e($stat['label'] ?? 'Statistic'); ?></div>
             </div>
-            <div class="stat-item">
-              <div class="stat-number">98%</div>
-              <div class="stat-label">Client Satisfaction</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number">10+</div>
-              <div class="stat-label">Years Experience</div>
-            </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
           </div>
         </div>
       </div>
@@ -69,18 +86,39 @@
 
           <!-- About Stats with Counters -->
           <div class="stats-row">
-            <div class="stat-item">
-              <div class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1"></div>
-              <div class="stat-label">Years Experience</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="850" data-purecounter-duration="1"></div>
-              <div class="stat-label">Projects Completed</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="240" data-purecounter-duration="1"></div>
-              <div class="stat-label">Happy Clients</div>
-            </div>
+            <?php
+              $aboutSection = $getSection('about');
+              $stats = $aboutSection?->content ?? [];
+              if (!is_array($stats)) {
+                $stats = json_decode($stats, true) ?? [];
+              }
+              // Fallback to hardcoded stats if none configured
+              if (empty($stats)) {
+                $stats = [
+                  ['number' => 15, 'label' => 'Years Experience'],
+                  ['number' => 850, 'label' => 'Projects Completed'],
+                  ['number' => 240, 'label' => 'Happy Clients'],
+                ];
+              }
+            ?>
+            <?php $__currentLoopData = $stats; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+              <div class="stat-item">
+                  <?php
+                      $rawNumber = $stat['number'] ?? '0';
+                      preg_match('/[\d.]+/', $rawNumber, $matches);
+                      $numericValue = $matches[0] ?? 0;
+                      $suffix = preg_replace('/[\d.]+/', '', $rawNumber);
+                  ?>
+                  <div class="stat-number" style="font-size: 2rem; font-weight: 300; color: #313131;">
+                      <span class="purecounter" 
+                            data-purecounter-start="0" 
+                            data-purecounter-end="<?php echo e($numericValue); ?>" 
+                            data-purecounter-duration="1">0</span><?php echo e($suffix); ?>
+
+                  </div>
+                  <div class="stat-label"><?php echo e($stat['label'] ?? 'Statistic'); ?></div>
+              </div>
+              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
           </div>
 
           <div class="cta-section">
@@ -152,53 +190,27 @@
 
     <div class="features-grid" data-aos="fade-up" data-aos-delay="400">
       <div class="row g-5">
+        <?php $__empty_1 = true; $__currentLoopData = $features; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $feature): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
         <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
           <div class="feature-item">
             <div class="icon-wrapper">
+              <?php if($feature->icon): ?>
+              <i class="<?php echo e($feature->icon); ?>"></i>
+              <?php else: ?>
               <i class="bi bi-lightbulb"></i>
+              <?php endif; ?>
             </div>
             <div class="feature-content">
-              <h3>Innovation Leadership</h3>
-              <p>We stay ahead of industry trends, implementing cutting-edge technologies and methodologies that drive transformational results.</p>
+              <h3><?php echo e($feature->title); ?></h3>
+              <p><?php echo e($feature->description); ?></p>
             </div>
           </div>
         </div>
-
-        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-          <div class="feature-item">
-            <div class="icon-wrapper">
-              <i class="bi bi-award"></i>
-            </div>
-            <div class="feature-content">
-              <h3>Proven Expertise</h3>
-              <p>Our team brings decades of combined experience across multiple industries, ensuring strategic insights and tactical execution.</p>
-            </div>
-          </div>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+        <div class="col-lg-12 text-center">
+          <p>No features available yet.</p>
         </div>
-
-        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-          <div class="feature-item">
-            <div class="icon-wrapper">
-              <i class="bi bi-headset"></i>
-            </div>
-            <div class="feature-content">
-              <h3>24/7 Dedicated Support</h3>
-              <p>Round-the-clock availability with personalized attention from dedicated account managers.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-          <div class="feature-item">
-            <div class="icon-wrapper">
-              <i class="bi bi-graph-up-arrow"></i>
-            </div>
-            <div class="feature-content">
-              <h3>Cost Efficiency</h3>
-              <p>Streamlined processes and intelligent resource allocation reduce overhead while maximizing ROI.</p>
-            </div>
-          </div>
-        </div>
+        <?php endif; ?>
       </div>
     </div>
   </div>
@@ -214,12 +226,6 @@
 
   <div class="container" data-aos="fade-up" data-aos-delay="100">
     <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
-      <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="200">
-        <li data-filter="*" class="filter-active">All Work</li>
-        <li data-filter=".filter-web">Web Design</li>
-        <li data-filter=".filter-app">Development</li>
-        <li data-filter=".filter-design">Design</li>
-      </ul>
 
       <div class="row gy-5 isotope-container" data-aos="fade-up" data-aos-delay="300">
         <?php $__empty_1 = true; $__currentLoopData = $portfolios; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $portfolio): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
@@ -267,7 +273,6 @@
                 <div class="project-details">
                   <div class="project-header">
                     <span class="project-category"><?php echo e($portfolio->category); ?></span>
-                    <time class="project-year">2024</time>
                   </div>
                   <h3 class="project-title"><?php echo e($portfolio->title); ?></h3>
                   <p class="project-description"><?php echo e($portfolio->description); ?></p>
@@ -289,16 +294,22 @@
 
     <div class="portfolio-conclusion" data-aos="fade-up" data-aos-delay="400">
       <div class="conclusion-content">
-        <h4>Ready to elevate your business?</h4>
-        <p>Let's discuss how we can transform your digital presence and drive meaningful results for your organization.</p>
+        <?php $portfolioConclusion = $getSection('portfolio-conclusion'); ?>
+        <h4><?php echo e($portfolioConclusion?->title ?? 'Ready to elevate your business?'); ?></h4>
+        <p><?php echo e($portfolioConclusion?->description ?? 'Let\'s discuss how we can transform your digital presence and drive meaningful results for your organization.'); ?></p>
         <div class="conclusion-actions">
-          <a href="<?php echo e(route('contact.index')); ?>" class="primary-action">
-            Start Conversation
+          <?php if(\App\Helpers\SettingHelper::get('portfolio_cta_button_enabled', true)): ?>
+          <a href="<?php echo e($portfolioConclusion?->button_link ?? route('contact.index')); ?>" class="primary-action">
+            <?php echo e($portfolioConclusion?->button_text ?? 'Start Conversation'); ?>
+
             <i class="bi bi-arrow-right"></i>
           </a>
+          <?php endif; ?>
+          <?php if(\App\Helpers\SettingHelper::get('portfolio_more_projects_button_enabled', true)): ?>
           <a href="<?php echo e(route('portfolio.index')); ?>" class="secondary-action">
             View All Projects
           </a>
+          <?php endif; ?>
         </div>
       </div>
     </div>
@@ -347,6 +358,7 @@
 </section>
 
 <!-- Testimonials Section -->
+<?php if($getSection('testimonials')): ?>
 <section id="testimonials" class="testimonials section light-background">
   <div class="container section-title" data-aos="fade-up">
     <?php $testimonialSection = $getSection('testimonials'); ?>
@@ -519,15 +531,8 @@
     </div>
   </div>
 </section>
+<?php endif; ?>
 
-<!-- Contact CTA Section -->
-<section id="contact-cta" class="contact-cta section light-background">
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <h2>Ready to get started?</h2>
-    <p>Contact us today to discuss your project and how we can help you achieve your goals.</p>
-    <a href="<?php echo e(route('contact.index')); ?>" class="cta-btn">Get In Touch</a>
-  </div>
-</section>
 
 <?php $__env->stopSection(); ?>
 

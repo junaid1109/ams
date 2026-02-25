@@ -1,5 +1,14 @@
 @extends('layouts.app')
 
+@php
+  $servicesMenu = \App\Models\Menu::where('route_name', 'services.index')->first();
+  $breadcrumbs = [
+    ['label' => 'Home', 'url' => route('home')],
+    ['label' => $servicesMenu?->label ?? 'Services', 'url' => route('services.index')],
+    ['label' => $service->title, 'url' => null]
+  ];
+@endphp
+
 @section('title', $service->title . ' - ' . (isset($siteName) ? $siteName : 'AMS'))
 @section('meta_description', $service->short_description)
 
@@ -11,9 +20,13 @@
     <h1>{{ $service->title }}</h1>
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('services.index') }}">Services</a></li>
-        <li class="breadcrumb-item active">{{ $service->title }}</li>
+        @foreach($breadcrumbs as $breadcrumb)
+          @if($breadcrumb['url'])
+          <li class="breadcrumb-item"><a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['label'] }}</a></li>
+          @else
+          <li class="breadcrumb-item active">{{ $breadcrumb['label'] }}</li>
+          @endif
+        @endforeach
       </ol>
     </nav>
   </div>
@@ -23,13 +36,13 @@
 <section class="service-details section">
   <div class="container">
     <div class="row gy-4">
-      <div class="col-lg-8">
+      <div class="col-lg-10">
         @if($service->image)
         <img src="{{ asset('storage/' . $service->image) }}" class="img-fluid rounded mb-4" alt="{{ $service->title }}">
         @endif
 
         <h3>{{ $service->title }}</h3>
-        <p>{{ $service->description }}</p>
+        <div>{!! $service->description !!}</div>
 
         @if($service->features)
         <h4 class="mt-4">Key Features</h4>
@@ -42,26 +55,7 @@
         @endif
       </div>
 
-      <div class="col-lg-4">
-        <!-- Related Services -->
-        <div class="sidebar">
-          <h4 class="sidebar-title">Related Services</h4>
-          <ul class="sidebar-list">
-            @foreach($relatedServices as $related)
-            <li>
-              <a href="{{ route('services.show', $related) }}">{{ $related->title }}</a>
-            </li>
-            @endforeach
-          </ul>
-        </div>
-
-        <!-- CTA -->
-        <div class="cta-box mt-4">
-          <h4>Need this service?</h4>
-          <p>Get in touch with us today to discuss how we can help your business.</p>
-          <a href="{{ route('contact.index') }}" class="btn btn-primary">Contact Us</a>
-        </div>
-      </div>
+     
     </div>
   </div>
 </section>

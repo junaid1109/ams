@@ -10,7 +10,7 @@
     <div class="card">
       <div class="card-header">Create New Portfolio Item</div>
       <div class="card-body" style="padding: 20px;">
-        <form method="POST" action="{{ route('admin.portfolio.store') }}" enctype="multipart/form-data">
+        <form id="portfolioForm" method="POST" action="{{ route('admin.portfolio.store') }}" enctype="multipart/form-data">
           @csrf
 
           <div class="form-group">
@@ -21,7 +21,7 @@
 
           <div class="form-group">
             <label>Description *</label>
-            <textarea name="description" class="form-control @error('description') is-invalid @enderror" rows="4" required>{{ old('description') }}</textarea>
+            <textarea id="description-editor" name="description" class="form-control @error('description') is-invalid @enderror" rows="4">{{ old('description') }}</textarea>
             @error('description')<span class="invalid-feedback">{{ $message }}</span>@enderror
           </div>
 
@@ -89,13 +89,15 @@
 </div>
 
 <script>
-  ClassicEditor.create(document.querySelector('#details-editor'), {
+  let descriptionEditor, detailsEditor;
+
+  const editorConfig = {
     toolbar: {
       items: [
         'heading', '|',
-        'bold', 'italic', 'underline', 'strikethrough', '|',
+        'bold', 'italic', '|',
         'bulletedList', 'numberedList', '|',
-        'link', 'blockQuote', 'codeBlock', '|',
+        'link', 'blockQuote', '|',
         'insertTable', '|',
         'undo', 'redo'
       ]
@@ -108,7 +110,25 @@
         { model: 'heading3', view: 'h3', title: 'Heading 3' }
       ]
     }
-  }).catch(err => console.error(err));
+  };
+
+  ClassicEditor.create(document.querySelector('#description-editor'), editorConfig)
+    .then(editor => { descriptionEditor = editor; })
+    .catch(err => console.error('Description Editor:', err));
+
+  ClassicEditor.create(document.querySelector('#details-editor'), editorConfig)
+    .then(editor => { detailsEditor = editor; })
+    .catch(err => console.error('Details Editor:', err));
+
+  // Sync editor data back to textareas before form submission
+  document.getElementById('portfolioForm').addEventListener('submit', function(e) {
+    if (descriptionEditor) {
+      document.querySelector('#description-editor').value = descriptionEditor.getData();
+    }
+    if (detailsEditor) {
+      document.querySelector('#details-editor').value = detailsEditor.getData();
+    }
+  });
 </script>
 
 @endsection

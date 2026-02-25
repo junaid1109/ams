@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Models\Service;
+use App\Helpers\IconHelper;
 use Illuminate\Support\Str;
 
 class ServiceController extends \App\Http\Controllers\Controller
@@ -27,7 +28,8 @@ class ServiceController extends \App\Http\Controllers\Controller
 
     public function create()
     {
-        return view('admin.services.create');
+        $icons = IconHelper::getBootstrapIcons();
+        return view('admin.services.create', compact('icons'));
     }
 
     public function store(Request $request)
@@ -59,7 +61,8 @@ class ServiceController extends \App\Http\Controllers\Controller
 
     public function edit(Service $service)
     {
-        return view('admin.services.edit', compact('service'));
+        $icons = IconHelper::getBootstrapIcons();
+        return view('admin.services.edit', compact('service', 'icons'));
     }
 
     public function update(Request $request, Service $service)

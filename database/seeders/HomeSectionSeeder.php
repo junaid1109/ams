@@ -83,6 +83,15 @@ class HomeSectionSeeder extends Seeder
                 'display_order' => 6,
                 'is_active' => true,
             ],
+            [
+                'section_name' => 'portfolio-conclusion',
+                'title' => 'Ready to elevate your business?',
+                'description' => 'Let\'s discuss how we can transform your digital presence and drive meaningful results for your organization.',
+                'button_text' => 'Start Conversation',
+                'button_link' => '/contact',
+                'display_order' => 7,
+                'is_active' => true,
+            ],
         ];
 
         foreach ($sections as $section) {

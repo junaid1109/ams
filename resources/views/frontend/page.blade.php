@@ -1,5 +1,12 @@
 @extends('layouts.app')
 
+@php
+  $breadcrumbs = [
+    ['label' => 'Home', 'url' => route('home')],
+    ['label' => $page->title, 'url' => null]
+  ];
+@endphp
+
 @section('title', $page->title . ' - ' . (isset($siteName) ? $siteName : 'AMS'))
 @section('meta_description', $page->meta_description)
 
@@ -11,8 +18,13 @@
     <h1>{{ $page->title }}</h1>
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-        <li class="breadcrumb-item active">{{ $page->title }}</li>
+        @foreach($breadcrumbs as $breadcrumb)
+          @if($breadcrumb['url'])
+          <li class="breadcrumb-item"><a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['label'] }}</a></li>
+          @else
+          <li class="breadcrumb-item active">{{ $breadcrumb['label'] }}</li>
+          @endif
+        @endforeach
       </ol>
     </nav>
   </div>

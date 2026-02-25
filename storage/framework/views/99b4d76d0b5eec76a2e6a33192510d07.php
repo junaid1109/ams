@@ -1,17 +1,28 @@
 
 
-<?php $__env->startSection('title', (isset($siteName) ? $siteName : 'AMS') . ' - About Us'); ?>
+<?php
+  $currentMenu = \App\Models\Menu::getCurrentPageMenu();
+  $pageTitle = $currentMenu?->label ?? 'About';
+  $breadcrumbs = \App\Models\Menu::getBreadcrumbs();
+?>
+
+<?php $__env->startSection('title', (isset($siteName) ? $siteName : 'AMS') . ' - ' . $pageTitle); ?>
 
 <?php $__env->startSection('content'); ?>
 
 <!-- Page Title Section -->
 <section class="page-title light-background" style="padding-top: 100px; padding-bottom: 60px;">
   <div class="container">
-    <h1>About Us</h1>
+    <h1><?php echo e($pageTitle); ?></h1>
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo e(route('home')); ?>">Home</a></li>
-        <li class="breadcrumb-item active">About</li>
+        <?php $__currentLoopData = $breadcrumbs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $breadcrumb): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <?php if($breadcrumb['url']): ?>
+          <li class="breadcrumb-item"><a href="<?php echo e($breadcrumb['url']); ?>"><?php echo e($breadcrumb['label']); ?></a></li>
+          <?php else: ?>
+          <li class="breadcrumb-item active"><?php echo e($breadcrumb['label']); ?></li>
+          <?php endif; ?>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
       </ol>
     </nav>
   </div>
@@ -36,6 +47,54 @@
     <?php endif; ?>
   </div>
 </section>
+
+<?php
+  // Helper function for home sections
+  $getSection = function($name) use ($homeSections) {
+    if ($homeSections) {
+      return $homeSections->firstWhere('section_name', $name);
+    }
+    return null;
+  };
+  $aboutHomeSection = $getSection('about');
+?>
+
+<?php if($aboutHomeSection && $aboutHomeSection->content): ?>
+<!-- About Stats Section from Home Sections -->
+<section class="about-stats section light-background">
+  <div class="container" data-aos="fade-up">
+    <div class="section-title">
+      <h2><?php echo e($aboutHomeSection->title ?? 'About Us'); ?></h2>
+    </div>
+    <div class="stats-row" style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+      <?php
+        $stats = $aboutHomeSection->content ?? [];
+        if (!is_array($stats)) {
+          $stats = json_decode($stats, true) ?? [];
+        }
+      ?>
+       <?php $__currentLoopData = $stats; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+              <div class="stat-item">
+                  <?php
+                      $rawNumber = $stat['number'] ?? '0';
+                      preg_match('/[\d.]+/', $rawNumber, $matches);
+                      $numericValue = $matches[0] ?? 0;
+                      $suffix = preg_replace('/[\d.]+/', '', $rawNumber);
+                  ?>
+                  <div class="stat-number" style="font-size: 2rem; font-weight: bold; color: #313131;">
+                      <span class="purecounter" 
+                            data-purecounter-start="0" 
+                            data-purecounter-end="<?php echo e($numericValue); ?>" 
+                            data-purecounter-duration="1">0</span><?php echo e($suffix); ?>
+
+                  </div>
+                  <div class="stat-label"><?php echo e($stat['label'] ?? 'Statistic'); ?></div>
+              </div>
+              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </div>
+  </div>
+</section>
+<?php endif; ?>
 
 <!-- Team Section -->
 <section class="team section light-background">

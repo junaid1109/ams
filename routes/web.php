@@ -70,6 +70,13 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Home Sections Management
     Route::resource('home-sections', App\Http\Controllers\Admin\HomeSectionController::class);
 
+    // Features Management
+    Route::resource('features', App\Http\Controllers\Admin\FeatureController::class);
+
+    // Menu Management
+    Route::resource('menus', App\Http\Controllers\Admin\MenuController::class);
+    Route::post('menus/reorder', [App\Http\Controllers\Admin\MenuController::class, 'reorder'])->name('menus.reorder');
+
     // Settings
     Route::get('settings', [App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
     Route::post('settings', [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');

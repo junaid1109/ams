@@ -56,7 +56,7 @@ unset($__errorArgs, $__bag); ?>
 
           <div class="form-group">
             <label>Description *</label>
-            <textarea name="description" class="form-control <?php $__errorArgs = ['description'];
+            <textarea id="description-editor" name="description" class="form-control <?php $__errorArgs = ['description'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -75,24 +75,55 @@ unset($__errorArgs, $__bag); ?>
           </div>
 
           <div class="form-group">
-            <label>Icon Class (e.g., bi bi-house)</label>
-            <input type="text" name="icon" class="form-control <?php $__errorArgs = ['icon'];
+            <label>Icon Class (Bootstrap Icons)</label>
+            <div style="display: flex; gap: 10px;">
+              <select name="icon" id="icon-select" class="form-control <?php $__errorArgs = ['icon'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" value="<?php echo e(old('icon', $service->icon)); ?>">
+unset($__errorArgs, $__bag); ?>" style="flex: 1;">
+                <option value="">-- Select Icon --</option>
+                <?php $__empty_1 = true; $__currentLoopData = $icons; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $icon): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                <option value="<?php echo e($icon['class']); ?>" <?php if(old('icon', $service->icon) === $icon['class']): ?> selected <?php endif; ?>>
+                  <?php echo e($icon['emoji']); ?> <?php echo e($icon['name']); ?>
+
+                </option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                <option disabled>No icons available</option>
+                <?php endif; ?>
+              </select>
+              <div id="icon-preview" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border: 1px solid #ddd; border-radius: 4px; flex-shrink: 0;">
+                <?php if(old('icon', $service->icon)): ?>
+                  <i class="<?php echo e(old('icon', $service->icon)); ?>" style="font-size: 24px;"></i>
+                <?php else: ?>
+                  <small style="color: #999;">Preview</small>
+                <?php endif; ?>
+              </div>
+            </div>
             <?php $__errorArgs = ['icon'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?><span class="invalid-feedback"><?php echo e($message); ?></span><?php unset($message);
+$message = $__bag->first($__errorArgs[0]); ?><span class="invalid-feedback d-block"><?php echo e($message); ?></span><?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
           </div>
+
+          <script>
+            document.getElementById('icon-select').addEventListener('change', function() {
+              const iconClass = this.value;
+              const preview = document.getElementById('icon-preview');
+              if (iconClass) {
+                preview.innerHTML = '<i class="' + iconClass + '" style="font-size: 24px;"></i>';
+              } else {
+                preview.innerHTML = '<small style="color: #999;">Preview</small>';
+              }
+            });
+          </script>
 
           <div class="form-group">
             <label>Image</label>
@@ -121,7 +152,7 @@ unset($__errorArgs, $__bag); ?>
 
           <div class="form-group">
             <label>Features (HTML)</label>
-            <textarea name="features" class="form-control <?php $__errorArgs = ['features'];
+            <textarea id="features-editor" name="features" class="form-control <?php $__errorArgs = ['features'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -141,7 +172,7 @@ unset($__errorArgs, $__bag); ?>
 
           <div class="form-group">
             <label>Pricing (HTML)</label>
-            <textarea name="pricing" class="form-control <?php $__errorArgs = ['pricing'];
+            <textarea id="pricing-editor" name="pricing" class="form-control <?php $__errorArgs = ['pricing'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -193,6 +224,38 @@ unset($__errorArgs, $__bag); ?>
     </div>
   </div>
 </div>
+
+<script>
+  const editorConfig = {
+    toolbar: {
+      items: [
+        'heading', '|',
+        'bold', 'italic', 'underline', 'strikethrough', '|',
+        'bulletedList', 'numberedList', '|',
+        'link', 'blockQuote', 'codeBlock', '|',
+        'insertTable', '|',
+        'undo', 'redo'
+      ]
+    },
+    heading: {
+      options: [
+        { model: 'paragraph', title: 'Paragraph' },
+        { model: 'heading1', view: 'h1', title: 'Heading 1' },
+        { model: 'heading2', view: 'h2', title: 'Heading 2' },
+        { model: 'heading3', view: 'h3', title: 'Heading 3' }
+      ]
+    }
+  };
+
+  ClassicEditor.create(document.querySelector('#description-editor'), editorConfig)
+    .catch(err => console.error('Description Editor:', err));
+
+  ClassicEditor.create(document.querySelector('#features-editor'), editorConfig)
+    .catch(err => console.error('Features Editor:', err));
+
+  ClassicEditor.create(document.querySelector('#pricing-editor'), editorConfig)
+    .catch(err => console.error('Pricing Editor:', err));
+</script>
 
 <?php $__env->stopSection(); ?>
 

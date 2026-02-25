@@ -1,5 +1,14 @@
 @extends('layouts.app')
 
+@php
+  $portfolioMenu = \App\Models\Menu::where('route_name', 'portfolio.index')->first();
+  $breadcrumbs = [
+    ['label' => 'Home', 'url' => route('home')],
+    ['label' => $portfolioMenu?->label ?? 'Portfolio', 'url' => route('portfolio.index')],
+    ['label' => $portfolio->title, 'url' => null]
+  ];
+@endphp
+
 @section('title', $portfolio->title . ' - ' . (isset($siteName) ? $siteName : 'AMS'))
 @section('meta_description', $portfolio->description)
 
@@ -11,9 +20,13 @@
     <h1>{{ $portfolio->title }}</h1>
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('portfolio.index') }}">Portfolio</a></li>
-        <li class="breadcrumb-item active">{{ $portfolio->title }}</li>
+        @foreach($breadcrumbs as $breadcrumb)
+          @if($breadcrumb['url'])
+          <li class="breadcrumb-item"><a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['label'] }}</a></li>
+          @else
+          <li class="breadcrumb-item active">{{ $breadcrumb['label'] }}</li>
+          @endif
+        @endforeach
       </ol>
     </nav>
   </div>
@@ -33,7 +46,7 @@
         @endif
 
         <h3>{{ $portfolio->title }}</h3>
-        <p>{{ $portfolio->description }}</p>
+        <div>{!! $portfolio->description !!}</div>
 
         @if($portfolio->details)
         <h4 class="mt-4">Project Details</h4>

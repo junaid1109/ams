@@ -18,6 +18,9 @@
   <link href="<?php echo e(asset('assets/vendor/bootstrap/css/bootstrap.min.css')); ?>" rel="stylesheet">
   <link href="<?php echo e(asset('assets/vendor/bootstrap-icons/bootstrap-icons.css')); ?>" rel="stylesheet">
 
+  <!-- CKEditor 5 -->
+  <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
+
   <!-- Admin CSS -->
   <style>
     :root {
@@ -339,6 +342,18 @@
         </li>
 
         <li>
+          <a href="<?php echo e(route('admin.home-sections.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.home-sections')): ?> active <?php endif; ?>">
+            <i class="bi bi-house"></i> Home page Sections
+          </a>
+        </li>
+
+        <li>
+          <a href="<?php echo e(route('admin.features.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.features')): ?> active <?php endif; ?>">
+            <i class="bi bi-laptop"></i> Features
+          </a>
+        </li>
+
+        <li>
           <a href="<?php echo e(route('admin.services.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.services')): ?> active <?php endif; ?>">
             <i class="bi bi-gear"></i> Services
           </a>
@@ -359,6 +374,12 @@
         <li>
           <a href="<?php echo e(route('admin.pages.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.pages')): ?> active <?php endif; ?>">
             <i class="bi bi-file-text"></i> Pages
+          </a>
+        </li>
+
+        <li>
+          <a href="<?php echo e(route('admin.menus.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.menus')): ?> active <?php endif; ?>">
+            <i class="bi bi-list"></i> Menu Items
           </a>
         </li>
 

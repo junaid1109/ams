@@ -137,6 +137,31 @@
           </div>
           @endif
 
+          <!-- Button Display Settings for Portfolio Conclusion -->
+          @if($homeSection->section_name === 'portfolio-conclusion')
+          <hr>
+          <div class="form-group">
+            <label><strong>Button Display Settings</strong></label>
+            <small class="form-text text-muted d-block mb-3">Control which buttons appear on the frontend.</small>
+
+            <div class="form-check mb-3">
+              <input type="checkbox" id="portfolio_cta_button_enabled" name="portfolio_cta_button_enabled" class="form-check-input" value="1" @if(old('portfolio_cta_button_enabled', $homeSection->portfolio_cta_button_enabled ?? true)) checked @endif>
+              <label class="form-check-label" for="portfolio_cta_button_enabled">
+                <strong>Enable "Start Conversation" Button</strong>
+                <small class="d-block text-muted">Shows the primary CTA button</small>
+              </label>
+            </div>
+
+            <div class="form-check">
+              <input type="checkbox" id="portfolio_more_projects_button_enabled" name="portfolio_more_projects_button_enabled" class="form-check-input" value="1" @if(old('portfolio_more_projects_button_enabled', $homeSection->portfolio_more_projects_button_enabled ?? true)) checked @endif>
+              <label class="form-check-label" for="portfolio_more_projects_button_enabled">
+                <strong>Enable "View All Projects" Button</strong>
+                <small class="d-block text-muted">Shows the secondary button linking to all projects</small>
+              </label>
+            </div>
+          </div>
+          @endif
+
           <div class="form-group">
             <label>
               <input type="checkbox" name="is_active" value="1" @if(old('is_active', $homeSection->is_active)) checked @endif>

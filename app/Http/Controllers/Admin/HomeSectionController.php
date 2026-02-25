@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\HomeSection;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -100,6 +101,8 @@ class HomeSectionController extends Controller
             'stats' => 'nullable|array',
             'stats.*.number' => 'nullable|string',
             'stats.*.label' => 'nullable|string',
+            'portfolio_cta_button_enabled' => 'nullable|boolean',
+            'portfolio_more_projects_button_enabled' => 'nullable|boolean',
         ]);
 
         // Handle Image Upload
@@ -114,6 +117,18 @@ class HomeSectionController extends Controller
 
         // Handle is_active checkbox
         $validated['is_active'] = $request->has('is_active');
+
+        // Handle portfolio button toggles - save to Settings table
+        if ($homeSection->section_name === 'portfolio-conclusion') {
+            Setting::updateOrCreate(
+                ['key' => 'portfolio_cta_button_enabled'],
+                ['value' => $request->has('portfolio_cta_button_enabled') ? 1 : 0]
+            );
+            Setting::updateOrCreate(
+                ['key' => 'portfolio_more_projects_button_enabled'],
+                ['value' => $request->has('portfolio_more_projects_button_enabled') ? 1 : 0]
+            );
+        }
 
         // Handle Stats - convert to content field
         if ($request->has('stats')) {
@@ -130,10 +145,8 @@ class HomeSectionController extends Controller
             $validated['content'] = $stats;
         }
 
-        // Remove stats from validated (not a DB column)
-        unset($validated['stats']);
-
-        // Debug - remove this after testing
+        // Remove stats and portfolio buttons from validated (not DB columns)
+        unset($validated['stats'], $validated['portfolio_cta_button_enabled'], $validated['portfolio_more_projects_button_enabled']);
 
         $homeSection->update($validated);
 

@@ -1,17 +1,28 @@
 @extends('layouts.app')
 
-@section('title', (isset($siteName) ? $siteName : 'AMS') . ' - Services')
+@php
+  $currentMenu = \App\Models\Menu::getCurrentPageMenu();
+  $pageTitle = $currentMenu?->label ?? 'Services';
+  $breadcrumbs = \App\Models\Menu::getBreadcrumbs();
+@endphp
+
+@section('title', (isset($siteName) ? $siteName : 'AMS') . ' - ' . $pageTitle)
 
 @section('content')
 
 <!-- Page Title Section -->
 <section class="page-title light-background" style="padding-top: 100px; padding-bottom: 60px;">
   <div class="container">
-    <h1>Services</h1>
+    <h1>{{ $pageTitle }}</h1>
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-        <li class="breadcrumb-item active">Services</li>
+        @foreach($breadcrumbs as $breadcrumb)
+          @if($breadcrumb['url'])
+          <li class="breadcrumb-item"><a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['label'] }}</a></li>
+          @else
+          <li class="breadcrumb-item active">{{ $breadcrumb['label'] }}</li>
+          @endif
+        @endforeach
       </ol>
     </nav>
   </div>

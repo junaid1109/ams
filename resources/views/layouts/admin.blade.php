@@ -342,6 +342,18 @@
         </li>
 
         <li>
+          <a href="{{ route('admin.home-sections.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.home-sections')) active @endif">
+            <i class="bi bi-house"></i> Home page Sections
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ route('admin.features.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.features')) active @endif">
+            <i class="bi bi-laptop"></i> Features
+          </a>
+        </li>
+
+        <li>
           <a href="{{ route('admin.services.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.services')) active @endif">
             <i class="bi bi-gear"></i> Services
           </a>
@@ -362,6 +374,12 @@
         <li>
           <a href="{{ route('admin.pages.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.pages')) active @endif">
             <i class="bi bi-file-text"></i> Pages
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ route('admin.menus.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.menus')) active @endif">
+            <i class="bi bi-list"></i> Menu Items
           </a>
         </li>
 

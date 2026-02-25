@@ -27,6 +27,106 @@
   <!-- Main CSS File -->
   <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
 
+  <!-- Standardized Image Sizing -->
+  <style>
+    /* Services Section - Listing Images */
+    .service-image {
+      height: 300px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .service-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Services Detail Page Image */
+    .service-details .col-lg-10 > img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Portfolio Listing Images */
+    .portfolio-item {
+      position: relative;
+      overflow: visible;
+      background: white;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .portfolio-item > img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .portfolio-item .portfolio-info {
+      padding: 15px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .portfolio-item .portfolio-info h4 {
+      margin-bottom: 8px;
+    }
+
+    .portfolio-item .portfolio-info p {
+      margin-bottom: 10px;
+    }
+
+    .portfolio-item .portfolio-info a {
+      margin-right: 10px;
+    }
+
+    /* Portfolio Detail Page Images */
+    .portfolio-details .col-lg-8 > img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Team Member Images */
+    .member-img {
+      height: 280px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .member-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Hero Section Image */
+    .hero img {
+      width: 100%;
+      height: auto;
+      max-height: 500px;
+      object-fit: cover;
+      object-position: center;
+    }
+  </style>
+
   @stack('css')
 </head>
 
@@ -48,12 +148,26 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
+          @php
+            $menus = \App\Models\Menu::getActive();
+            $currentRoute = Route::currentRouteName();
+          @endphp
+          @forelse($menus as $menu)
+          <li>
+            <a href="{{ $menu->getLink() }}" 
+               class="@if($menu->route_name && str_contains($currentRoute, explode('.', $menu->route_name)[0])) active @elseif($menu->route_name === $currentRoute) active @endif">
+              {{ $menu->label }}
+            </a>
+          </li>
+          @empty
+          <!-- Fallback menu if no dynamic menus configured -->
           <li><a href="{{ route('home') }}" class="@if(Route::currentRouteName() == 'home') active @endif">Home</a></li>
           <li><a href="{{ route('about') }}" class="@if(Route::currentRouteName() == 'about') active @endif">About</a></li>
           <li><a href="{{ route('services.index') }}" class="@if(str_contains(Route::currentRouteName(), 'services')) active @endif">Services</a></li>
           <li><a href="{{ route('portfolio.index') }}" class="@if(str_contains(Route::currentRouteName(), 'portfolio')) active @endif">Portfolio</a></li>
           <li><a href="{{ route('team') }}" class="@if(Route::currentRouteName() == 'team') active @endif">Team</a></li>
           <li><a href="{{ route('contact.index') }}" class="@if(Route::currentRouteName() == 'contact.index') active @endif">Contact</a></li>
+          @endforelse
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>

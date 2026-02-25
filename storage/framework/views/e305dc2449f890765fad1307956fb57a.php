@@ -27,6 +27,106 @@
   <!-- Main CSS File -->
   <link href="<?php echo e(asset('assets/css/main.css')); ?>" rel="stylesheet">
 
+  <!-- Standardized Image Sizing -->
+  <style>
+    /* Services Section - Listing Images */
+    .service-image {
+      height: 300px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .service-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Services Detail Page Image */
+    .service-details .col-lg-10 > img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Portfolio Listing Images */
+    .portfolio-item {
+      position: relative;
+      overflow: visible;
+      background: white;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .portfolio-item > img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .portfolio-item .portfolio-info {
+      padding: 15px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .portfolio-item .portfolio-info h4 {
+      margin-bottom: 8px;
+    }
+
+    .portfolio-item .portfolio-info p {
+      margin-bottom: 10px;
+    }
+
+    .portfolio-item .portfolio-info a {
+      margin-right: 10px;
+    }
+
+    /* Portfolio Detail Page Images */
+    .portfolio-details .col-lg-8 > img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Team Member Images */
+    .member-img {
+      height: 280px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .member-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Hero Section Image */
+    .hero img {
+      width: 100%;
+      height: auto;
+      max-height: 500px;
+      object-fit: cover;
+      object-position: center;
+    }
+  </style>
+
   <?php echo $__env->yieldPushContent('css'); ?>
 </head>
 
@@ -36,17 +136,39 @@
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
       <a href="<?php echo e(route('home')); ?>" class="logo d-flex align-items-center">
+        <?php
+          $logo = \App\Helpers\SettingHelper::get('site_logo');
+        ?>
+        <?php if($logo): ?>
+        <img src="<?php echo e(asset('storage/' . $logo)); ?>" alt="<?php echo e(isset($siteName) ? $siteName : config('app.name', 'AMS')); ?>" style="max-height: 50px;">
+        <?php else: ?>
         <h1 class="sitename"><?php echo e(isset($siteName) ? $siteName : config('app.name', 'AMS')); ?></h1>
+        <?php endif; ?>
       </a>
 
       <nav id="navmenu" class="navmenu">
         <ul>
+          <?php
+            $menus = \App\Models\Menu::getActive();
+            $currentRoute = Route::currentRouteName();
+          ?>
+          <?php $__empty_1 = true; $__currentLoopData = $menus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $menu): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+          <li>
+            <a href="<?php echo e($menu->getLink()); ?>" 
+               class="<?php if($menu->route_name && str_contains($currentRoute, explode('.', $menu->route_name)[0])): ?> active <?php elseif($menu->route_name === $currentRoute): ?> active <?php endif; ?>">
+              <?php echo e($menu->label); ?>
+
+            </a>
+          </li>
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+          <!-- Fallback menu if no dynamic menus configured -->
           <li><a href="<?php echo e(route('home')); ?>" class="<?php if(Route::currentRouteName() == 'home'): ?> active <?php endif; ?>">Home</a></li>
           <li><a href="<?php echo e(route('about')); ?>" class="<?php if(Route::currentRouteName() == 'about'): ?> active <?php endif; ?>">About</a></li>
           <li><a href="<?php echo e(route('services.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'services')): ?> active <?php endif; ?>">Services</a></li>
           <li><a href="<?php echo e(route('portfolio.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'portfolio')): ?> active <?php endif; ?>">Portfolio</a></li>
           <li><a href="<?php echo e(route('team')); ?>" class="<?php if(Route::currentRouteName() == 'team'): ?> active <?php endif; ?>">Team</a></li>
           <li><a href="<?php echo e(route('contact.index')); ?>" class="<?php if(Route::currentRouteName() == 'contact.index'): ?> active <?php endif; ?>">Contact</a></li>
+          <?php endif; ?>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
@@ -62,10 +184,10 @@
     <div class="container">
       <div class="row gy-4">
         <div class="col-lg-5 col-md-12 footer-info">
-          <a href="index.html" class="logo d-flex align-items-center">
+          <a href="" class="logo d-flex align-items-center">
             <span><?php echo e(isset($siteName) ? $siteName : config('app.name', 'AMS')); ?></span>
           </a>
-          <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada dirèita venèka trimenda infkleinur.</p>
+          <p><?php echo e(\App\Helpers\SettingHelper::get('footer_description', 'Your company description goes here. This is a professional business template.')); ?></p>
           <div class="social-links d-flex mt-4">
             <a href="#"><i class="bi bi-twitter-x"></i></a>
             <a href="#"><i class="bi bi-facebook"></i></a>
@@ -80,17 +202,23 @@
             <li><a href="<?php echo e(route('home')); ?>">Home</a></li>
             <li><a href="<?php echo e(route('about')); ?>">About us</a></li>
             <li><a href="<?php echo e(route('services.index')); ?>">Services</a></li>
-            <li><a href="#">Terms of service</a></li>
+            <?php $__empty_1 = true; $__currentLoopData = \App\Models\Page::where('published', 1)->orderBy('title')->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $page): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+            <li><a href="<?php echo e(route('page.show', $page)); ?>"><?php echo e($page->title); ?></a></li>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+            <?php endif; ?>
           </ul>
         </div>
 
         <div class="col-lg-2 col-6 footer-links">
           <h4>Our Services</h4>
           <ul>
+            <?php $__empty_1 = true; $__currentLoopData = \App\Models\Service::where('published', 1)->orderBy('order')->limit(4)->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $service): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+            <li><a href="<?php echo e(route('services.show', $service->id)); ?>"><?php echo e($service->title); ?></a></li>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
             <li><a href="#">Web Design</a></li>
             <li><a href="#">Web Development</a></li>
             <li><a href="#">Product Management</a></li>
-            <li><a href="#">Marketing</a></li>
+            <?php endif; ?>
           </ul>
         </div>
 

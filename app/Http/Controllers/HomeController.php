@@ -8,6 +8,7 @@ use App\Models\TeamMember;
 use App\Models\Page;
 use App\Models\Setting;
 use App\Models\HomeSection;
+use App\Models\Feature;
 use App\Helpers\SettingHelper;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,7 @@ class HomeController extends Controller
         $services = Service::where('published', true)->orderBy('order')->take(6)->get();
         $portfolios = Portfolio::where('published', true)->orderBy('order')->take(3)->get();
         $teamMembers = TeamMember::where('published', true)->orderBy('order')->get();
+        $features = Feature::getPublished();
         
         // Get homepage sections data
         $homeSections = HomeSection::where('is_active', true)->orderBy('display_order')->get();
@@ -29,6 +31,7 @@ class HomeController extends Controller
             'services', 
             'portfolios', 
             'teamMembers',
+            'features',
             'siteName',
             'siteTagline',
             'homeSections'

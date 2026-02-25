@@ -41,6 +41,8 @@ class SettingController extends \App\Http\Controllers\Controller
             'twitter_url' => 'nullable|url',
             'linkedin_url' => 'nullable|url',
             'instagram_url' => 'nullable|url',
+            'hero_cta_button_enabled' => 'nullable|boolean',
+            'demo_video_button_enabled' => 'nullable|boolean',
         ]);
 
         // Handle logo upload
@@ -48,6 +50,10 @@ class SettingController extends \App\Http\Controllers\Controller
             $path = $request->file('site_logo')->store('settings', 'public');
             $validated['site_logo'] = $path;
         }
+
+        // Handle boolean values for checkboxes
+        $validated['hero_cta_button_enabled'] = $request->has('hero_cta_button_enabled') ? 1 : 0;
+        $validated['demo_video_button_enabled'] = $request->has('demo_video_button_enabled') ? 1 : 0;
 
         foreach ($validated as $key => $value) {
             Setting::updateOrCreate(

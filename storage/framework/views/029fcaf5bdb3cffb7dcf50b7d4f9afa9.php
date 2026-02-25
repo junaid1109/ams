@@ -1,17 +1,28 @@
 
 
-<?php $__env->startSection('title', (isset($siteName) ? $siteName : 'AMS') . ' - Team'); ?>
+<?php
+  $currentMenu = \App\Models\Menu::getCurrentPageMenu();
+  $pageTitle = $currentMenu?->label ?? 'Team';
+  $breadcrumbs = \App\Models\Menu::getBreadcrumbs();
+?>
+
+<?php $__env->startSection('title', (isset($siteName) ? $siteName : 'AMS') . ' - ' . $pageTitle); ?>
 
 <?php $__env->startSection('content'); ?>
 
 <!-- Page Title Section -->
 <section class="page-title light-background" style="padding-top: 100px; padding-bottom: 60px;">
   <div class="container">
-    <h1>Our Team</h1>
+    <h1><?php echo e($pageTitle); ?></h1>
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo e(route('home')); ?>">Home</a></li>
-        <li class="breadcrumb-item active">Team</li>
+        <?php $__currentLoopData = $breadcrumbs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $breadcrumb): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <?php if($breadcrumb['url']): ?>
+          <li class="breadcrumb-item"><a href="<?php echo e($breadcrumb['url']); ?>"><?php echo e($breadcrumb['label']); ?></a></li>
+          <?php else: ?>
+          <li class="breadcrumb-item active"><?php echo e($breadcrumb['label']); ?></li>
+          <?php endif; ?>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
       </ol>
     </nav>
   </div>

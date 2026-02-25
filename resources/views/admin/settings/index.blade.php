@@ -93,6 +93,29 @@
           </div>
 
           <hr>
+          <h4 class="mb-3">Hero Section Button Display</h4>
+
+          <div class="form-group">
+            <div class="form-check">
+              <input type="checkbox" name="hero_cta_button_enabled" id="hero_cta_button_enabled" class="form-check-input" value="1" @if($settings['hero_cta_button_enabled'] ?? true)checked @endif>
+              <label class="form-check-label" for="hero_cta_button_enabled">
+                <strong>Enable "Get Started Today" Button</strong>
+                <small class="d-block text-muted">Show/hide the CTA button in the hero section</small>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-check">
+              <input type="checkbox" name="demo_video_button_enabled" id="demo_video_button_enabled" class="form-check-input" value="1" @if($settings['demo_video_button_enabled'] ?? true)checked @endif>
+              <label class="form-check-label" for="demo_video_button_enabled">
+                <strong>Enable "Watch Demo" Button</strong>
+                <small class="d-block text-muted">Show/hide the demo video button in the hero section</small>
+              </label>
+            </div>
+          </div>
+
+          <hr>
           <h4 class="mb-3">Social Media Links</h4>
 
           <div class="form-group">
