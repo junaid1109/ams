@@ -43,8 +43,8 @@
       <div class="card-header">Quick Actions</div>
       <div class="card-body" style="padding: 20px;">
         <a href="<?php echo e(route('admin.home-sections.index')); ?>" class="btn btn-success">📋 Manage Home Sections</a>
-        <a href="<?php echo e(route('admin.services.create')); ?>" class="btn btn-primary">+ Add Service</a>
-        <a href="<?php echo e(route('admin.portfolio.create')); ?>" class="btn btn-primary">+ Add Portfolio Item</a>
+        <a href="<?php echo e(route('admin.portfolios.create')); ?>" class="btn btn-primary">+ Add Service</a>
+        <a href="<?php echo e(route('admin.advisory.create')); ?>" class="btn btn-primary">+ Add Portfolio Item</a>
         <a href="<?php echo e(route('admin.team.create')); ?>" class="btn btn-primary">+ Add Team Member</a>
         <a href="<?php echo e(route('admin.pages.create')); ?>" class="btn btn-primary">+ Add Page</a>
         <a href="<?php echo e(route('admin.settings.index')); ?>" class="btn btn-warning">⚙️ Settings</a>

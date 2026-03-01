@@ -96,32 +96,39 @@
 </section>
 <?php endif; ?>
 
-<!-- Team Section -->
-<section class="team section light-background">
-  <div class="container">
-    <div class="section-title">
-      <h2>Our Team</h2>
-      <p>Meet our professional team</p>
-    </div>
+<?php $teamSection = $getSection('team');  ?>
+<?php if($teamSection?->is_active==1): ?> 
+<section id="team" class="team section">
+  <div class="container section-title" data-aos="fade-up">
+    <h2><?php echo e($teamSection?->title ?? 'Meet Our Team'); ?></h2>
+    <p><?php echo e($teamSection?->subtitle ?? 'Our Professional Team'); ?></p>
+  </div>
 
-    <div class="row gy-4">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="row gy-5">
       <?php $__currentLoopData = $teamMembers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $member): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-      <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+      <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
         <div class="team-member">
-          <?php if($member->image): ?>
           <div class="member-img">
-            <img src="<?php echo e(asset('storage/' . $member->image)); ?>" class="img-fluid" alt="<?php echo e($member->name); ?>">
+            <?php if($member->image): ?>
+              <img src="<?php echo e(asset('storage/' . $member->image)); ?>" class="img-fluid" alt="<?php echo e($member->name); ?>">
+            <?php else: ?>
+              <?php
+                $personPlaceholders = ['person-f-8.webp', 'person-m-12.webp', 'person-f-3.webp', 'person-m-7.webp', 'person-f-12.webp', 'person-m-8.webp', 'person-f-6.webp', 'person-m-12.webp'];
+                $personPlaceholder = $personPlaceholders[$loop->index % count($personPlaceholders)];
+              ?>
+              <img src="<?php echo e(asset('assets/img/person/' . $personPlaceholder)); ?>" class="img-fluid" alt="<?php echo e($member->name); ?>">
+            <?php endif; ?>
           </div>
-          <?php endif; ?>
           <div class="member-info">
             <h4><?php echo e($member->name); ?></h4>
             <span><?php echo e($member->position); ?></span>
             <p><?php echo e($member->bio); ?></p>
             <div class="social">
               <?php if($member->twitter): ?><a href="<?php echo e($member->twitter); ?>"><i class="bi bi-twitter-x"></i></a><?php endif; ?>
-              <?php if($member->facebook): ?><a href="<?php echo e($member->facebook); ?>"><i class="bi bi-facebook"></i></a><?php endif; ?>
-              <?php if($member->instagram): ?><a href="<?php echo e($member->instagram); ?>"><i class="bi bi-instagram"></i></a><?php endif; ?>
               <?php if($member->linkedin): ?><a href="<?php echo e($member->linkedin); ?>"><i class="bi bi-linkedin"></i></a><?php endif; ?>
+              <?php if($member->instagram): ?><a href="<?php echo e($member->instagram); ?>"><i class="bi bi-instagram"></i></a><?php endif; ?>
+              <?php if($member->facebook): ?><a href="<?php echo e($member->facebook); ?>"><i class="bi bi-facebook"></i></a><?php endif; ?>
             </div>
           </div>
         </div>
@@ -130,6 +137,7 @@
     </div>
   </div>
 </section>
+<?php endif; ?>
 
 <?php $__env->stopSection(); ?>
 

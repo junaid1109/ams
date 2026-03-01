@@ -44,6 +44,34 @@
           </script>
 
           <div class="form-group">
+            <label>Favicon</label>
+            @if(isset($settings['site_favicon']) && $settings['site_favicon'])
+            <div style="margin-bottom: 10px;">
+              <img src="{{ asset('storage/' . $settings['site_favicon']) }}" alt="Favicon" style="max-width: 64px; max-height: 64px; border: 1px solid #ddd; padding: 5px;">
+              <br><small class="text-muted">Current favicon</small>
+            </div>
+            @endif
+            <input type="file" name="site_favicon" id="favicon-input" class="form-control @error('site_favicon') is-invalid @enderror" accept="image/*">
+            <small class="form-text text-muted">Upload a favicon (icon that appears in browser tab). Recommended: 32x32 or 64x64 PNG. Max 1MB</small>
+            <div id="favicon-preview" style="margin-top: 15px;"></div>
+            @error('site_favicon')<span class="invalid-feedback">{{ $message }}</span>@enderror
+          </div>
+
+          <script>
+          document.getElementById('favicon-input')?.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function(event) {
+                let previewContainer = document.getElementById('favicon-preview');
+                previewContainer.innerHTML = '<div style="margin-top: 10px;"><strong>Preview:</strong><br><img src="' + event.target.result + '" style="max-width: 64px; max-height: 64px; border: 1px solid #ddd; padding: 5px; border-radius: 5px; margin-top: 10px;"></div>';
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+          </script>
+
+          <div class="form-group">
             <label>Site Name</label>
             <input type="text" name="site_name" class="form-control @error('site_name') is-invalid @enderror" value="{{ old('site_name', $settings['site_name'] ?? 'AMS') }}">
             @error('site_name')<span class="invalid-feedback">{{ $message }}</span>@enderror

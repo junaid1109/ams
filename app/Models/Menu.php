@@ -17,7 +17,12 @@ class Menu extends Model
     public function getLink()
     {
         if ($this->route_name) {
-            return route($this->route_name);
+            try {
+                return route($this->route_name);
+            } catch (\Exception $e) {
+                // If the route requires parameters, return the URL field instead
+                return $this->url;
+            }
         }
         return $this->url;
     }

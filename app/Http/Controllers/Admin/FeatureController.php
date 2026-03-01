@@ -26,8 +26,7 @@ class FeatureController extends \App\Http\Controllers\Controller
 
     public function create()
     {
-        $icons = IconHelper::getBootstrapIcons();
-        return view('admin.features.create', compact('icons'));
+        return view('admin.features.create');
     }
 
     public function store(Request $request)
@@ -35,12 +34,20 @@ class FeatureController extends \App\Http\Controllers\Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'icon' => 'nullable|string',
+            'icon_file' => 'nullable|image|mimes:jpeg,png,gif,svg,webp|max:2048',
             'order' => 'nullable|integer',
             'published' => 'boolean',
         ]);
 
         $validated['published'] = $request->has('published');
+
+        // Handle icon file upload
+        if ($request->hasFile('icon_file')) {
+            $file = $request->file('icon_file');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('features', $filename, 'public');
+            $validated['icon_file'] = $path;
+        }
 
         Feature::create($validated);
 
@@ -49,8 +56,7 @@ class FeatureController extends \App\Http\Controllers\Controller
 
     public function edit(Feature $feature)
     {
-        $icons = IconHelper::getBootstrapIcons();
-        return view('admin.features.edit', compact('feature', 'icons'));
+        return view('admin.features.edit', compact('feature'));
     }
 
     public function update(Request $request, Feature $feature)
@@ -58,12 +64,25 @@ class FeatureController extends \App\Http\Controllers\Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'icon' => 'nullable|string',
+            'icon_file' => 'nullable|image|mimes:jpeg,png,gif,svg,webp|max:2048',
             'order' => 'nullable|integer',
             'published' => 'boolean',
         ]);
 
         $validated['published'] = $request->has('published');
+
+        // Handle icon file upload
+        if ($request->hasFile('icon_file')) {
+            // Delete old icon if exists
+            if ($feature->icon_file && \Storage::disk('public')->exists($feature->icon_file)) {
+                \Storage::disk('public')->delete($feature->icon_file);
+            }
+
+            $file = $request->file('icon_file');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('features', $filename, 'public');
+            $validated['icon_file'] = $path;
+        }
 
         $feature->update($validated);
 

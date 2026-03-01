@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Models\Service;
 use App\Models\Portfolio;
+use App\Models\Advisory;
 use App\Models\TeamMember;
 use App\Models\Contact;
 use App\Models\Page;
@@ -14,8 +14,8 @@ class DashboardController extends \App\Http\Controllers\Controller
     public function index()
     {
         $stats = [
-            'services' => Service::count(),
-            'portfolios' => Portfolio::count(),
+            'services' => Portfolio::count(),
+            'portfolios' => Advisory::count(),
             'team_members' => TeamMember::count(),
             'contacts' => Contact::where('is_read', false)->count(),
             'pages' => Page::count(),

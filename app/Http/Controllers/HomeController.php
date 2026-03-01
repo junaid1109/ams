@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Service;
 use App\Models\Portfolio;
+use App\Models\Advisory;
 use App\Models\TeamMember;
 use App\Models\Page;
 use App\Models\Setting;
@@ -19,8 +19,8 @@ class HomeController extends Controller
         $siteName = SettingHelper::get('site_name', 'AMS');
         $siteTagline = SettingHelper::get('site_tagline', 'Professional Business Solutions');
         
-        $services = Service::where('published', true)->orderBy('order')->take(6)->get();
-        $portfolios = Portfolio::where('published', true)->orderBy('order')->take(3)->get();
+        $services = Portfolio::where('published', true)->orderBy('order')->take(6)->get();
+        $portfolios = Advisory::where('published', true)->orderBy('order')->take(3)->get();
         $teamMembers = TeamMember::where('published', true)->orderBy('order')->get();
         $features = Feature::getPublished();
         

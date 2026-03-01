@@ -35,17 +35,12 @@
       <?php $__currentLoopData = $services; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $service): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
       <div class="col-lg-4 col-md-6">
         <div class="service-item position-relative">
-          <?php if($service->icon): ?>
-          <div class="icon">
-            <i class="<?php echo e($service->icon); ?>"></i>
-          </div>
-          <?php endif; ?>
           <?php if($service->image): ?>
           <div class="service-image">
             <img src="<?php echo e(asset('storage/' . $service->image)); ?>" class="img-fluid" alt="<?php echo e($service->title); ?>">
           </div>
           <?php endif; ?>
-          <h3><a href="<?php echo e(route('services.show', $service)); ?>" class="stretched-link"><?php echo e($service->title); ?></a></h3>
+          <h2><a href="<?php echo e(route('portfolio.show', $service)); ?>" class="stretched-link"><?php echo e($service->title); ?></a></h2>
           <p><?php echo e($service->short_description); ?></p>
         </div>
       </div>

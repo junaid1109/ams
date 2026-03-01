@@ -35,17 +35,12 @@
       @foreach($services as $service)
       <div class="col-lg-4 col-md-6">
         <div class="service-item position-relative">
-          @if($service->icon)
-          <div class="icon">
-            <i class="{{ $service->icon }}"></i>
-          </div>
-          @endif
           @if($service->image)
           <div class="service-image">
             <img src="{{ asset('storage/' . $service->image) }}" class="img-fluid" alt="{{ $service->title }}">
           </div>
           @endif
-          <h3><a href="{{ route('services.show', $service) }}" class="stretched-link">{{ $service->title }}</a></h3>
+          <h2><a href="{{ route('portfolio.show', $service) }}" class="stretched-link">{{ $service->title }}</a></h2>
           <p>{{ $service->short_description }}</p>
         </div>
       </div>

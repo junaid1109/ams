@@ -36,6 +36,7 @@ class SettingController extends \App\Http\Controllers\Controller
             'footer_description' => 'nullable|string',
             'demo_video_url' => 'nullable|url',
             'site_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'site_favicon' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,ico|max:1024',
             'site_tagline' => 'nullable|string|max:255',
             'facebook_url' => 'nullable|url',
             'twitter_url' => 'nullable|url',
@@ -49,6 +50,12 @@ class SettingController extends \App\Http\Controllers\Controller
         if ($request->hasFile('site_logo')) {
             $path = $request->file('site_logo')->store('settings', 'public');
             $validated['site_logo'] = $path;
+        }
+
+        // Handle favicon upload
+        if ($request->hasFile('site_favicon')) {
+            $path = $request->file('site_favicon')->store('settings', 'public');
+            $validated['site_favicon'] = $path;
         }
 
         // Handle boolean values for checkboxes

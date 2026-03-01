@@ -68,7 +68,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" rows="10" required><?php echo e(old('content', $page->content)); ?></textarea>
+unset($__errorArgs, $__bag); ?>" rows="10"><?php echo e(old('content', $page->content)); ?></textarea>
+            <div id="content-error" class="invalid-feedback" style="display: none;">Content is required</div>
             <?php $__errorArgs = ['content'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -160,13 +161,50 @@ unset($__errorArgs, $__bag); ?>
 </div>
 
 <script>
+  let contentEditor;
+
+  class CustomUploadAdapter {
+    constructor(loader) {
+      this.loader = loader;
+    }
+
+    upload() {
+      return this.loader.file.then(file => new Promise((resolve, reject) => {
+        const formData = new FormData();
+        formData.append('upload', file);
+        formData.append('_token', document.querySelector('meta[name="csrf-token"]').content);
+
+        fetch('<?php echo e(route("admin.upload.image")); ?>', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.url) {
+            resolve({ default: data.url });
+          } else {
+            reject('Upload failed');
+          }
+        })
+        .catch(error => reject(error));
+      }));
+    }
+
+    abort() {
+      // Abort upload
+    }
+  }
+
   ClassicEditor.create(document.querySelector('#content-editor'), {
     toolbar: {
       items: [
         'heading', '|',
         'bold', 'italic', 'underline', 'strikethrough', '|',
         'bulletedList', 'numberedList', '|',
-        'link', 'blockQuote', 'codeBlock', '|',
+        'link', 'imageUpload', 'blockQuote', 'codeBlock', '|',
         'insertTable', '|',
         'undo', 'redo'
       ]
@@ -179,7 +217,33 @@ unset($__errorArgs, $__bag); ?>
         { model: 'heading3', view: 'h3', title: 'Heading 3' }
       ]
     }
-  }).catch(err => console.error(err));
+  })
+  .then(editor => {
+    contentEditor = editor;
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+      return new CustomUploadAdapter(loader);
+    };
+  })
+  .catch(err => console.error('Content Editor:', err));
+
+  // Sync editor data back to textarea before form submission
+  document.querySelector('form').addEventListener('submit', function(e) {
+    if (contentEditor) {
+      const content = contentEditor.getData();
+      document.querySelector('#content-editor').value = content;
+      
+      // Validate content is not empty
+      if (!content || content.trim() === '') {
+        e.preventDefault();
+        document.getElementById('content-error').style.display = 'block';
+        document.querySelector('.form-group').classList.add('has-error');
+        return false;
+      } else {
+        document.getElementById('content-error').style.display = 'none';
+        document.querySelector('.form-group').classList.remove('has-error');
+      }
+    }
+  });
 </script>
 
 <?php $__env->stopSection(); ?>

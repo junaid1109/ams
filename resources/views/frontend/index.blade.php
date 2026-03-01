@@ -16,6 +16,8 @@
 @endphp
 
 <!-- Hero Section -->
+@php $heroSection = $getSection('hero'); @endphp
+@if($heroSection?->is_active ?? true)
 <section id="hero" class="hero section light-background">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
     <div class="row align-items-center">
@@ -27,7 +29,7 @@
           <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="150">{{ $getSection('hero')->subtitle }}</p>
           @endif
           <p data-aos="fade-up" data-aos-delay="300">{{ $getSection('hero')?->description ?? 'We create innovative solutions that help businesses grow. Our expertise spans web design, development, and digital marketing.' }}</p>
-          <div class="hero-cta" data-aos="fade-up" data-aos-delay="400">
+           <div class="hero-cta" data-aos="fade-up" data-aos-delay="400">
             @php $heroSection = $getSection('hero'); @endphp
             @if(\App\Helpers\SettingHelper::get('hero_cta_button_enabled', true))
             <a href="{{ $heroSection?->button_link ?? route('contact.index') }}" class="btn-primary">{{ $heroSection?->button_text ?? 'Get Started Today' }}</a>
@@ -40,7 +42,7 @@
             @endif
           </div>
           <!-- Hero Stats -->
-          <div class="hero-stats" data-aos="fade-up" data-aos-delay="500">
+          <div class="hero-stats" data-aos="fade-up" data-aos-delay="500" style="display: flex;  justify-content: flex-start; gap: 30px; margin-top: 30px; max-width: 100%;">
             @php
               $heroSection = $getSection('hero');
               $heroStats = $heroSection?->content ?? [];
@@ -57,12 +59,23 @@
               }
             @endphp
             @foreach($heroStats as $stat)
-            <div class="stat-item">
-              <div class="stat-number">{{ $stat['number'] ?? '0' }}</div>
-              <div class="stat-label">{{ $stat['label'] ?? 'Statistic' }}</div>
+            <div class="stat-item" style="text-align: left; min-width: 100px;">
+              <div class="stat-number" style="font-size: 1.8rem; font-weight: 600; margin-bottom: 5px;">{{ $stat['number'] ?? '0' }}</div>
+              <div class="stat-label" style="font-size: 0.9rem; color: #666;">{{ $stat['label'] ?? 'Statistic' }}</div>
             </div>
             @endforeach
           </div>
+          
+          <style>
+            @media (max-width: 768px) {
+              .hero-stats {
+                justify-content: center !important;
+              }
+              .hero-stats .stat-item {
+                text-align: center !important;
+              }
+            }
+          </style>
         </div>
       </div>
       <div class="col-lg-6">
@@ -72,8 +85,11 @@
     </div>
   </div>
 </section>
+@endif
 
 <!-- About Preview Section -->
+@php $aboutSection = $getSection('about'); @endphp
+@if($aboutSection?->is_active ?? true)
 <section id="about" class="about section">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
     <div class="row align-items-center">
@@ -132,8 +148,11 @@
     </div>
   </div>
 </section>
+@endif
 
 <!-- Services Section -->
+@php $servicesSection = $getSection('services'); @endphp
+@if($servicesSection?->is_active ?? true)
 <section id="services" class="services section light-background">
   <div class="container" data-aos="fade-up" data-aos-delay="100">
     <div class="section-title">
@@ -146,16 +165,14 @@
       @foreach($services as $service)
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
         <div class="service-item">
-          <div class="service-icon">
-            @if($service->icon)
-            <i class="{{ $service->icon }}"></i>
-            @else
-            <i class="bi bi-gear"></i>
-            @endif
+          @if($service->image)
+          <div class="service-image" style="width: 100%; height: 200px; overflow: hidden; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa;">
+            <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->title }}" style="width: 100%; height: 100%;">
           </div>
-          <h3><a href="{{ route('services.show', $service) }}">{{ $service->title }}</a></h3>
+          @endif
+          <h2><a href="{{ route('portfolio.show', $service) }}" class="stretched-link">{{ $service->title }}</a></h2>
           <p>{{ $service->short_description }}</p>
-          <a href="{{ route('services.show', $service) }}" class="service-link">
+          <a href="{{ route('portfolio.show', $service) }}" class="service-link">
             Learn More <i class="bi bi-arrow-right"></i>
           </a>
         </div>
@@ -164,13 +181,15 @@
     </div>
   </div>
 </section>
+@endif
 
 <!-- Why Choose Us Section -->
+@php $whyUsSection = $getSection('why-us'); @endphp
+@if($whyUsSection?->is_active==1)
 <section id="why-us" class="why-us section">
   <div class="container section-title" data-aos="fade-up">
-    @php $whyUsSection = $getSection('why-us'); @endphp
+   
     <h2>{{ $whyUsSection?->title ?? 'Why Choose Us' }}</h2>
-    <p>{{ $whyUsSection?->description ?? 'We deliver exceptional results through proven expertise, cutting-edge innovation, and unwavering commitment to your success.' }}</p>
   </div>
 
   <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -193,8 +212,8 @@
         <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
           <div class="feature-item">
             <div class="icon-wrapper">
-              @if($feature->icon)
-              <i class="{{ $feature->icon }}"></i>
+              @if($feature->icon_file)
+              <img src="{{ asset('storage/' . $feature->icon_file) }}" alt="{{ $feature->title }} icon" class="feature-icon" style="max-width: 48px; max-height: 48px;">
               @else
               <i class="bi bi-lightbulb"></i>
               @endif
@@ -207,18 +226,25 @@
         </div>
         @empty
         <div class="col-lg-12 text-center">
-          <p>No features available yet.</p>
+          <p>No features  yeavailablet.</p>
         </div>
         @endforelse
       </div>
     </div>
   </div>
 </section>
+@endif
+
 
 <!-- Portfolio Section -->
+@php 
+  $portfolioSection = $getSection('portfolio');
+  $portfolioMenuActive = \App\Models\Menu::where('route_name', 'portfolio.index')->where('active', true)->exists();
+@endphp
+@if($portfolioSection?->is_active==1)
 <section id="portfolio" class="portfolio section">
   <div class="container section-title" data-aos="fade-up">
-    @php $portfolioSection = $getSection('portfolio'); @endphp
+  
     <h2>{{ $portfolioSection?->title ?? 'Check Our Portfolio' }}</h2>
     <p>{{ $portfolioSection?->description ?? 'Explore our latest projects and success stories' }}</p>
   </div>
@@ -257,7 +283,7 @@
                           <i class="bi bi-eye"></i>
                         </a>
                       @endif
-                      <a href="{{ route('portfolio.show', $portfolio) }}" class="project-link">
+                      <a href="{{ route('advisory.show', $portfolio) }}" class="project-link">
                         <i class="bi bi-arrow-up-right"></i>
                       </a>
                     </div>
@@ -274,7 +300,7 @@
                     <span class="project-category">{{ $portfolio->category }}</span>
                   </div>
                   <h3 class="project-title">{{ $portfolio->title }}</h3>
-                  <p class="project-description">{{ $portfolio->description }}</p>
+                  <p class="project-description">{!! $portfolio->description !!}</p>
                   <div class="project-meta">
                     <span class="client-name">{{ $portfolio->client ?? 'Professional Project' }}</span>
                   </div>
@@ -313,12 +339,16 @@
     </div>
   </div>
 </section>
+@endif
+
 
 <!-- Team Section -->
+@php $teamSection = $getSection('team');  @endphp
+@if($teamSection?->is_active==1) 
 <section id="team" class="team section">
   <div class="container section-title" data-aos="fade-up">
-    <h2>Meet Our Team</h2>
-    <p>Our Professional Team</p>
+    <h2>{{ $teamSection?->title ?? 'Meet Our Team' }}</h2>
+    <p>{{ $teamSection?->subtitle ?? 'Our Professional Team' }}</p>
   </div>
 
   <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -354,6 +384,8 @@
     </div>
   </div>
 </section>
+@endif
+
 
 <!-- Testimonials Section -->
 @if($getSection('testimonials'))

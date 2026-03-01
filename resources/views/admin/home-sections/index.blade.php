@@ -35,11 +35,11 @@
               </td>
               <td>
                 <a href="{{ route('admin.home-sections.edit', $section) }}" class="btn btn-sm btn-primary">Edit</a>
-                <form method="POST" action="{{ route('admin.home-sections.destroy', $section) }}" style="display:inline;" onsubmit="return confirm('Are you sure?');">
+                <!-- <form method="POST" action="{{ route('admin.home-sections.destroy', $section) }}" style="display:inline;" onsubmit="return confirm('Are you sure?');">
                   @csrf
                   @method('DELETE')
                   <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                </form>
+                </form> -->
               </td>
             </tr>
             @endforeach

@@ -6,6 +6,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FAQController;
 use App\Http\Controllers\PageController;
 
 /*
@@ -18,13 +19,14 @@ use App\Http\Controllers\PageController;
 // Frontend Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
-Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
-Route::get('/services/{service}', [ServiceController::class, 'show'])->name('services.show');
-Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio.index');
-Route::get('/portfolio/{portfolio}', [PortfolioController::class, 'show'])->name('portfolio.show');
+Route::get('/portfolio', [ServiceController::class, 'index'])->name('portfolio.index');
+Route::get('/portfolio/{service}', [ServiceController::class, 'show'])->name('portfolio.show');
+Route::get('/advisory', [PortfolioController::class, 'index'])->name('advisory.index');
+Route::get('/advisory/{advisory}', [PortfolioController::class, 'show'])->name('advisory.show');
 Route::get('/team', [TeamController::class, 'index'])->name('team');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::get('/faqs', [FAQController::class, 'index'])->name('faq.index');
 
 // Authentication Routes (must come before the catch-all route)
 Route::middleware('guest')->group(function () {
@@ -49,11 +51,11 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Dashboard
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
-    // Services Management
-    Route::resource('services', App\Http\Controllers\Admin\ServiceController::class);
+    // Portfolio Management (uses Portfolio model)
+    Route::resource('portfolios', App\Http\Controllers\Admin\PortfolioController::class);
 
-    // Portfolio Management
-    Route::resource('portfolio', App\Http\Controllers\Admin\PortfolioController::class);
+    // Advisory Management
+    Route::resource('advisory', App\Http\Controllers\Admin\AdvisoryController::class);
 
     // Team Members Management
     Route::resource('team', App\Http\Controllers\Admin\TeamMemberController::class);
@@ -72,6 +74,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     // Features Management
     Route::resource('features', App\Http\Controllers\Admin\FeatureController::class);
+
+    // FAQ Management
+    Route::resource('faqs', App\Http\Controllers\Admin\FAQController::class);
 
     // Menu Management
     Route::resource('menus', App\Http\Controllers\Admin\MenuController::class);
@@ -95,4 +100,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('profile/2fa/setup', [App\Http\Controllers\Admin\ProfileController::class, 'setup2FA'])->name('profile.setup2FA');
     Route::post('profile/2fa/enable', [App\Http\Controllers\Admin\ProfileController::class, 'enable2FA'])->name('profile.enable2FA');
     Route::post('profile/2fa/disable', [App\Http\Controllers\Admin\ProfileController::class, 'disable2FA'])->name('profile.disable2FA');
+
+    // Image Upload for CKEditor
+    Route::post('upload-image', [App\Http\Controllers\Admin\UploadController::class, 'uploadImage'])->name('upload.image');
 });

@@ -15,8 +15,8 @@
 
           <div class="form-group">
             <label>Section Name (Unique identifier) *</label>
-            <input type="text" name="section_name" class="form-control @error('section_name') is-invalid @enderror" value="{{ old('section_name') }}" required placeholder="e.g., hero, about, services">
-            <small class="form-text text-muted">Use lowercase with hyphens (e.g., hero, hero-banner, why-us)</small>
+            <input type="text" name="section_name" class="form-control @error('section_name') is-invalid @enderror" value="{{ old('section_name') }}" required placeholder="e.g., hero, about, team, services">
+            <small class="form-text text-muted">Use lowercase with hyphens (e.g., hero, about, team, why-us)</small>
             @error('section_name')<span class="invalid-feedback">{{ $message }}</span>@enderror
           </div>
 

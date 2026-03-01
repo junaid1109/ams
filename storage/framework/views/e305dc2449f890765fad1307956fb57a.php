@@ -9,7 +9,14 @@
   <meta name="keywords" content="<?php echo $__env->yieldContent('meta_keywords', ''); ?>">
 
   <!-- Favicons -->
+  <?php
+    $favicon = \App\Helpers\SettingHelper::get('site_favicon');
+  ?>
+  <?php if($favicon): ?>
+  <link href="<?php echo e(asset('storage/' . $favicon)); ?>" rel="icon">
+  <?php else: ?>
   <link href="<?php echo e(asset('assets/img/favicon.png')); ?>" rel="icon">
+  <?php endif; ?>
   <link href="<?php echo e(asset('assets/img/apple-touch-icon.png')); ?>" rel="apple-touch-icon">
 
   <!-- Fonts -->
@@ -164,9 +171,9 @@
           <!-- Fallback menu if no dynamic menus configured -->
           <li><a href="<?php echo e(route('home')); ?>" class="<?php if(Route::currentRouteName() == 'home'): ?> active <?php endif; ?>">Home</a></li>
           <li><a href="<?php echo e(route('about')); ?>" class="<?php if(Route::currentRouteName() == 'about'): ?> active <?php endif; ?>">About</a></li>
-          <li><a href="<?php echo e(route('services.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'services')): ?> active <?php endif; ?>">Services</a></li>
-          <li><a href="<?php echo e(route('portfolio.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'portfolio')): ?> active <?php endif; ?>">Portfolio</a></li>
+          <li><a href="<?php echo e(route('advisory.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'advisory')): ?> active <?php endif; ?>">Advisory</a></li>
           <li><a href="<?php echo e(route('team')); ?>" class="<?php if(Route::currentRouteName() == 'team'): ?> active <?php endif; ?>">Team</a></li>
+          <li><a href="<?php echo e(route('faq.index')); ?>" class="<?php if(Route::currentRouteName() == 'faq.index'): ?> active <?php endif; ?>">FAQs</a></li>
           <li><a href="<?php echo e(route('contact.index')); ?>" class="<?php if(Route::currentRouteName() == 'contact.index'): ?> active <?php endif; ?>">Contact</a></li>
           <?php endif; ?>
         </ul>
@@ -189,10 +196,24 @@
           </a>
           <p><?php echo e(\App\Helpers\SettingHelper::get('footer_description', 'Your company description goes here. This is a professional business template.')); ?></p>
           <div class="social-links d-flex mt-4">
-            <a href="#"><i class="bi bi-twitter-x"></i></a>
-            <a href="#"><i class="bi bi-facebook"></i></a>
-            <a href="#"><i class="bi bi-instagram"></i></a>
-            <a href="#"><i class="bi bi-linkedin"></i></a>
+            <?php
+              $twitter = \App\Helpers\SettingHelper::get('twitter_url');
+              $facebook = \App\Helpers\SettingHelper::get('facebook_url');
+              $instagram = \App\Helpers\SettingHelper::get('instagram_url');
+              $linkedin = \App\Helpers\SettingHelper::get('linkedin_url');
+            ?>
+            <?php if($twitter): ?>
+            <a href="<?php echo e($twitter); ?>" target="_blank" rel="noopener noreferrer"><i class="bi bi-twitter-x"></i></a>
+            <?php endif; ?>
+            <?php if($facebook): ?>
+            <a href="<?php echo e($facebook); ?>" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook"></i></a>
+            <?php endif; ?>
+            <?php if($instagram): ?>
+            <a href="<?php echo e($instagram); ?>" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram"></i></a>
+            <?php endif; ?>
+            <?php if($linkedin): ?>
+            <a href="<?php echo e($linkedin); ?>" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
+            <?php endif; ?>
           </div>
         </div>
 
@@ -200,8 +221,9 @@
           <h4>Useful Links</h4>
           <ul>
             <li><a href="<?php echo e(route('home')); ?>">Home</a></li>
-            <li><a href="<?php echo e(route('about')); ?>">About us</a></li>
-            <li><a href="<?php echo e(route('services.index')); ?>">Services</a></li>
+            <li><a href="<?php echo e(route('portfolio.index')); ?>">Portfolio</a></li>
+            <li><a href="<?php echo e(route('advisory.index')); ?>">Advisory</a></li>
+            <li><a href="<?php echo e(route('faq.index')); ?>">Faqs</a></li>
             <?php $__empty_1 = true; $__currentLoopData = \App\Models\Page::where('published', 1)->orderBy('title')->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $page): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
             <li><a href="<?php echo e(route('page.show', $page)); ?>"><?php echo e($page->title); ?></a></li>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -210,10 +232,10 @@
         </div>
 
         <div class="col-lg-2 col-6 footer-links">
-          <h4>Our Services</h4>
+          <h4>Portfolio Services</h4>
           <ul>
-            <?php $__empty_1 = true; $__currentLoopData = \App\Models\Service::where('published', 1)->orderBy('order')->limit(4)->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $service): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-            <li><a href="<?php echo e(route('services.show', $service->id)); ?>"><?php echo e($service->title); ?></a></li>
+            <?php $__empty_1 = true; $__currentLoopData = \App\Models\Portfolio::where('published', 1)->orderBy('order')->limit(4)->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $service): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+            <li><a href="<?php echo e(route('portfolio.show', $service->id)); ?>"><?php echo e($service->title); ?></a></li>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
             <li><a href="#">Web Design</a></li>
             <li><a href="#">Web Development</a></li>

@@ -94,32 +94,39 @@
 </section>
 @endif
 
-<!-- Team Section -->
-<section class="team section light-background">
-  <div class="container">
-    <div class="section-title">
-      <h2>Our Team</h2>
-      <p>Meet our professional team</p>
-    </div>
+@php $teamSection = $getSection('team');  @endphp
+@if($teamSection?->is_active==1) 
+<section id="team" class="team section">
+  <div class="container section-title" data-aos="fade-up">
+    <h2>{{ $teamSection?->title ?? 'Meet Our Team' }}</h2>
+    <p>{{ $teamSection?->subtitle ?? 'Our Professional Team' }}</p>
+  </div>
 
-    <div class="row gy-4">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="row gy-5">
       @foreach($teamMembers as $member)
-      <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+      <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
         <div class="team-member">
-          @if($member->image)
           <div class="member-img">
-            <img src="{{ asset('storage/' . $member->image) }}" class="img-fluid" alt="{{ $member->name }}">
+            @if($member->image)
+              <img src="{{ asset('storage/' . $member->image) }}" class="img-fluid" alt="{{ $member->name }}">
+            @else
+              @php
+                $personPlaceholders = ['person-f-8.webp', 'person-m-12.webp', 'person-f-3.webp', 'person-m-7.webp', 'person-f-12.webp', 'person-m-8.webp', 'person-f-6.webp', 'person-m-12.webp'];
+                $personPlaceholder = $personPlaceholders[$loop->index % count($personPlaceholders)];
+              @endphp
+              <img src="{{ asset('assets/img/person/' . $personPlaceholder) }}" class="img-fluid" alt="{{ $member->name }}">
+            @endif
           </div>
-          @endif
           <div class="member-info">
             <h4>{{ $member->name }}</h4>
             <span>{{ $member->position }}</span>
             <p>{{ $member->bio }}</p>
             <div class="social">
               @if($member->twitter)<a href="{{ $member->twitter }}"><i class="bi bi-twitter-x"></i></a>@endif
-              @if($member->facebook)<a href="{{ $member->facebook }}"><i class="bi bi-facebook"></i></a>@endif
-              @if($member->instagram)<a href="{{ $member->instagram }}"><i class="bi bi-instagram"></i></a>@endif
               @if($member->linkedin)<a href="{{ $member->linkedin }}"><i class="bi bi-linkedin"></i></a>@endif
+              @if($member->instagram)<a href="{{ $member->instagram }}"><i class="bi bi-instagram"></i></a>@endif
+              @if($member->facebook)<a href="{{ $member->facebook }}"><i class="bi bi-facebook"></i></a>@endif
             </div>
           </div>
         </div>
@@ -128,5 +135,6 @@
     </div>
   </div>
 </section>
+@endif
 
 @endsection

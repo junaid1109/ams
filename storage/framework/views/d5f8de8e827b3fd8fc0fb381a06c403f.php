@@ -31,8 +31,8 @@
             <?php $__empty_1 = true; $__currentLoopData = $features; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $feature): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
             <tr>
               <td>
-                <?php if($feature->icon): ?>
-                  <i class="<?php echo e($feature->icon); ?>" style="font-size: 20px;"></i>
+                <?php if($feature->icon_file): ?>
+                  <img src="<?php echo e(asset('storage/' . $feature->icon_file)); ?>" alt="Feature Icon" style="max-width: 40px; max-height: 40px;">
                 <?php else: ?>
                   <span class="text-muted">-</span>
                 <?php endif; ?>

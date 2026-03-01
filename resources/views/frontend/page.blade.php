@@ -44,19 +44,6 @@
         </div>
       </div>
 
-      <div class="col-lg-4">
-        <div class="sidebar">
-          <h4>Quick Links</h4>
-          <ul class="sidebar-list">
-            <li><a href="{{ route('home') }}">Home</a></li>
-            <li><a href="{{ route('about') }}">About Us</a></li>
-            <li><a href="{{ route('services.index') }}">Services</a></li>
-            <li><a href="{{ route('portfolio.index') }}">Portfolio</a></li>
-            <li><a href="{{ route('team') }}">Team</a></li>
-            <li><a href="{{ route('contact.index') }}">Contact</a></li>
-          </ul>
-        </div>
-      </div>
     </div>
   </div>
 </section>

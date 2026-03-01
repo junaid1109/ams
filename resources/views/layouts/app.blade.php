@@ -9,7 +9,14 @@
   <meta name="keywords" content="@yield('meta_keywords', '')">
 
   <!-- Favicons -->
+  @php
+    $favicon = \App\Helpers\SettingHelper::get('site_favicon');
+  @endphp
+  @if($favicon)
+  <link href="{{ asset('storage/' . $favicon) }}" rel="icon">
+  @else
   <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
+  @endif
   <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
 
   <!-- Fonts -->
@@ -163,9 +170,9 @@
           <!-- Fallback menu if no dynamic menus configured -->
           <li><a href="{{ route('home') }}" class="@if(Route::currentRouteName() == 'home') active @endif">Home</a></li>
           <li><a href="{{ route('about') }}" class="@if(Route::currentRouteName() == 'about') active @endif">About</a></li>
-          <li><a href="{{ route('services.index') }}" class="@if(str_contains(Route::currentRouteName(), 'services')) active @endif">Services</a></li>
-          <li><a href="{{ route('portfolio.index') }}" class="@if(str_contains(Route::currentRouteName(), 'portfolio')) active @endif">Portfolio</a></li>
+          <li><a href="{{ route('advisory.index') }}" class="@if(str_contains(Route::currentRouteName(), 'advisory')) active @endif">Advisory</a></li>
           <li><a href="{{ route('team') }}" class="@if(Route::currentRouteName() == 'team') active @endif">Team</a></li>
+          <li><a href="{{ route('faq.index') }}" class="@if(Route::currentRouteName() == 'faq.index') active @endif">FAQs</a></li>
           <li><a href="{{ route('contact.index') }}" class="@if(Route::currentRouteName() == 'contact.index') active @endif">Contact</a></li>
           @endforelse
         </ul>
@@ -188,10 +195,24 @@
           </a>
           <p>{{ \App\Helpers\SettingHelper::get('footer_description', 'Your company description goes here. This is a professional business template.') }}</p>
           <div class="social-links d-flex mt-4">
-            <a href="#"><i class="bi bi-twitter-x"></i></a>
-            <a href="#"><i class="bi bi-facebook"></i></a>
-            <a href="#"><i class="bi bi-instagram"></i></a>
-            <a href="#"><i class="bi bi-linkedin"></i></a>
+            @php
+              $twitter = \App\Helpers\SettingHelper::get('twitter_url');
+              $facebook = \App\Helpers\SettingHelper::get('facebook_url');
+              $instagram = \App\Helpers\SettingHelper::get('instagram_url');
+              $linkedin = \App\Helpers\SettingHelper::get('linkedin_url');
+            @endphp
+            @if($twitter)
+            <a href="{{ $twitter }}" target="_blank" rel="noopener noreferrer"><i class="bi bi-twitter-x"></i></a>
+            @endif
+            @if($facebook)
+            <a href="{{ $facebook }}" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook"></i></a>
+            @endif
+            @if($instagram)
+            <a href="{{ $instagram }}" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram"></i></a>
+            @endif
+            @if($linkedin)
+            <a href="{{ $linkedin }}" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
+            @endif
           </div>
         </div>
 
@@ -199,8 +220,9 @@
           <h4>Useful Links</h4>
           <ul>
             <li><a href="{{ route('home') }}">Home</a></li>
-            <li><a href="{{ route('about') }}">About us</a></li>
-            <li><a href="{{ route('services.index') }}">Services</a></li>
+            <li><a href="{{ route('portfolio.index') }}">Portfolio</a></li>
+            <li><a href="{{ route('advisory.index') }}">Advisory</a></li>
+            <li><a href="{{ route('faq.index') }}">Faqs</a></li>
             @forelse(\App\Models\Page::where('published', 1)->orderBy('title')->get() as $page)
             <li><a href="{{ route('page.show', $page) }}">{{ $page->title }}</a></li>
             @empty
@@ -209,10 +231,10 @@
         </div>
 
         <div class="col-lg-2 col-6 footer-links">
-          <h4>Our Services</h4>
+          <h4>Portfolio Services</h4>
           <ul>
-            @forelse(\App\Models\Service::where('published', 1)->orderBy('order')->limit(4)->get() as $service)
-            <li><a href="{{ route('services.show', $service->id) }}">{{ $service->title }}</a></li>
+            @forelse(\App\Models\Portfolio::where('published', 1)->orderBy('order')->limit(4)->get() as $service)
+            <li><a href="{{ route('portfolio.show', $service->id) }}">{{ $service->title }}</a></li>
             @empty
             <li><a href="#">Web Design</a></li>
             <li><a href="#">Web Development</a></li>

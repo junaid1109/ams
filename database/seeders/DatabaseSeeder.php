@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Service;
 use App\Models\Portfolio;
+use App\Models\Advisory;
 use App\Models\TeamMember;
 use App\Models\Page;
 use App\Models\Setting;
@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Create Sample Services
-        Service::create([
+        Portfolio::create([
             'title' => 'Web Design',
             'slug' => 'web-design',
             'description' => 'Professional web design services tailored to your business needs. We create beautiful, responsive websites that convert visitors into customers.',
@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             'order' => 1,
         ]);
 
-        Service::create([
+        Portfolio::create([
             'title' => 'Web Development',
             'slug' => 'web-development',
             'description' => 'Full-stack web development using the latest technologies. From frontend to backend, we build scalable and maintainable web applications.',
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
             'order' => 2,
         ]);
 
-        Service::create([
+        Portfolio::create([
             'title' => 'Digital Marketing',
             'slug' => 'digital-marketing',
             'description' => 'Boost your online presence with our comprehensive digital marketing solutions including SEO, social media, and content marketing.',
@@ -60,8 +60,8 @@ class DatabaseSeeder extends Seeder
             'order' => 3,
         ]);
 
-        // Create Sample Portfolio Items
-        Portfolio::create([
+        // Create Sample Advisory Items
+        Advisory::create([
             'title' => 'E-Commerce Platform',
             'slug' => 'ecommerce-platform',
             'description' => 'A complete e-commerce solution with shopping cart, payment integration, and inventory management.',
@@ -71,7 +71,7 @@ class DatabaseSeeder extends Seeder
             'order' => 1,
         ]);
 
-        Portfolio::create([
+        Advisory::create([
             'title' => 'Corporate Website',
             'slug' => 'corporate-website',
             'description' => 'Professional corporate website with CMS integration for easy content management.',
@@ -81,7 +81,7 @@ class DatabaseSeeder extends Seeder
             'order' => 2,
         ]);
 
-        Portfolio::create([
+        Advisory::create([
             'title' => 'Mobile App Design',
             'slug' => 'mobile-app-design',
             'description' => 'Beautiful and functional mobile app design for iOS and Android platforms.',

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Service;
+use App\Models\Portfolio;
 use App\Helpers\SettingHelper;
 use Illuminate\Http\Request;
 
@@ -10,20 +10,20 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $services = Service::where('published', true)->orderBy('order')->get();
+        $services = Portfolio::where('published', true)->orderBy('order')->get();
         $siteName = SettingHelper::get('site_name', 'AMS');
         
         return view('frontend.services.index', compact('services', 'siteName'));
     }
 
-    public function show(Service $service)
+    public function show(Portfolio $service)
     {
         if (!$service->published) {
             abort(404);
         }
         
         $siteName = SettingHelper::get('site_name', 'AMS');
-        $relatedServices = Service::where('published', true)
+        $relatedServices = Portfolio::where('published', true)
             ->where('id', '!=', $service->id)
             ->orderBy('order')
             ->take(3)

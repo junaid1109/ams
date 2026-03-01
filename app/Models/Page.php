@@ -26,6 +26,13 @@ class Page extends Model
 
     public function getRouteKeyName()
     {
+        // Use ID for admin routes (they include 'admin' in the route name), slug for frontend
+        $route = \Illuminate\Support\Facades\Route::currentRouteName();
+        
+        if ($route && str_contains($route, 'admin')) {
+            return 'id';
+        }
+        
         return 'slug';
     }
 }

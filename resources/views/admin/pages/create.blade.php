@@ -32,7 +32,8 @@
 
           <div class="form-group">
             <label>Content *</label>
-            <textarea id="content-editor" name="content" class="form-control @error('content') is-invalid @enderror" rows="10" required>{{ old('content') }}</textarea>
+            <textarea id="content-editor" name="content" class="form-control @error('content') is-invalid @enderror" rows="10">{{ old('content') }}</textarea>
+            <div id="content-error" class="invalid-feedback" style="display: none;">Content is required</div>
             @error('content')<span class="invalid-feedback">{{ $message }}</span>@enderror
           </div>
 
@@ -70,13 +71,50 @@
 </div>
 
 <script>
+  let contentEditor;
+
+  class CustomUploadAdapter {
+    constructor(loader) {
+      this.loader = loader;
+    }
+
+    upload() {
+      return this.loader.file.then(file => new Promise((resolve, reject) => {
+        const formData = new FormData();
+        formData.append('upload', file);
+        formData.append('_token', document.querySelector('meta[name="csrf-token"]').content);
+
+        fetch('{{ route("admin.upload.image") }}', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.url) {
+            resolve({ default: data.url });
+          } else {
+            reject('Upload failed');
+          }
+        })
+        .catch(error => reject(error));
+      }));
+    }
+
+    abort() {
+      // Abort upload
+    }
+  }
+
   ClassicEditor.create(document.querySelector('#content-editor'), {
     toolbar: {
       items: [
         'heading', '|',
         'bold', 'italic', 'underline', 'strikethrough', '|',
         'bulletedList', 'numberedList', '|',
-        'link', 'blockQuote', 'codeBlock', '|',
+        'link', 'imageUpload', 'blockQuote', 'codeBlock', '|',
         'insertTable', '|',
         'undo', 'redo'
       ]
@@ -89,7 +127,33 @@
         { model: 'heading3', view: 'h3', title: 'Heading 3' }
       ]
     }
-  }).catch(err => console.error(err));
+  })
+  .then(editor => {
+    contentEditor = editor;
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+      return new CustomUploadAdapter(loader);
+    };
+  })
+  .catch(err => console.error('Content Editor:', err));
+
+  // Sync editor data back to textarea before form submission
+  document.querySelector('form').addEventListener('submit', function(e) {
+    if (contentEditor) {
+      const content = contentEditor.getData();
+      document.querySelector('#content-editor').value = content;
+      
+      // Validate content is not empty
+      if (!content || content.trim() === '') {
+        e.preventDefault();
+        document.getElementById('content-error').style.display = 'block';
+        document.querySelector('.form-group').classList.add('has-error');
+        return false;
+      } else {
+        document.getElementById('content-error').style.display = 'none';
+        document.querySelector('.form-group').classList.remove('has-error');
+      }
+    }
+  });
 </script>
 
 @endsection

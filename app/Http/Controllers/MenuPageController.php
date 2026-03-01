@@ -16,17 +16,17 @@ class MenuPageController extends Controller
         }
 
         // Route to appropriate controller based on route_name
-        if ($menu->route_name === 'services.index') {
-            $services = \App\Models\Service::where('published', 1)->orderBy('order')->get();
-            return view('frontend.services.index', ['services' => $services]);
+        if ($menu->route_name === 'portfolio.index') {
+            $services = \App\Models\Portfolio::where('published', 1)->orderBy('order')->get();
+            return view('frontend.portfolio.index', ['services' => $services]);
         }
 
-        if ($menu->route_name === 'portfolio.index') {
+        if ($menu->route_name === 'advisory.index') {
             $portfolios = \App\Models\Portfolio::where('published', 1)->get();
             $categories = $portfolios->groupBy('category')->map(function ($items) {
                 return (object)['category' => $items->first()->category];
             })->values();
-            return view('frontend.portfolio.index', ['portfolios' => $portfolios, 'categories' => $categories]);
+            return view('frontend.advisory.index', ['portfolios' => $portfolios, 'categories' => $categories]);
         }
 
         if ($menu->route_name === 'team') {

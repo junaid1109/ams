@@ -39,20 +39,20 @@
     </div>
 
     <div class="row gy-4 isotope-container">
-      @foreach($portfolios as $portfolio)
-      <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-{{ $portfolio->category }}">
-        @if($portfolio->image)
-        <img src="{{ asset('storage/' . $portfolio->image) }}" class="img-fluid" alt="{{ $portfolio->title }}">
+      @foreach($services as $service)
+      <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-{{ $service->category }}">
+        @if($service->image)
+        <img src="{{ asset('storage/' . $service->image) }}" class="img-fluid" alt="{{ $service->title }}">
         @endif
         <div class="portfolio-info">
-          <h4><a href="{{ route('portfolio.show', $portfolio) }}" title="More Details">{{ $portfolio->title }}</a></h4>
-          <p>{{ $portfolio->category }}</p>
-          @if($portfolio->image)
-          <a href="{{ asset('storage/' . $portfolio->image) }}" title="{{ $portfolio->title }}" data-gallery="portfolio-gallery" class="glightbox preview-link">
+          <h4><a href="{{ route('portfolio.show', $service) }}" title="More Details">{{ $service->title }}</a></h4>
+          <p>{{ $service->category }}</p>
+          @if($service->image)
+          <a href="{{ asset('storage/' . $service->image) }}" title="{{ $service->title }}" data-gallery="portfolio-gallery" class="glightbox preview-link">
             <i class="bi bi-zoom-in"></i>
           </a>
           @endif
-          <a href="{{ route('portfolio.show', $portfolio) }}" title="More Details" class="details-link">
+          <a href="{{ route('portfolio.show', $service) }}" title="More Details" class="details-link">
             <i class="bi bi-link-45deg"></i>
           </a>
         </div>

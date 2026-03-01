@@ -58,12 +58,12 @@
                             <a href="{{ route('admin.menus.edit', $menu) }}" class="btn btn-sm btn-warning">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <form action="{{ route('admin.menus.destroy', $menu) }}" method="POST" class="d-inline">
+                            <!-- <form action="{{ route('admin.menus.destroy', $menu) }}" method="POST" class="d-inline">
                                 @csrf @method('DELETE')
                                 <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
                                     <i class="bi bi-trash"></i>
                                 </button>
-                            </form>
+                            </form> -->
                         </td>
                     </tr>
                     @endforeach

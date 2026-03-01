@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
   <title><?php echo $__env->yieldContent('title', 'Admin Panel - AMS'); ?></title>
 
   <!-- Favicons -->
@@ -354,14 +355,14 @@
         </li>
 
         <li>
-          <a href="<?php echo e(route('admin.services.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.services')): ?> active <?php endif; ?>">
-            <i class="bi bi-gear"></i> Services
+          <a href="<?php echo e(route('admin.portfolios.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.portfolios')): ?> active <?php endif; ?>">
+            <i class="bi bi-images"></i> Portfolio
           </a>
         </li>
 
         <li>
-          <a href="<?php echo e(route('admin.portfolio.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.portfolio')): ?> active <?php endif; ?>">
-            <i class="bi bi-images"></i> Portfolio
+          <a href="<?php echo e(route('admin.advisory.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.advisory')): ?> active <?php endif; ?>">
+            <i class="bi bi-gear"></i> Advisory
           </a>
         </li>
 
@@ -380,6 +381,12 @@
         <li>
           <a href="<?php echo e(route('admin.menus.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.menus')): ?> active <?php endif; ?>">
             <i class="bi bi-list"></i> Menu Items
+          </a>
+        </li>
+
+        <li>
+          <a href="<?php echo e(route('admin.faqs.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'admin.faqs')): ?> active <?php endif; ?>">
+            <i class="bi bi-question-circle"></i> FAQs
           </a>
         </li>
 

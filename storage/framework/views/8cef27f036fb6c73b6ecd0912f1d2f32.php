@@ -59,12 +59,12 @@
                             <a href="<?php echo e(route('admin.menus.edit', $menu)); ?>" class="btn btn-sm btn-warning">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <form action="<?php echo e(route('admin.menus.destroy', $menu)); ?>" method="POST" class="d-inline">
+                            <!-- <form action="<?php echo e(route('admin.menus.destroy', $menu)); ?>" method="POST" class="d-inline">
                                 <?php echo csrf_field(); ?> <?php echo method_field('DELETE'); ?>
                                 <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
                                     <i class="bi bi-trash"></i>
                                 </button>
-                            </form>
+                            </form> -->
                         </td>
                     </tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

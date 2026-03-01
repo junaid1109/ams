@@ -18,7 +18,7 @@ class MenuController extends \App\Http\Controllers\Controller
         $routes = [
             'home' => 'Home',
             'about' => 'About',
-            'services.index' => 'Services',
+            'portfolio.index' => 'Portfolio',
             'portfolio.index' => 'Portfolio',
             'team' => 'Team',
             'contact.index' => 'Contact',
@@ -33,12 +33,15 @@ class MenuController extends \App\Http\Controllers\Controller
             'route_name' => 'nullable|string',
             'url' => 'nullable|url',
             'order' => 'required|integer',
-            'active' => 'boolean',
+            'active' => 'nullable|boolean',
         ]);
 
         if (!$validated['route_name'] && !$validated['url']) {
             return back()->withErrors(['error' => 'Route name or URL is required.']);
         }
+
+        // Handle checkbox: if not checked, it won't be in request
+        $validated['active'] = $request->has('active') ? true : false;
 
         Menu::create($validated);
         return redirect()->route('admin.menus.index')->with('success', 'Menu item created successfully.');
@@ -49,8 +52,8 @@ class MenuController extends \App\Http\Controllers\Controller
         $routes = [
             'home' => 'Home',
             'about' => 'About',
-            'services.index' => 'Services',
             'portfolio.index' => 'Portfolio',
+            'advisory.index' => 'Advisory',
             'team' => 'Team',
             'contact.index' => 'Contact',
         ];
@@ -64,12 +67,15 @@ class MenuController extends \App\Http\Controllers\Controller
             'route_name' => 'nullable|string',
             'url' => 'nullable|url',
             'order' => 'required|integer',
-            'active' => 'boolean',
+            'active' => 'nullable|boolean',
         ]);
 
         if (!$validated['route_name'] && !$validated['url']) {
             return back()->withErrors(['error' => 'Route name or URL is required.']);
         }
+
+        // Handle checkbox: if not checked, it won't be in request
+        $validated['active'] = $request->has('active') ? true : false;
 
         $menu->update($validated);
         return redirect()->route('admin.menus.index')->with('success', 'Menu item updated successfully.');

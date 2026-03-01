@@ -35,11 +35,11 @@
               </td>
               <td>
                 <a href="<?php echo e(route('admin.home-sections.edit', $section)); ?>" class="btn btn-sm btn-primary">Edit</a>
-                <form method="POST" action="<?php echo e(route('admin.home-sections.destroy', $section)); ?>" style="display:inline;" onsubmit="return confirm('Are you sure?');">
+                <!-- <form method="POST" action="<?php echo e(route('admin.home-sections.destroy', $section)); ?>" style="display:inline;" onsubmit="return confirm('Are you sure?');">
                   <?php echo csrf_field(); ?>
                   <?php echo method_field('DELETE'); ?>
                   <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                </form>
+                </form> -->
               </td>
             </tr>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

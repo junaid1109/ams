@@ -31,8 +31,8 @@
             @forelse($features as $feature)
             <tr>
               <td>
-                @if($feature->icon)
-                  <i class="{{ $feature->icon }}" style="font-size: 20px;"></i>
+                @if($feature->icon_file)
+                  <img src="{{ asset('storage/' . $feature->icon_file) }}" alt="Feature Icon" style="max-width: 40px; max-height: 40px;">
                 @else
                   <span class="text-muted">-</span>
                 @endif

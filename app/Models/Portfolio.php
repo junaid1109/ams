@@ -9,28 +9,26 @@ class Portfolio extends Model
 {
     use HasFactory;
 
+    protected $table = 'portfolios';
+
     protected $fillable = [
         'title',
         'slug',
         'description',
-        'category',
+        'short_description',
         'image',
-        'image_secondary',
-        'client',
-        'project_url',
-        'project_date',
-        'details',
+        'features',
+        'pricing',
         'published',
         'order',
     ];
 
     protected $casts = [
         'published' => 'boolean',
-        'project_date' => 'date',
     ];
 
     public function getRouteKeyName()
     {
-        return 'slug';
+        return 'id';
     }
 }

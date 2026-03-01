@@ -1,5 +1,12 @@
 
 
+<?php
+  $breadcrumbs = [
+    ['label' => 'Home', 'url' => route('home')],
+    ['label' => $page->title, 'url' => null]
+  ];
+?>
+
 <?php $__env->startSection('title', $page->title . ' - ' . (isset($siteName) ? $siteName : 'AMS')); ?>
 <?php $__env->startSection('meta_description', $page->meta_description); ?>
 
@@ -11,8 +18,13 @@
     <h1><?php echo e($page->title); ?></h1>
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo e(route('home')); ?>">Home</a></li>
-        <li class="breadcrumb-item active"><?php echo e($page->title); ?></li>
+        <?php $__currentLoopData = $breadcrumbs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $breadcrumb): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <?php if($breadcrumb['url']): ?>
+          <li class="breadcrumb-item"><a href="<?php echo e($breadcrumb['url']); ?>"><?php echo e($breadcrumb['label']); ?></a></li>
+          <?php else: ?>
+          <li class="breadcrumb-item active"><?php echo e($breadcrumb['label']); ?></li>
+          <?php endif; ?>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
       </ol>
     </nav>
   </div>
@@ -33,19 +45,6 @@
         </div>
       </div>
 
-      <div class="col-lg-4">
-        <div class="sidebar">
-          <h4>Quick Links</h4>
-          <ul class="sidebar-list">
-            <li><a href="<?php echo e(route('home')); ?>">Home</a></li>
-            <li><a href="<?php echo e(route('about')); ?>">About Us</a></li>
-            <li><a href="<?php echo e(route('services.index')); ?>">Services</a></li>
-            <li><a href="<?php echo e(route('portfolio.index')); ?>">Portfolio</a></li>
-            <li><a href="<?php echo e(route('team')); ?>">Team</a></li>
-            <li><a href="<?php echo e(route('contact.index')); ?>">Contact</a></li>
-          </ul>
-        </div>
-      </div>
     </div>
   </div>
 </section>

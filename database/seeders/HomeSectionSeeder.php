@@ -68,11 +68,19 @@ class HomeSectionSeeder extends Seeder
                 'is_active' => true,
             ],
             [
+                'section_name' => 'team',
+                'title' => 'Meet Our Team',
+                'subtitle' => 'Our Professional Team',
+                'description' => 'We are a talented team of professionals dedicated to delivering exceptional results and transforming your business vision into reality.',
+                'display_order' => 5,
+                'is_active' => true,
+            ],
+            [
                 'section_name' => 'portfolio',
                 'title' => 'Check Our Portfolio',
                 'subtitle' => 'Portfolio',
                 'description' => 'Explore our latest projects and success stories.',
-                'display_order' => 5,
+                'display_order' => 6,
                 'is_active' => true,
             ],
             [
@@ -80,7 +88,7 @@ class HomeSectionSeeder extends Seeder
                 'title' => 'What They Say',
                 'subtitle' => 'Testimonials',
                 'description' => 'Hear from our satisfied clients and partners.',
-                'display_order' => 6,
+                'display_order' => 7,
                 'is_active' => true,
             ],
             [
@@ -89,7 +97,7 @@ class HomeSectionSeeder extends Seeder
                 'description' => 'Let\'s discuss how we can transform your digital presence and drive meaningful results for your organization.',
                 'button_text' => 'Start Conversation',
                 'button_link' => '/contact',
-                'display_order' => 7,
+                'display_order' => 8,
                 'is_active' => true,
             ],
         ];

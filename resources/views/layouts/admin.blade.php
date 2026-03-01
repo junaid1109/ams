@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>@yield('title', 'Admin Panel - AMS')</title>
 
   <!-- Favicons -->
@@ -354,14 +355,14 @@
         </li>
 
         <li>
-          <a href="{{ route('admin.services.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.services')) active @endif">
-            <i class="bi bi-gear"></i> Services
+          <a href="{{ route('admin.portfolios.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.portfolios')) active @endif">
+            <i class="bi bi-images"></i> Portfolio
           </a>
         </li>
 
         <li>
-          <a href="{{ route('admin.portfolio.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.portfolio')) active @endif">
-            <i class="bi bi-images"></i> Portfolio
+          <a href="{{ route('admin.advisory.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.advisory')) active @endif">
+            <i class="bi bi-gear"></i> Advisory
           </a>
         </li>
 
@@ -380,6 +381,12 @@
         <li>
           <a href="{{ route('admin.menus.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.menus')) active @endif">
             <i class="bi bi-list"></i> Menu Items
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ route('admin.faqs.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.faqs')) active @endif">
+            <i class="bi bi-question-circle"></i> FAQs
           </a>
         </li>
 

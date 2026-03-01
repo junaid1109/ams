@@ -13,6 +13,7 @@ class Feature extends Model
         'title',
         'description',
         'icon',
+        'icon_file',
         'order',
         'published',
     ];

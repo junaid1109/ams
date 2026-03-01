@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @php
-  $servicesMenu = \App\Models\Menu::where('route_name', 'services.index')->first();
+  $portfolioMenu = \App\Models\Menu::where('route_name', 'portfolio.index')->first();
   $breadcrumbs = [
     ['label' => 'Home', 'url' => route('home')],
-    ['label' => $servicesMenu?->label ?? 'Services', 'url' => route('services.index')],
+    ['label' => $portfolioMenu?->label ?? 'Portfolio', 'url' => route('portfolio.index')],
     ['label' => $service->title, 'url' => null]
   ];
 @endphp
@@ -41,7 +41,6 @@
         <img src="{{ asset('storage/' . $service->image) }}" class="img-fluid rounded mb-4" alt="{{ $service->title }}">
         @endif
 
-        <h3>{{ $service->title }}</h3>
         <div>{!! $service->description !!}</div>
 
         @if($service->features)
