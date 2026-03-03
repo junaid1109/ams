@@ -132,7 +132,15 @@
       object-fit: cover;
       object-position: center;
     }
-  </style>
+
+    /* Footer Contact Strong Tags Gap */
+    .footer-contact strong {
+      margin-right: 8px;
+      display: inline-block;
+    }
+    .footer-contact p {
+      line-height: 2.2;
+    }  </style>
 
   @stack('css')
 </head>
@@ -190,8 +198,15 @@
     <div class="container">
       <div class="row gy-4">
         <div class="col-lg-5 col-md-12 footer-info">
-          <a href="" class="logo d-flex align-items-center">
-            <span>{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}</span>
+          <a href="{{ route('home') }}" class="logo d-flex align-items-center">
+            @php
+              $logo = \App\Helpers\SettingHelper::get('site_logo');
+            @endphp
+            @if($logo)
+            <img src="{{ asset('storage/' . $logo) }}" alt="{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}" style="margin-left: 50px;max-height: 100px;">
+            @else
+            <h1 class="sitename">{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}</h1>
+            @endif
           </a>
           <p>{{ \App\Helpers\SettingHelper::get('footer_description', 'Your company description goes here. This is a professional business template.') }}</p>
           <div class="social-links d-flex mt-4">
@@ -243,11 +258,12 @@
           </ul>
         </div>
 
-        <div class="col-lg-3 col-md-12 footer-contact text-center text-lg-left">
+        <div class="col-lg-3 col-md-12 footer-contact text-lg-left">
           <h4>Contact Us</h4>
           <p>
             <strong>Address:</strong> {{ \App\Helpers\SettingHelper::get('site_address', 'A108 Adam Street, New York, NY 535022') }}<br>
             <strong>Phone:</strong> {{ \App\Helpers\SettingHelper::get('site_phone', '+1 5589 55488 55') }}<br>
+            <strong>Fax:</strong> {{ \App\Helpers\SettingHelper::get('site_fax', '+1 5589 55488 55') }}<br>
             <strong>Email:</strong> {{ \App\Helpers\SettingHelper::get('site_email', 'info@ams.com') }}<br>
           </p>
         </div>

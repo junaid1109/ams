@@ -23,22 +23,27 @@
     <div class="row">
       <div class="col-lg-8 mx-auto">
         @if($faqs->count())
-        <div class="accordion accordion-flush" id="faqAccordion">
-          @foreach($faqs as $index => $faq)
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button class="accordion-button @if($index > 0) collapsed @endif" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $faq->id }}" aria-expanded="@if($index === 0) true @else false @endif">
-                {{ $faq->question }}
-              </button>
-            </h2>
-            <div id="collapse{{ $faq->id }}" class="accordion-collapse collapse @if($index === 0) show @endif" data-bs-parent="#faqAccordion">
-              <div class="accordion-body">
-                {!! $faq->answer !!}
+          @foreach($faqs as $topic => $topicFaqs)
+          <div class="mb-5">
+            <h3 class="topic-heading mb-4" style="color: #333; font-size: 1.5rem; font-weight: 600; border-bottom: 3px solid #0066cc; padding-bottom: 10px;">{{ $topic }}</h3>
+            <div class="accordion accordion-flush" id="faqAccordion{{ str_replace(' ', '_', $topic) }}">
+              @foreach($topicFaqs as $index => $faq)
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button @if($index > 0) collapsed @endif" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $faq->id }}" aria-expanded="@if($index === 0) true @else false @endif">
+                    {{ $faq->question }}
+                  </button>
+                </h2>
+                <div id="collapse{{ $faq->id }}" class="accordion-collapse collapse @if($index === 0) show @endif" data-bs-parent="#faqAccordion{{ str_replace(' ', '_', $topic) }}">
+                  <div class="accordion-body">
+                    {!! $faq->answer !!}
+                  </div>
+                </div>
               </div>
+              @endforeach
             </div>
           </div>
           @endforeach
-        </div>
         @else
         <div class="alert alert-info text-center">
           <h4>No FAQs available at this time</h4>

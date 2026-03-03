@@ -13,6 +13,7 @@ class HomeSection extends Model
         'section_name',
         'title',
         'subtitle',
+        'tagline',
         'description',
         'content',
         'image',

@@ -158,7 +158,7 @@
     <div class="section-title">
       @php $servicesSection = $getSection('services'); @endphp
       <h2>{{ $servicesSection?->title ?? 'Services' }}</h2>
-      <p>{{ $servicesSection?->description ?? 'Check our Services' }}</p>
+      <p>{{ $servicesSection?->subtitle ?? 'Check our Services' }}</p>
     </div>
 
     <div class="row gy-5">
@@ -188,8 +188,10 @@
 @if($whyUsSection?->is_active==1)
 <section id="why-us" class="why-us section">
   <div class="container section-title" data-aos="fade-up">
-   
     <h2>{{ $whyUsSection?->title ?? 'Why Choose Us' }}</h2>
+    @if($whyUsSection?->tagline)
+    <p>{{ $whyUsSection->tagline }}</p>
+    @endif
   </div>
 
   <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -226,7 +228,7 @@
         </div>
         @empty
         <div class="col-lg-12 text-center">
-          <p>No features  yeavailablet.</p>
+          <p>No features available.</p>
         </div>
         @endforelse
       </div>

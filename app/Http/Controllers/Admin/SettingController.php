@@ -31,6 +31,7 @@ class SettingController extends \App\Http\Controllers\Controller
             'site_name' => 'nullable|string|max:255',
             'site_email' => 'nullable|email',
             'site_phone' => 'nullable|string',
+            'site_fax' => 'nullable|string',
             'site_address' => 'nullable|string',
             'site_description' => 'nullable|string',
             'footer_description' => 'nullable|string',

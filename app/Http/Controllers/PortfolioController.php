@@ -13,8 +13,12 @@ class PortfolioController extends Controller
         $portfolios = Advisory::where('published', true)->orderBy('order')->get();
         $categories = Advisory::where('published', true)->select('category')->distinct()->get();
         $siteName = SettingHelper::get('site_name', 'AMS');
+        $advisorySection = \App\Models\HomeSection::where('section_name', 'advisory_intro')->first();
+        $textBlocks = \App\Models\HomeSection::where('section_name', 'like', 'advisory_text_block_%')
+            ->orderBy('display_order')
+            ->get();
         
-        return view('frontend.advisory.index', compact('portfolios', 'categories', 'siteName'));
+        return view('frontend.advisory.index', compact('portfolios', 'categories', 'siteName', 'advisorySection', 'textBlocks'));
     }
 
     public function show(Advisory $advisory)

@@ -21,6 +21,21 @@
             <small class="form-text text-muted">Cannot be changed after creation</small>
           </div>
 
+          @if($homeSection->section_name === 'advisory_intro')
+          <!-- Advisory Intro Section: Only Title and Subtitle -->
+          <div class="form-group">
+            <label>Title *</label>
+            <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title', $homeSection->title) }}" required>
+            @error('title')<span class="invalid-feedback">{{ $message }}</span>@enderror
+          </div>
+
+          <div class="form-group">
+            <label>Subtitle</label>
+            <input type="text" name="subtitle" class="form-control @error('subtitle') is-invalid @enderror" value="{{ old('subtitle', $homeSection->subtitle) }}">
+            @error('subtitle')<span class="invalid-feedback">{{ $message }}</span>@enderror
+          </div>
+
+          @elseif(!str_contains($homeSection->section_name, 'advisory_text_block') && $homeSection->section_name !== 'section-name')
           <div class="form-group">
             <label>Title *</label>
             <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title', $homeSection->title) }}" required>
@@ -34,11 +49,34 @@
           </div>
 
           <div class="form-group">
-            <label>Description</label>
+            <label>Tagline (Sub-heading below Title)</label>
+            <input type="text" name="tagline" class="form-control @error('tagline') is-invalid @enderror" value="{{ old('tagline', $homeSection->tagline) }}" placeholder="e.g., Discover what sets us apart">
+            @error('tagline')<span class="invalid-feedback">{{ $message }}</span>@enderror
+            <small class="form-text text-muted">This appears below the section title</small>
+          </div>
+          @elseif($homeSection->section_name === 'section-name')
+          <div class="form-group">
+            <label>Title *</label>
+            <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title', $homeSection->title) }}" required>
+            @error('title')<span class="invalid-feedback">{{ $message }}</span>@enderror
+          </div>
+          @endif
+
+          @if($homeSection->section_name === 'section-name')
+          <div class="form-group">
+            <label>Subtitle</label>
             <textarea name="description" class="form-control @error('description') is-invalid @enderror" rows="4">{{ old('description', $homeSection->description) }}</textarea>
             @error('description')<span class="invalid-feedback">{{ $message }}</span>@enderror
           </div>
+          @elseif($homeSection->section_name !== 'advisory_intro')
+          <div class="form-group">
+            <label>Description</label>
+            <textarea name="description" id="editor-{{ $homeSection->id }}" class="form-control @error('description') is-invalid @enderror">{{ old('description', $homeSection->description) }}</textarea>
+            @error('description')<span class="invalid-feedback">{{ $message }}</span>@enderror
+          </div>
+          @endif
 
+          @if(!str_contains($homeSection->section_name, 'advisory_text_block') && $homeSection->section_name !== 'section-name' && $homeSection->section_name !== 'advisory_intro')
           <div class="form-group">
             <label>Button Text</label>
             <input type="text" name="button_text" class="form-control @error('button_text') is-invalid @enderror" value="{{ old('button_text', $homeSection->button_text) }}">
@@ -64,6 +102,7 @@
             <div id="preview-container" style="margin-top: 15px;"></div>
             @error('image')<span class="invalid-feedback">{{ $message }}</span>@enderror
           </div>
+          @endif
 
           <div class="form-group">
             <label>Display Order</label>
@@ -234,6 +273,41 @@ document.addEventListener('DOMContentLoaded', function() {
       e.target.closest('.stat-item-group').remove();
     }
   });
+
+  // Initialize CKEditor for description field (only for sections that are not 'section-name' or 'advisory_intro')
+  @if($homeSection->section_name !== 'section-name' && $homeSection->section_name !== 'advisory_intro')
+  const editorId = 'editor-{{ $homeSection->id }}';
+  const editorElement = document.getElementById(editorId);
+  
+  if (editorElement) {
+    // Store editor instance globally
+    let editor = null;
+    
+    ClassicEditor
+      .create(editorElement, {
+        ckfinder: {
+          uploadUrl: "{{ route('admin.upload.image') }}"
+        }
+      })
+      .then(instance => {
+        editor = instance;
+        
+        // Before form submission, sync editor data to textarea
+        const form = document.querySelector('#section-form');
+        if (form) {
+          form.addEventListener('submit', function(e) {
+            if (editor) {
+              const data = editor.getData();
+              editorElement.value = data;
+            }
+          });
+        }
+      })
+      .catch(error => {
+        console.error('CKEditor error:', error);
+      });
+  }
+  @endif
 
 });
 </script>

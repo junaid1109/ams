@@ -8,6 +8,113 @@
 
 @section('title', (isset($siteName) ? $siteName : 'AMS') . ' - ' . $pageTitle)
 
+<style>
+  /* CKEditor Content Styling */
+  .text-block-content {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.8;
+  }
+  
+  .text-block-content figure {
+    float: right;
+    margin: 0 0 20px 25px;
+    max-width: 45%;
+  }
+  
+  .text-block-content figure img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .text-block-content figcaption {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 8px;
+    text-align: center;
+    font-style: italic;
+  }
+  
+  /* Ensure clear float after content */
+  .text-block-content::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  /* Service Image Rectangle Styling */
+  .service-image {
+    width: calc(100% + 60px);
+    margin: -30px -30px 20px -30px;
+    height: 220px;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .service-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block !important;
+  }
+
+  .service-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Advisory specific styles */
+  .advisory-services-section {
+    padding: 40px 0;
+  }
+
+  .advisory-services-section .service-item {
+    padding: 30px;
+    background-color: white;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .advisory-services-section .service-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .advisory-services-section .service-item h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 20px 0 15px 0;
+    line-height: 1.4;
+    color: #1a1a1a;
+  }
+
+  .advisory-services-section .service-item h2 a {
+    text-decoration: none;
+    color: #1a1a1a;
+    transition: color 0.3s ease;
+  }
+
+  .advisory-services-section .service-item h2 a:hover {
+    color: var(--accent-color, #0066cc);
+  }
+
+  .advisory-services-section .service-item p {
+    color: #666;
+    margin: 0;
+    line-height: 1.6;
+    flex-grow: 1;
+  }
+</style>
+
 @section('content')
 
 <!-- Page Title Section -->
@@ -28,68 +135,54 @@
   </div>
 </section>
 
-<!-- Portfolio Section -->
-<section class="portfolio section">
-  <div class="container">
-    <div class="portfolio-filters" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px;">
-      <button class="portfolio-filter active" data-filter="*" style="padding: 10px 24px; border: 2px solid #0ea5e9; background: #0ea5e9; color: white; border-radius: 25px; cursor: pointer; font-weight: 500; transition: all 0.3s ease;">All</button>
-      @foreach($categories as $category)
-      <button class="portfolio-filter" data-filter=".filter-{{ $category->category }}" style="padding: 10px 24px; border: 2px solid #e0e7ff; background: transparent; color: #666; border-radius: 25px; cursor: pointer; font-weight: 500; transition: all 0.3s ease;">{{ $category->category }}</button>
-      @endforeach
-    </div>
 
-    <div class="row gy-4 isotope-container">
-      @foreach($portfolios as $portfolio)
-      <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-{{ $portfolio->category }}">
-        @if($portfolio->image)
-        <img src="{{ asset('storage/' . $portfolio->image) }}" class="img-fluid" alt="{{ $portfolio->title }}">
-        @endif
-        <div class="portfolio-info">
-          <h4><a href="{{ route('advisory.show', $portfolio) }}" title="More Details">{{ $portfolio->title }}</a></h4>
-          <p>{{ $portfolio->category }}</p>
-          @if($portfolio->image)
-          <a href="{{ asset('storage/' . $portfolio->image) }}" title="{{ $portfolio->title }}" data-gallery="portfolio-gallery" class="glightbox preview-link">
-            <i class="bi bi-zoom-in"></i>
-          </a>
-          @endif
-          <a href="{{ route('advisory.show', $portfolio) }}" title="More Details" class="details-link">
-            <i class="bi bi-link-45deg"></i>
-          </a>
+
+<!-- Advisory Section -->
+<section class="advisory section" style="padding: 60px 0;">
+  <div class="container">
+    
+    <!-- Main Heading & Sub Heading -->
+    @if($advisorySection)
+    <div class="text-center">
+      <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 15px; color: #1a1a1a;">{{ $advisorySection->title }}</h2>
+      <p style="font-size: 1.1rem; color: #666; max-width: 700px; margin: 0 auto; line-height: 1.6;">{{ $advisorySection->subtitle }}</p>
+    </div>
+    @endif
+
+    <!-- Image Blocks (3 per row) -->
+    <section class="advisory-services-section">
+      <div class="container">
+        <div class="row gy-4">
+          @foreach($portfolios as $portfolio)
+          <div class="col-lg-3 col-md-6">
+            <div class="service-item">
+              @if($portfolio->image)
+              <div class="service-image">
+                <img src="{{ asset('storage/' . $portfolio->image) }}" class="img-fluid" alt="{{ $portfolio->title }}">
+              </div>
+              @endif
+              <h2>{{ $portfolio->title }}</h2>
+              <p>{{ $portfolio->short_description }}</p>
+            </div>
+          </div>
+          @endforeach
         </div>
+      </div>
+    </section>
+
+
+    <!-- Dynamic Text Blocks Section -->
+    @if($textBlocks->count() > 0)
+    <div class="row gy-5 mt-5">
+      @foreach($textBlocks as $block)
+      <div class="col-md-12 text-block-content">
+        <div style="overflow: auto; text-align: justify;">{!! $block->description !!}</div>
       </div>
       @endforeach
     </div>
+    @endif
+
   </div>
 </section>
 
 @endsection
-
-@push('js')
-<script>
-  document.querySelectorAll('.portfolio-filter').forEach(button => {
-    button.addEventListener('click', function() {
-      // Update active state styling
-      document.querySelectorAll('.portfolio-filter').forEach(b => {
-        b.classList.remove('active');
-        b.style.background = 'transparent';
-        b.style.color = '#666';
-        b.style.borderColor = '#e0e7ff';
-      });
-      
-      this.classList.add('active');
-      this.style.background = '#0ea5e9';
-      this.style.color = 'white';
-      this.style.borderColor = '#0ea5e9';
-      
-      const filterValue = this.getAttribute('data-filter');
-      document.querySelectorAll('.portfolio-item').forEach(item => {
-        if (filterValue === '*' || item.className.includes(filterValue.substring(1))) {
-          item.style.display = 'block';
-        } else {
-          item.style.display = 'none';
-        }
-      });
-    });
-  });
-</script>
-@endpush

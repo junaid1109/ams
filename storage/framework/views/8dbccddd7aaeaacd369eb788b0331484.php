@@ -21,6 +21,49 @@
             <small class="form-text text-muted">Cannot be changed after creation</small>
           </div>
 
+          <?php if($homeSection->section_name === 'advisory_intro'): ?>
+          <!-- Advisory Intro Section: Only Title and Subtitle -->
+          <div class="form-group">
+            <label>Title *</label>
+            <input type="text" name="title" class="form-control <?php $__errorArgs = ['title'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" value="<?php echo e(old('title', $homeSection->title)); ?>" required>
+            <?php $__errorArgs = ['title'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?><span class="invalid-feedback"><?php echo e($message); ?></span><?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+          </div>
+
+          <div class="form-group">
+            <label>Subtitle</label>
+            <input type="text" name="subtitle" class="form-control <?php $__errorArgs = ['subtitle'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" value="<?php echo e(old('subtitle', $homeSection->subtitle)); ?>">
+            <?php $__errorArgs = ['subtitle'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?><span class="invalid-feedback"><?php echo e($message); ?></span><?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+          </div>
+
+          <?php elseif(!str_contains($homeSection->section_name, 'advisory_text_block') && $homeSection->section_name !== 'section-name'): ?>
           <div class="form-group">
             <label>Title *</label>
             <input type="text" name="title" class="form-control <?php $__errorArgs = ['title'];
@@ -62,7 +105,50 @@ unset($__errorArgs, $__bag); ?>
           </div>
 
           <div class="form-group">
-            <label>Description</label>
+            <label>Tagline (Sub-heading below Title)</label>
+            <input type="text" name="tagline" class="form-control <?php $__errorArgs = ['tagline'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" value="<?php echo e(old('tagline', $homeSection->tagline)); ?>" placeholder="e.g., Discover what sets us apart">
+            <?php $__errorArgs = ['tagline'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?><span class="invalid-feedback"><?php echo e($message); ?></span><?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+            <small class="form-text text-muted">This appears below the section title</small>
+          </div>
+          <?php elseif($homeSection->section_name === 'section-name'): ?>
+          <div class="form-group">
+            <label>Title *</label>
+            <input type="text" name="title" class="form-control <?php $__errorArgs = ['title'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" value="<?php echo e(old('title', $homeSection->title)); ?>" required>
+            <?php $__errorArgs = ['title'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?><span class="invalid-feedback"><?php echo e($message); ?></span><?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+          </div>
+          <?php endif; ?>
+
+          <?php if($homeSection->section_name === 'section-name'): ?>
+          <div class="form-group">
+            <label>Subtitle</label>
             <textarea name="description" class="form-control <?php $__errorArgs = ['description'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -80,7 +166,29 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
           </div>
+          <?php elseif($homeSection->section_name !== 'advisory_intro'): ?>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea name="description" id="editor-<?php echo e($homeSection->id); ?>" class="form-control <?php $__errorArgs = ['description'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"><?php echo e(old('description', $homeSection->description)); ?></textarea>
+            <?php $__errorArgs = ['description'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?><span class="invalid-feedback"><?php echo e($message); ?></span><?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+          </div>
+          <?php endif; ?>
 
+          <?php if(!str_contains($homeSection->section_name, 'advisory_text_block') && $homeSection->section_name !== 'section-name' && $homeSection->section_name !== 'advisory_intro'): ?>
           <div class="form-group">
             <label>Button Text</label>
             <input type="text" name="button_text" class="form-control <?php $__errorArgs = ['button_text'];
@@ -148,6 +256,7 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
           </div>
+          <?php endif; ?>
 
           <div class="form-group">
             <label>Display Order</label>
@@ -332,6 +441,41 @@ document.addEventListener('DOMContentLoaded', function() {
       e.target.closest('.stat-item-group').remove();
     }
   });
+
+  // Initialize CKEditor for description field (only for sections that are not 'section-name' or 'advisory_intro')
+  <?php if($homeSection->section_name !== 'section-name' && $homeSection->section_name !== 'advisory_intro'): ?>
+  const editorId = 'editor-<?php echo e($homeSection->id); ?>';
+  const editorElement = document.getElementById(editorId);
+  
+  if (editorElement) {
+    // Store editor instance globally
+    let editor = null;
+    
+    ClassicEditor
+      .create(editorElement, {
+        ckfinder: {
+          uploadUrl: "<?php echo e(route('admin.upload.image')); ?>"
+        }
+      })
+      .then(instance => {
+        editor = instance;
+        
+        // Before form submission, sync editor data to textarea
+        const form = document.querySelector('#section-form');
+        if (form) {
+          form.addEventListener('submit', function(e) {
+            if (editor) {
+              const data = editor.getData();
+              editorElement.value = data;
+            }
+          });
+        }
+      })
+      .catch(error => {
+        console.error('CKEditor error:', error);
+      });
+  }
+  <?php endif; ?>
 
 });
 </script>

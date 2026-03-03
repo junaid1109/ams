@@ -21,8 +21,13 @@ class AdvisoryController extends \App\Http\Controllers\Controller
 
     public function index()
     {
-        $advisory = Advisory::orderBy('order')->paginate(10);
-        return view('admin.advisory.index', compact('advisory'));
+        $advisory = Advisory::orderBy('order')->get();
+        $advisoryIntro = \App\Models\HomeSection::where('section_name', 'advisory_intro')->first();
+        $textBlocks = \App\Models\HomeSection::where('section_name', 'like', 'advisory_text_block_%')
+            ->orderBy('display_order')
+            ->get();
+        
+        return view('admin.advisory.index', compact('advisory', 'advisoryIntro', 'textBlocks'));
     }
 
     public function create()
@@ -34,7 +39,8 @@ class AdvisoryController extends \App\Http\Controllers\Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string',
+            'short_description' => 'nullable|string',
+            'description' => 'nullable|string',
             'category' => 'nullable|string',
             'icon' => 'nullable|image|mimes:png|max:512',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
@@ -48,11 +54,6 @@ class AdvisoryController extends \App\Http\Controllers\Controller
         // Ensure title is not empty
         if (empty(trim($validated['title']))) {
             return back()->withInput()->withErrors(['title' => 'Title cannot be empty']);
-        }
-
-        // Ensure description is not empty
-        if (empty(trim($validated['description']))) {
-            return back()->withInput()->withErrors(['description' => 'Description cannot be empty']);
         }
 
         if ($request->hasFile('icon')) {
@@ -87,7 +88,8 @@ class AdvisoryController extends \App\Http\Controllers\Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string',
+            'short_description' => 'nullable|string',
+            'description' => 'nullable|string',
             'category' => 'nullable|string',
             'icon' => 'nullable|image|mimes:png|max:512',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
@@ -101,11 +103,6 @@ class AdvisoryController extends \App\Http\Controllers\Controller
         // Ensure title is not empty
         if (empty(trim($validated['title']))) {
             return back()->withInput()->withErrors(['title' => 'Title cannot be empty']);
-        }
-
-        // Ensure description is not empty
-        if (empty(trim($validated['description']))) {
-            return back()->withInput()->withErrors(['description' => 'Description cannot be empty']);
         }
 
         if ($request->hasFile('icon')) {

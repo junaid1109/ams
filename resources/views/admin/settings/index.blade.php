@@ -96,6 +96,12 @@
           </div>
 
           <div class="form-group">
+            <label>Site Fax</label>
+            <input type="tel" name="site_fax" class="form-control @error('site_fax') is-invalid @enderror" value="{{ old('site_fax', $settings['site_fax'] ?? '') }}">
+            @error('site_fax')<span class="invalid-feedback">{{ $message }}</span>@enderror
+          </div>
+
+          <div class="form-group">
             <label>Site Address</label>
             <textarea name="site_address" class="form-control @error('site_address') is-invalid @enderror" rows="3">{{ old('site_address', $settings['site_address'] ?? '') }}</textarea>
             @error('site_address')<span class="invalid-feedback">{{ $message }}</span>@enderror

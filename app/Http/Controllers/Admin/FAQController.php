@@ -31,6 +31,7 @@ class FAQController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'topic' => 'required|string|max:255',
             'question' => 'required|string|max:500|unique:faqs',
             'answer' => 'required|string',
             'order' => 'nullable|integer',
@@ -56,6 +57,7 @@ class FAQController extends Controller
     public function update(Request $request, FAQ $faq)
     {
         $validated = $request->validate([
+            'topic' => 'required|string|max:255',
             'question' => 'required|string|max:500|unique:faqs,question,' . $faq->id,
             'answer' => 'required|string',
             'order' => 'nullable|integer',

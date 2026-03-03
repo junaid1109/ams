@@ -70,6 +70,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('pages', App\Http\Controllers\Admin\PageController::class);
 
     // Home Sections Management
+    Route::get('home-sections/create-advisory', [App\Http\Controllers\Admin\HomeSectionController::class, 'createAdvisoryTextBlock'])->name('home-sections.create-advisory');
     Route::resource('home-sections', App\Http\Controllers\Admin\HomeSectionController::class);
 
     // Features Management

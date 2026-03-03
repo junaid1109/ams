@@ -38,6 +38,30 @@ class HomeSectionController extends Controller
     }
 
     /**
+     * Create form for advisory text blocks (auto-generates section name)
+     */
+    public function createAdvisoryTextBlock()
+    {
+        // Find the next available advisory text block number
+        $lastBlock = HomeSection::where('section_name', 'like', 'advisory_text_block_%')
+            ->orderBy('section_name', 'desc')
+            ->first();
+        
+        $nextNumber = 1;
+        if ($lastBlock) {
+            preg_match('/advisory_text_block_(\d+)/', $lastBlock->section_name, $matches);
+            if (isset($matches[1])) {
+                $nextNumber = (int)$matches[1] + 1;
+            }
+        }
+        
+        $sectionName = 'advisory_text_block_' . $nextNumber;
+        $isAdvisoryTextBlock = true;
+        
+        return view('admin.home-sections.create-advisory', compact('sectionName', 'isAdvisoryTextBlock'));
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -46,6 +70,7 @@ class HomeSectionController extends Controller
             'section_name' => 'required|unique:home_sections',
             'title' => 'nullable|string',
             'subtitle' => 'nullable|string',
+            'tagline' => 'nullable|string',
             'description' => 'nullable|string',
             'button_text' => 'nullable|string',
             'button_link' => 'nullable|string',
@@ -62,7 +87,13 @@ class HomeSectionController extends Controller
 
         $validated['is_active'] = $request->has('is_active');
 
-        HomeSection::create($validated);
+        $section = HomeSection::create($validated);
+
+        // Redirect back to advisory page if it's an advisory text block
+        if (str_contains($section->section_name, 'advisory_text_block')) {
+            return redirect()->route('admin.advisory.index')
+                ->with('success', 'Text block created successfully.');
+        }
 
         return redirect()->route('admin.home-sections.index')
             ->with('success', 'Home section created successfully.');
@@ -92,6 +123,7 @@ class HomeSectionController extends Controller
             'section_name' => 'required|string',
             'title' => 'nullable|string',
             'subtitle' => 'nullable|string',
+            'tagline' => 'nullable|string',
             'description' => 'nullable|string',
             'button_text' => 'nullable|string',
             'button_link' => 'nullable|string',
@@ -150,6 +182,12 @@ class HomeSectionController extends Controller
 
         $homeSection->update($validated);
 
+        // Redirect back to advisory page if it's an advisory text block
+        if (str_contains($homeSection->section_name, 'advisory_text_block')) {
+            return redirect()->route('admin.advisory.index')
+                ->with('success', 'Text block updated successfully.');
+        }
+
         return redirect()->route('admin.home-sections.index')
             ->with('success', 'Home section updated successfully.');
     }
@@ -159,7 +197,14 @@ class HomeSectionController extends Controller
      */
     public function destroy(HomeSection $homeSection)
     {
+        $sectionName = $homeSection->section_name;
         $homeSection->delete();
+
+        // Redirect back to advisory page if it's an advisory text block
+        if (str_contains($sectionName, 'advisory_text_block')) {
+            return redirect()->route('admin.advisory.index')
+                ->with('success', 'Text block deleted successfully.');
+        }
 
         return redirect()->route('admin.home-sections.index')
             ->with('success', 'Home section deleted successfully.');

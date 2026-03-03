@@ -25,6 +25,7 @@
           <table class="table table-hover">
             <thead class="table-light">
               <tr>
+                <th>Topic</th>
                 <th>Question</th>
                 <th>Status</th>
                 <th>Order</th>
@@ -34,6 +35,9 @@
             <tbody>
               @foreach($faqs as $faq)
               <tr>
+                <td>
+                  <span class="badge bg-info">{{ $faq->topic }}</span>
+                </td>
                 <td>
                   <strong>{{ $faq->question }}</strong>
                 </td>

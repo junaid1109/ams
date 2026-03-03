@@ -159,7 +159,7 @@
     <div class="section-title">
       <?php $servicesSection = $getSection('services'); ?>
       <h2><?php echo e($servicesSection?->title ?? 'Services'); ?></h2>
-      <p><?php echo e($servicesSection?->description ?? 'Check our Services'); ?></p>
+      <p><?php echo e($servicesSection?->subtitle ?? 'Check our Services'); ?></p>
     </div>
 
     <div class="row gy-5">
@@ -189,8 +189,10 @@
 <?php if($whyUsSection?->is_active==1): ?>
 <section id="why-us" class="why-us section">
   <div class="container section-title" data-aos="fade-up">
-   
     <h2><?php echo e($whyUsSection?->title ?? 'Why Choose Us'); ?></h2>
+    <?php if($whyUsSection?->tagline): ?>
+    <p><?php echo e($whyUsSection->tagline); ?></p>
+    <?php endif; ?>
   </div>
 
   <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -227,7 +229,7 @@
         </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
         <div class="col-lg-12 text-center">
-          <p>No features  yeavailablet.</p>
+          <p>No features available.</p>
         </div>
         <?php endif; ?>
       </div>

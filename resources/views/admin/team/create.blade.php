@@ -27,7 +27,7 @@
 
           <div class="form-group">
             <label>Bio</label>
-            <textarea name="bio" class="form-control @error('bio') is-invalid @enderror" rows="4">{{ old('bio') }}</textarea>
+            <textarea name="bio" id="bioEditor" class="form-control @error('bio') is-invalid @enderror" rows="4">{{ old('bio') }}</textarea>
             @error('bio')<span class="invalid-feedback">{{ $message }}</span>@enderror
           </div>
 
@@ -93,5 +93,25 @@
     </div>
   </div>
 </div>
+
+<script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+<script>
+  ClassicEditor
+    .create(document.getElementById('bioEditor'), {
+      toolbar: ['heading', '|', 'bold', 'italic', 'link', '|', 'bulletedList', 'numberedList', '|', 'imageUpload', '|', 'undo', 'redo'],
+      image: {
+        toolbar: ['imageTextAlternative', 'imageStyle:full', 'imageStyle:side'],
+        upload: {
+          types: ['jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff']
+        }
+      },
+      simpleUpload: {
+        uploadUrl: '{{ route("admin.upload.image") }}'
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
+</script>
 
 @endsection

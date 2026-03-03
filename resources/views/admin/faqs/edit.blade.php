@@ -15,6 +15,12 @@
           @method('PUT')
 
           <div class="form-group">
+            <label>Topic *</label>
+            <input type="text" name="topic" class="form-control @error('topic') is-invalid @enderror" value="{{ old('topic', $faq->topic) }}" placeholder="e.g., General, Services, Technical Support" required>
+            @error('topic')<span class="invalid-feedback">{{ $message }}</span>@enderror
+          </div>
+
+          <div class="form-group">
             <label>Question *</label>
             <input type="text" name="question" class="form-control @error('question') is-invalid @enderror" value="{{ old('question', $faq->question) }}" required>
             @error('question')<span class="invalid-feedback">{{ $message }}</span>@enderror

@@ -4,63 +4,87 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UploadController extends Controller
 {
     public function uploadImage(Request $request)
     {
         try {
-            // Validate the upload
             if (!$request->hasFile('upload')) {
                 return response()->json([
+                    'uploaded' => false,
                     'error' => [
-                        'message' => 'No file uploaded'
+                        'message' => 'No file provided'
                     ]
-                ], 422);
+                ], 400);
             }
 
             $file = $request->file('upload');
             
-            // Validate file
             if (!$file->isValid()) {
                 return response()->json([
+                    'uploaded' => false,
                     'error' => [
-                        'message' => 'File upload failed'
+                        'message' => 'Invalid file'
                     ]
-                ], 422);
+                ], 400);
             }
 
-            // Check file type
+            $extension = strtolower($file->getClientOriginalExtension());
             $allowed = ['jpeg', 'jpg', 'png', 'gif', 'webp'];
-            if (!in_array($file->getClientOriginalExtension(), $allowed)) {
+            
+            if (!in_array($extension, $allowed)) {
                 return response()->json([
+                    'uploaded' => false,
                     'error' => [
-                        'message' => 'Invalid file type. Only JPG, PNG, GIF, WebP allowed'
+                        'message' => 'Only JPG, PNG, GIF, WebP allowed'
                     ]
-                ], 422);
+                ], 400);
             }
 
-            // Check file size (5MB max)
             if ($file->getSize() > 5120000) {
                 return response()->json([
+                    'uploaded' => false,
                     'error' => [
-                        'message' => 'File is too large. Maximum size is 5MB'
+                        'message' => 'File too large (max 5MB)'
                     ]
-                ], 422);
+                ], 400);
             }
 
-            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('ckeditor', $filename, 'public');
+            // Store file with UUID-based name
+            $filename = time() . '_' . uniqid() . '.' . $extension;
+            
+            // Use Storage facade directly
+            $disk = Storage::disk('public');
+            $path = $disk->putFileAs('ckeditor', $file, $filename);
 
+            if (!$path) {
+                return response()->json([
+                    'uploaded' => false,
+                    'error' => [
+                        'message' => 'Could not save file'
+                    ]
+                ], 500);
+            }
+
+            // Return URL for CKEditor
+            $url = asset('storage/' . $path);
+            
             return response()->json([
-                'url' => asset('storage/' . $path)
-            ]);
+                'uploaded' => true,
+                'url' => $url
+            ], 200);
+
         } catch (\Exception $e) {
+            \Log::error('Upload error: ' . $e->getMessage());
+            
             return response()->json([
+                'uploaded' => false,
                 'error' => [
-                    'message' => 'Upload failed: ' . $e->getMessage()
+                    'message' => 'Upload error: ' . $e->getMessage()
                 ]
-            ], 400);
+            ], 500);
         }
     }
 }

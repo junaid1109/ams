@@ -8,7 +8,7 @@ class FAQController extends Controller
 {
     public function index()
     {
-        $faqs = FAQ::where('published', true)->orderBy('order')->get();
+        $faqs = FAQ::where('published', true)->orderBy('order')->get()->groupBy('topic');
         return view('frontend.faq', compact('faqs'));
     }
 }
