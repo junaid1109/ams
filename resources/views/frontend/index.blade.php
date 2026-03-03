@@ -28,7 +28,7 @@
            @if($getSection('hero')?->subtitle)
           <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="150">{{ $getSection('hero')->subtitle }}</p>
           @endif
-          <p data-aos="fade-up" data-aos-delay="300">{{ $getSection('hero')?->description ?? 'We create innovative solutions that help businesses grow. Our expertise spans web design, development, and digital marketing.' }}</p>
+          <p data-aos="fade-up" data-aos-delay="300">{!! $getSection('hero')?->description ?? 'We create innovative solutions.' !!}</p>
            <div class="hero-cta" data-aos="fade-up" data-aos-delay="400">
             @php $heroSection = $getSection('hero'); @endphp
             @if(\App\Helpers\SettingHelper::get('hero_cta_button_enabled', true))
@@ -199,7 +199,7 @@
       <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
         <div class="content">
           <h2>{{ $whyUsSection?->subtitle ?? 'Why Partner With Us' }}</h2>
-          <p>{{ $whyUsSection?->description ?? 'We deliver exceptional results through proven expertise, cutting-edge innovation, and unwavering commitment to your success. Our comprehensive approach ensures sustainable growth and competitive advantage.' }}</p>
+          <p>{!! $whyUsSection?->description ?? 'We deliver exceptional results through proven expertise,' !!}</p>
         </div>
       </div>
       <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
