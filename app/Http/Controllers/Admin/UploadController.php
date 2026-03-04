@@ -68,8 +68,11 @@ class UploadController extends Controller
                 ], 500);
             }
 
-            // Return URL for CKEditor
+            // Return URL for CKEditor (force HTTPS if on secure connection)
             $url = asset('storage/' . $path);
+            if (request()->secure()) {
+                $url = str_replace('http://', 'https://', $url);
+            }
             
             return response()->json([
                 'uploaded' => true,
