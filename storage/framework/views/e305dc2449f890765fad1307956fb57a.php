@@ -198,13 +198,15 @@
   <footer id="footer" class="footer light-background">
     <div class="container">
       <div class="row gy-4">
-        <div class="col-lg-5 col-md-12 footer-info">
+        <div class="col-lg-1 col-md-12">
+        </div>
+        <div class="col-lg-3 col-md-12 footer-info">
           <a href="<?php echo e(route('home')); ?>" class="logo d-flex align-items-center">
             <?php
               $logo = \App\Helpers\SettingHelper::get('site_logo');
             ?>
             <?php if($logo): ?>
-            <img src="<?php echo e(asset('storage/' . $logo)); ?>" alt="<?php echo e(isset($siteName) ? $siteName : config('app.name', 'AMS')); ?>" style="margin-left: 50px;max-height: 100px;">
+            <img src="<?php echo e(asset('storage/' . $logo)); ?>" alt="<?php echo e(isset($siteName) ? $siteName : config('app.name', 'AMS')); ?>" style="margin-top: 25px;max-height: 150px;">
             <?php else: ?>
             <h1 class="sitename"><?php echo e(isset($siteName) ? $siteName : config('app.name', 'AMS')); ?></h1>
             <?php endif; ?>

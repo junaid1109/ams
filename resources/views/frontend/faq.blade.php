@@ -1,5 +1,11 @@
 @extends('layouts.app')
 
+@php
+  $currentMenu = \App\Models\Menu::getCurrentPageMenu();
+  $pageTitle = $currentMenu?->label ?? 'FAQs';
+  $breadcrumbs = \App\Models\Menu::getBreadcrumbs();
+@endphp
+
 @section('title', (isset($siteName) ? $siteName : 'AMS') . ' - Frequently Asked Questions')
 
 @section('content')
