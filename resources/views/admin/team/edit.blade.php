@@ -106,7 +106,32 @@
     .create(document.getElementById('bioEditor'), {
       toolbar: ['heading', '|', 'bold', 'italic', 'link', '|', 'bulletedList', 'numberedList', '|', 'imageUpload', '|', 'undo', 'redo'],
       image: {
-        toolbar: ['imageTextAlternative', 'imageStyle:full', 'imageStyle:side'],
+        toolbar: ['imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:alignCenter', 'imageStyle:alignRight', '|', 'imageStyle:full', 'imageStyle:side'],
+        styles: [
+          'full',
+          'side',
+          'alignLeft',
+          'alignCenter',
+          'alignRight'
+        ],
+        resizeOptions: [
+          {
+            name: 'resizeImage:original',
+            label: 'Default image width',
+            value: null
+          },
+          {
+            name: 'resizeImage:50',
+            label: '50% page width',
+            value: '50'
+          },
+          {
+            name: 'resizeImage:75',
+            label: '75% page width',
+            value: '75'
+          }
+        ],
+        resizeUnit: '%',
         upload: {
           types: ['jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff']
         }

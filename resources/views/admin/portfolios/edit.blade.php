@@ -117,6 +117,16 @@
         { model: 'heading2', view: 'h2', title: 'Heading 2' },
         { model: 'heading3', view: 'h3', title: 'Heading 3' }
       ]
+    },
+    image: {
+      toolbar: ['imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:alignCenter', 'imageStyle:alignRight', '|', 'imageStyle:full', 'imageStyle:side'],
+      styles: [
+        'full',
+        'side',
+        'alignLeft',
+        'alignCenter',
+        'alignRight'
+      ]
     }
   })
   .then(editor => {

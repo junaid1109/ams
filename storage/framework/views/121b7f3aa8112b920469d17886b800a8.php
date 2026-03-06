@@ -28,19 +28,63 @@
            <?php if($getSection('hero')?->subtitle): ?>
           <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="150"><?php echo e($getSection('hero')->subtitle); ?></p>
           <?php endif; ?>
-          <p data-aos="fade-up" data-aos-delay="300"><?php echo e($getSection('hero')?->description ?? 'We create innovative solutions that help businesses grow. Our expertise spans web design, development, and digital marketing.'); ?></p>
+          <p data-aos="fade-up" data-aos-delay="300"><?php echo $getSection('hero')?->description ?? 'We create innovative solutions.'; ?></p>
            <div class="hero-cta" data-aos="fade-up" data-aos-delay="400">
-            <?php $heroSection = $getSection('hero'); ?>
+            <?php 
+              $heroSection = $getSection('hero');
+              $videoFile = \App\Helpers\SettingHelper::get('demo_video_file');
+              $videoUrl = \App\Helpers\SettingHelper::get('demo_video_url', 'https://www.youtube.com/watch?v=Y7f98aduVJ8');
+            ?>
             <?php if(\App\Helpers\SettingHelper::get('hero_cta_button_enabled', true)): ?>
             <a href="<?php echo e($heroSection?->button_link ?? route('contact.index')); ?>" class="btn-primary"><?php echo e($heroSection?->button_text ?? 'Get Started Today'); ?></a>
             <?php endif; ?>
             <?php if(\App\Helpers\SettingHelper::get('demo_video_button_enabled', true)): ?>
-            <a href="<?php echo e(\App\Helpers\SettingHelper::get('demo_video_url', 'https://www.youtube.com/watch?v=Y7f98aduVJ8')); ?>" class="btn-secondary glightbox">
-              <i class="bi bi-play-circle"></i>
-              Watch Demo
-            </a>
+              <?php if($videoFile): ?>
+                <!-- Play uploaded video file -->
+                <a href="#videoModal" class="btn-secondary" data-bs-toggle="modal" onclick="playVideo('<?php echo e(asset('storage/' . $videoFile)); ?>', 'video/mp4')">
+                  <i class="bi bi-play-circle"></i>
+                  Watch Demo
+                </a>
+              <?php else: ?>
+                <!-- Play YouTube/Vimeo video -->
+                <a href="<?php echo e($videoUrl); ?>" class="btn-secondary glightbox">
+                  <i class="bi bi-play-circle"></i>
+                  Watch Demo
+                </a>
+              <?php endif; ?>
             <?php endif; ?>
           </div>
+
+          <!-- Video Modal for uploaded files -->
+          <?php if($videoFile): ?>
+          <div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Demo Video</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <video id="demoVideo" width="100%" controls style="border-radius: 8px;">
+                    <source src="<?php echo e(asset('storage/' . $videoFile)); ?>" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <script>
+            function playVideo(src, type) {
+              const video = document.getElementById('demoVideo');
+              video.src = src;
+              video.type = type;
+              video.load();
+              const modal = new bootstrap.Modal(document.getElementById('videoModal'));
+              modal.show();
+            }
+          </script>
+          <?php endif; ?>
           <!-- Hero Stats -->
           <div class="hero-stats" data-aos="fade-up" data-aos-delay="500" style="display: flex;  justify-content: flex-start; gap: 30px; margin-top: 30px; max-width: 100%;">
             <?php
@@ -200,7 +244,7 @@
       <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
         <div class="content">
           <h2><?php echo e($whyUsSection?->subtitle ?? 'Why Partner With Us'); ?></h2>
-          <p><?php echo e($whyUsSection?->description ?? 'We deliver exceptional results through proven expertise, cutting-edge innovation, and unwavering commitment to your success. Our comprehensive approach ensures sustainable growth and competitive advantage.'); ?></p>
+          <p><?php echo $whyUsSection?->description ?? 'We deliver exceptional results through proven expertise,'; ?></p>
         </div>
       </div>
       <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
@@ -374,7 +418,10 @@
           <div class="member-info">
             <h4><?php echo e($member->name); ?></h4>
             <span><?php echo e($member->position); ?></span>
-            <p><?php echo e($member->bio); ?></p>
+            <div class="member-bio-content">
+              <?php echo $member->bio; ?>
+
+            </div>
             <div class="social">
               <?php if($member->twitter): ?><a href="<?php echo e($member->twitter); ?>"><i class="bi bi-twitter-x"></i></a><?php endif; ?>
               <?php if($member->linkedin): ?><a href="<?php echo e($member->linkedin); ?>"><i class="bi bi-linkedin"></i></a><?php endif; ?>

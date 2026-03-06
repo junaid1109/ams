@@ -40,7 +40,7 @@
             <img src="<?php echo e(asset('storage/' . $service->image)); ?>" class="img-fluid" alt="<?php echo e($service->title); ?>">
           </div>
           <?php endif; ?>
-          <h2><a href="<?php echo e(route('portfolio.show', $service)); ?>" class="stretched-link"><?php echo e($service->title); ?></a></h2>
+          <h2><a href="<?php echo e(route('portfolio.show', $service->slug)); ?>" class="stretched-link"><?php echo e($service->title); ?></a></h2>
           <p><?php echo e($service->short_description); ?></p>
         </div>
       </div>

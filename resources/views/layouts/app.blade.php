@@ -140,7 +140,218 @@
     }
     .footer-contact p {
       line-height: 2.2;
-    }  </style>
+    }
+
+    /* CKEditor Content Styling - Image Alignments */
+    .text-block-content,
+    .member-details,
+    [class*="content"] figure,
+    figure.image {
+      /* Base styling */
+    }
+
+    /* Default figure styling for all CKEditor content */
+    figure.image {
+      display: block;
+      margin: 10px 0;
+    }
+
+    figure.image img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    figure.image figcaption {
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 8px;
+      text-align: center;
+      font-style: italic;
+    }
+
+    /* Full width images */
+    figure.image.image-style-full,
+    .ck-content .image-style-full {
+      width: 100%;
+      margin: 15px 0;
+      display: block !important;
+    }
+
+    figure.image.image-style-full img,
+    .ck-content .image-style-full img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Center align images - HIGHEST PRIORITY */
+    figure.image.image-style-center,
+    figure.image[style*="align-center"],
+    figure.image[style*="text-align:center"],
+    .text-block-content figure.image-style-center,
+    .member-details figure.image-style-center {
+      display: block !important;
+      text-align: center !important;
+      margin: 15px auto !important;
+      clear: both !important;
+      max-width: 100%;
+      width: auto !important;
+    }
+
+    figure.image.image-style-center img,
+    figure.image[style*="align-center"] img,
+    figure.image[style*="text-align:center"] img {
+      width: auto !important;
+      max-width: 100%;
+      height: auto;
+      display: inline-block !important;
+      margin: 0 auto !important;
+    }
+
+    /* Side/Float right images */
+    figure.image.image-style-side,
+    figure.image.image_resized.w50 figure,
+    .text-block-content figure.image-style-side {
+      float: right;
+      margin: 0 0 20px 25px;
+      max-width: 45%;
+      clear: right;
+      display: block;
+    }
+
+    figure.image.image-style-side img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Left align images */
+    figure.image.image-style-left,
+    figure.image[style*="align-left"],
+    .text-block-content figure.image-style-left {
+      float: left;
+      margin: 0 25px 20px 0;
+      max-width: 45%;
+      clear: left;
+      display: block;
+    }
+
+    figure.image.image-style-left img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Right align images */
+    figure.image.image-style-right,
+    figure.image[style*="align-right"],
+    .text-block-content figure.image-style-right {
+      float: right;
+      margin: 0 0 20px 25px;
+      max-width: 45%;
+      clear: right;
+      display: block;
+    }
+
+    figure.image.image-style-right img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Handle inline styles from CKEditor */
+    figure[style*="text-align"] {
+      text-align: inherit !important;
+    }
+
+    figure[style*="text-align: center"] {
+      text-align: center !important;
+      margin: 15px auto !important;
+      display: block !important;
+    }
+
+    figure[style*="text-align: left"] {
+      text-align: left;
+      margin: 10px 0;
+      display: block;
+    }
+
+    figure[style*="text-align: right"] {
+      text-align: right;
+      margin: 10px 0;
+      display: block;
+    }
+
+    /* Member bio content wrapper styling */
+    .member-bio-content {
+      display: block;
+    }
+
+    .member-bio-content figure.image-style-center,
+    .member-bio-content figure[style*="text-align: center"],
+    .member-bio-content figure[style*="align-center"] {
+      text-align: center !important;
+      margin: 15px auto !important;
+      display: block !important;
+      clear: both !important;
+    }
+
+    .member-bio-content figure.image-style-center img,
+    .member-bio-content figure[style*="text-align: center"] img,
+    .member-bio-content figure[style*="align-center"] img {
+      display: inline-block !important;
+      margin: 0 auto !important;
+      text-align: center;
+    }
+
+    /* Clear floats after content */
+    .text-block-content::after,
+    .member-details::after,
+    .member-bio-content::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    /* Responsive adjustments for smaller screens */
+    @media (max-width: 768px) {
+      figure.image.image-style-side,
+      figure.image.image-style-left,
+      figure.image.image-style-right,
+      .member-bio-content figure.image-style-side,
+      .member-bio-content figure.image-style-left,
+      .member-bio-content figure.image-style-right {
+        float: none !important;
+        margin: 15px 0 !important;
+        max-width: 100%;
+        clear: both;
+      }
+
+      figure.image.image-style-side img,
+      figure.image.image-style-left img,
+      figure.image.image-style-right img,
+      .member-bio-content figure img {
+        width: 100%;
+      }
+    }
+
+    .footer-map h4 {
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    .footer-map .map-container {
+      width: 100%;
+      height: 180px;
+    }
+
+    .footer-map iframe {
+      width: 100%;
+      height: 180px;
+      border-radius: 8px;
+    }
+  </style>
 
   @stack('css')
 </head>
@@ -195,87 +406,112 @@
   </main>
 
   <footer id="footer" class="footer light-background">
-    <div class="container">
-      <div class="row gy-4">
-        <div class="col-lg-1 col-md-12">
-        </div>
-        <div class="col-lg-3 col-md-12 footer-info">
-          <a href="{{ route('home') }}" class="logo d-flex align-items-center">
-            @php
-              $logo = \App\Helpers\SettingHelper::get('site_logo');
-            @endphp
-            @if($logo)
-            <img src="{{ asset('storage/' . $logo) }}" alt="{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}" style="margin-top: 25px;max-height: 150px;">
-            @else
-            <h1 class="sitename">{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}</h1>
-            @endif
-          </a>
-          <p>{{ \App\Helpers\SettingHelper::get('footer_description', 'Your company description goes here. This is a professional business template.') }}</p>
-          <div class="social-links d-flex mt-4">
-            @php
-              $twitter = \App\Helpers\SettingHelper::get('twitter_url');
-              $facebook = \App\Helpers\SettingHelper::get('facebook_url');
-              $instagram = \App\Helpers\SettingHelper::get('instagram_url');
-              $linkedin = \App\Helpers\SettingHelper::get('linkedin_url');
-            @endphp
-            @if($twitter)
-            <a href="{{ $twitter }}" target="_blank" rel="noopener noreferrer"><i class="bi bi-twitter-x"></i></a>
-            @endif
-            @if($facebook)
-            <a href="{{ $facebook }}" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook"></i></a>
-            @endif
-            @if($instagram)
-            <a href="{{ $instagram }}" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram"></i></a>
-            @endif
-            @if($linkedin)
-            <a href="{{ $linkedin }}" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
-            @endif
+      <div class="container">
+        <div class="row gy-4">
+
+          <div class="col-lg-3 col-md-12 footer-info">
+            <a href="{{ route('home') }}" class="logo d-flex align-items-center">
+              @php
+                $logo = \App\Helpers\SettingHelper::get('site_logo');
+              @endphp
+              @if($logo)
+              <img src="{{ asset('storage/' . $logo) }}" alt="{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}" style="margin-top: 25px;max-height: 120px;">
+              @else
+              <h1 class="sitename">{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}</h1>
+              @endif
+            </a>
+            <p>{{ \App\Helpers\SettingHelper::get('footer_description', 'Your company description goes here. This is a professional business template.') }}</p>
+            <div class="social-links d-flex mt-4">
+              @php
+                $twitter = \App\Helpers\SettingHelper::get('twitter_url');
+                $facebook = \App\Helpers\SettingHelper::get('facebook_url');
+                $instagram = \App\Helpers\SettingHelper::get('instagram_url');
+                $linkedin = \App\Helpers\SettingHelper::get('linkedin_url');
+              @endphp
+              @if($twitter)
+              <a href="{{ $twitter }}" target="_blank" rel="noopener noreferrer"><i class="bi bi-twitter-x"></i></a>
+              @endif
+              @if($facebook)
+              <a href="{{ $facebook }}" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook"></i></a>
+              @endif
+              @if($instagram)
+              <a href="{{ $instagram }}" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram"></i></a>
+              @endif
+              @if($linkedin)
+              <a href="{{ $linkedin }}" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
+              @endif
+            </div>
           </div>
-        </div>
+          <!-- <div class="col-lg-1"></div> -->
+          <div class="col-lg-2 col-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><a href="{{ route('home') }}">Home</a></li>
+              <li><a href="{{ route('portfolio.index') }}">Portfolio</a></li>
+              <li><a href="{{ route('advisory.index') }}">Advisory</a></li>
+              <li><a href="{{ route('faq.index') }}">Faqs</a></li>
+              @forelse(\App\Models\Page::where('published', 1)->orderBy('title')->get() as $page)
+              <li><a href="{{ route('page.show', $page) }}">{{ $page->title }}</a></li>
+              @empty
+              @endforelse
+            </ul>
+          </div>
 
-        <div class="col-lg-2 col-6 footer-links">
-          <h4>Useful Links</h4>
-          <ul>
-            <li><a href="{{ route('home') }}">Home</a></li>
-            <li><a href="{{ route('portfolio.index') }}">Portfolio</a></li>
-            <li><a href="{{ route('advisory.index') }}">Advisory</a></li>
-            <li><a href="{{ route('faq.index') }}">Faqs</a></li>
-            @forelse(\App\Models\Page::where('published', 1)->orderBy('title')->get() as $page)
-            <li><a href="{{ route('page.show', $page) }}">{{ $page->title }}</a></li>
-            @empty
-            @endforelse
-          </ul>
-        </div>
+          <div class="col-lg-2 col-6 footer-links">
+            <h4>Portfolio Services</h4>
+            <ul>
+              @forelse(\App\Models\Portfolio::where('published', 1)->orderBy('order')->limit(4)->get() as $service)
+              <li><a href="{{ route('portfolio.show', $service) }}">{{ $service->title }}</a></li>
+              @empty
+              <li><a href="#">Web Design</a></li>
+              <li><a href="#">Web Development</a></li>
+              <li><a href="#">Product Management</a></li>
+              @endforelse
+            </ul>
+          </div>
 
-        <div class="col-lg-2 col-6 footer-links">
-          <h4>Portfolio Services</h4>
-          <ul>
-            @forelse(\App\Models\Portfolio::where('published', 1)->orderBy('order')->limit(4)->get() as $service)
-            <li><a href="{{ route('portfolio.show', $service->id) }}">{{ $service->title }}</a></li>
-            @empty
-            <li><a href="#">Web Design</a></li>
-            <li><a href="#">Web Development</a></li>
-            <li><a href="#">Product Management</a></li>
-            @endforelse
-          </ul>
-        </div>
+          <div class="col-lg-2 col-md-12 footer-contact text-lg-left">
+            <h4>Contact Us</h4>
+            <p>
+              <strong>Address:</strong> {{ \App\Helpers\SettingHelper::get('site_address', 'A108 Adam Street, New York, NY 535022') }}<br>
+              <strong>Phone:</strong> {{ \App\Helpers\SettingHelper::get('site_phone', '+1 5589 55488 55') }}<br>
+              <strong>Fax:</strong> {{ \App\Helpers\SettingHelper::get('site_fax', '+1 5589 55488 55') }}<br>
+              <strong>Email:</strong> {{ \App\Helpers\SettingHelper::get('site_email', 'info@ams.com') }}<br>
+            </p>
+          </div>
 
-        <div class="col-lg-3 col-md-12 footer-contact text-lg-left">
-          <h4>Contact Us</h4>
-          <p>
-            <strong>Address:</strong> {{ \App\Helpers\SettingHelper::get('site_address', 'A108 Adam Street, New York, NY 535022') }}<br>
-            <strong>Phone:</strong> {{ \App\Helpers\SettingHelper::get('site_phone', '+1 5589 55488 55') }}<br>
-            <strong>Fax:</strong> {{ \App\Helpers\SettingHelper::get('site_fax', '+1 5589 55488 55') }}<br>
-            <strong>Email:</strong> {{ \App\Helpers\SettingHelper::get('site_email', 'info@ams.com') }}<br>
-          </p>
-        </div>
+          {{-- Google Map Section --}}
+          <div class="col-lg-3 col-md-12 footer-map">
+            <h4>Our Location</h4>
+            <div class="map-container" style="border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+              @php
+                $mapEmbed = \App\Helpers\SettingHelper::get('google_map_embed');
+                $mapLat = \App\Helpers\SettingHelper::get('map_latitude', '40.7128');
+                $mapLng = \App\Helpers\SettingHelper::get('map_longitude', '-74.0060');
+              @endphp
+              
+              @if($mapEmbed)
+                {!! $mapEmbed !!}
+              @else
+                <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3588.4755285851644!2d28.129372!3d-25.9762582!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e956e39a536eab9%3A0xe1ab4b1ab867acd4!2s500%2016th%20Rd%2C%20Randjespark%2C%20Midrand%2C%201683%2C%20South%20Africa!5e0!3m2!1sen!2sus!4v1234567890"
+                  width="100%" 
+                  height="180" 
+                  style="border:0;" 
+                  allowfullscreen="" 
+                  loading="lazy" 
+                  referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+              @endif
+            </div>
+          </div>
 
+        </div>
       </div>
-    </div>
 
-    <div class="container copyright text-center mt-4">
-      <p>© <span>{{ date('Y') }}</span> <strong class="px-1">{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}</strong> <span>All Rights Reserved</span></p>
-    </div>
+      <div class="container copyright text-center mt-4">
+        <p>© <span>{{ date('Y') }}</span> <strong class="px-1">{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}</strong> <span>All Rights Reserved</span></p>
+      </div>
   </footer>
 
   <!-- Scroll Top -->

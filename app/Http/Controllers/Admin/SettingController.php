@@ -36,6 +36,7 @@ class SettingController extends \App\Http\Controllers\Controller
             'site_description' => 'nullable|string',
             'footer_description' => 'nullable|string',
             'demo_video_url' => 'nullable|url',
+            'demo_video_file' => 'nullable|file|mimes:mp4,webm,ogg,mov,avi|max:102400',
             'site_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'site_favicon' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,ico|max:1024',
             'site_tagline' => 'nullable|string|max:255',
@@ -57,6 +58,12 @@ class SettingController extends \App\Http\Controllers\Controller
         if ($request->hasFile('site_favicon')) {
             $path = $request->file('site_favicon')->store('settings', 'public');
             $validated['site_favicon'] = $path;
+        }
+
+        // Handle video file upload
+        if ($request->hasFile('demo_video_file')) {
+            $path = $request->file('demo_video_file')->store('videos', 'public');
+            $validated['demo_video_file'] = $path;
         }
 
         // Handle boolean values for checkboxes

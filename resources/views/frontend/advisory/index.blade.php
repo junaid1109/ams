@@ -15,33 +15,6 @@
     color: #666;
     line-height: 1.8;
   }
-  
-  .text-block-content figure {
-    float: right;
-    margin: 0 0 20px 25px;
-    max-width: 45%;
-  }
-  
-  .text-block-content figure img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-  }
-  
-  .text-block-content figcaption {
-    font-size: 0.85rem;
-    color: #888;
-    margin-top: 8px;
-    text-align: center;
-    font-style: italic;
-  }
-  
-  /* Ensure clear float after content */
-  .text-block-content::after {
-    content: "";
-    display: table;
-    clear: both;
-  }
 
   /* Service Image Rectangle Styling */
   .service-image {

@@ -126,6 +126,37 @@
             @error('demo_video_url')<span class="invalid-feedback">{{ $message }}</span>@enderror
           </div>
 
+          <div class="form-group">
+            <label>Demo Video File Upload</label>
+            @if(isset($settings['demo_video_file']) && $settings['demo_video_file'])
+            <div style="margin-bottom: 10px;">
+              <video width="200" height="120" controls style="border-radius: 5px;">
+                <source src="{{ asset('storage/' . $settings['demo_video_file']) }}" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <br><small class="text-muted">Current video</small>
+            </div>
+            @endif
+            <input type="file" name="demo_video_file" id="video-input" class="form-control @error('demo_video_file') is-invalid @enderror" accept="video/mp4,video/webm,video/ogg,video/quicktime,video/x-msvideo">
+            <small class="form-text text-muted">Upload MP4, WebM, OGG, MOV, or AVI video files. Max 100MB. Plays if no YouTube/Vimeo URL is set.</small>
+            <div id="video-preview" style="margin-top: 15px;"></div>
+            @error('demo_video_file')<span class="invalid-feedback">{{ $message }}</span>@enderror
+          </div>
+
+          <script>
+          document.getElementById('video-input')?.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function(event) {
+                let previewContainer = document.getElementById('video-preview');
+                previewContainer.innerHTML = '<div style="margin-top: 10px;"><strong>Preview:</strong><br><video width="200" height="120" controls style="border-radius: 5px; margin-top: 10px;"><source src="' + event.target.result + '" type="video/mp4">Your browser does not support the video tag.</video></div>';
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+          </script>
+
           <hr>
           <h4 class="mb-3">Hero Section Button Display</h4>
 

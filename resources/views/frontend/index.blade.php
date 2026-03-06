@@ -30,17 +30,61 @@
           @endif
           <p data-aos="fade-up" data-aos-delay="300">{!! $getSection('hero')?->description ?? 'We create innovative solutions.' !!}</p>
            <div class="hero-cta" data-aos="fade-up" data-aos-delay="400">
-            @php $heroSection = $getSection('hero'); @endphp
+            @php 
+              $heroSection = $getSection('hero');
+              $videoFile = \App\Helpers\SettingHelper::get('demo_video_file');
+              $videoUrl = \App\Helpers\SettingHelper::get('demo_video_url', 'https://www.youtube.com/watch?v=Y7f98aduVJ8');
+            @endphp
             @if(\App\Helpers\SettingHelper::get('hero_cta_button_enabled', true))
             <a href="{{ $heroSection?->button_link ?? route('contact.index') }}" class="btn-primary">{{ $heroSection?->button_text ?? 'Get Started Today' }}</a>
             @endif
             @if(\App\Helpers\SettingHelper::get('demo_video_button_enabled', true))
-            <a href="{{ \App\Helpers\SettingHelper::get('demo_video_url', 'https://www.youtube.com/watch?v=Y7f98aduVJ8') }}" class="btn-secondary glightbox">
-              <i class="bi bi-play-circle"></i>
-              Watch Demo
-            </a>
+              @if($videoFile)
+                <!-- Play uploaded video file -->
+                <a href="#videoModal" class="btn-secondary" data-bs-toggle="modal" onclick="playVideo('{{ asset('storage/' . $videoFile) }}', 'video/mp4')">
+                  <i class="bi bi-play-circle"></i>
+                  Watch Demo
+                </a>
+              @else
+                <!-- Play YouTube/Vimeo video -->
+                <a href="{{ $videoUrl }}" class="btn-secondary glightbox">
+                  <i class="bi bi-play-circle"></i>
+                  Watch Demo
+                </a>
+              @endif
             @endif
           </div>
+
+          <!-- Video Modal for uploaded files -->
+          @if($videoFile)
+          <div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Demo Video</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <video id="demoVideo" width="100%" controls style="border-radius: 8px;">
+                    <source src="{{ asset('storage/' . $videoFile) }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <script>
+            function playVideo(src, type) {
+              const video = document.getElementById('demoVideo');
+              video.src = src;
+              video.type = type;
+              video.load();
+              const modal = new bootstrap.Modal(document.getElementById('videoModal'));
+              modal.show();
+            }
+          </script>
+          @endif
           <!-- Hero Stats -->
           <div class="hero-stats" data-aos="fade-up" data-aos-delay="500" style="display: flex;  justify-content: flex-start; gap: 30px; margin-top: 30px; max-width: 100%;">
             @php
@@ -372,7 +416,9 @@
           <div class="member-info">
             <h4>{{ $member->name }}</h4>
             <span>{{ $member->position }}</span>
-            <p>{{ $member->bio }}</p>
+            <div class="member-bio-content">
+              {!! $member->bio !!}
+            </div>
             <div class="social">
               @if($member->twitter)<a href="{{ $member->twitter }}"><i class="bi bi-twitter-x"></i></a>@endif
               @if($member->linkedin)<a href="{{ $member->linkedin }}"><i class="bi bi-linkedin"></i></a>@endif

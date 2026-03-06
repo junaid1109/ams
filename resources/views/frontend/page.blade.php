@@ -34,7 +34,7 @@
 <section class="page-content section">
   <div class="container">
     <div class="row">
-      <div class="col-lg-8">
+      <div class="col-lg-12">
         @if($page->image)
         <img src="{{ asset('storage/' . $page->image) }}" class="img-fluid rounded mb-4" alt="{{ $page->title }}">
         @endif

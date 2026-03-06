@@ -61,6 +61,108 @@
     background-color: #007bff;
     color: white;
   }
+
+  /* Member bio content styling */
+  .member-bio-content {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #666;
+  }
+
+  .member-bio-content p {
+    margin-bottom: 15px;
+  }
+
+  .member-bio-content figure {
+    display: block;
+    margin: 15px 0;
+  }
+
+  .member-bio-content figure.image-style-center,
+  .member-bio-content figure[style*="align-center"],
+  .member-bio-content figure[style*="text-align:center"] {
+    text-align: center !important;
+    margin: 15px auto !important;
+    clear: both !important;
+  }
+
+  .member-bio-content figure.image-style-center img,
+  .member-bio-content figure[style*="align-center"] img,
+  .member-bio-content figure[style*="text-align:center"] img {
+    display: inline-block !important;
+    margin: 0 auto !important;
+  }
+
+  .member-bio-content figure.image-style-left,
+  .member-bio-content figure[style*="align-left"] {
+    float: left;
+    margin: 0 20px 15px 0;
+  }
+
+  .member-bio-content figure.image-style-right,
+  .member-bio-content figure[style*="align-right"] {
+    float: right;
+    margin: 0 0 15px 20px;
+  }
+
+  .member-bio-content figure.image-style-side {
+    float: right;
+    margin: 0 0 15px 20px;
+  }
+
+  .member-bio-content figure img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .member-bio-content figcaption {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 8px;
+    text-align: center;
+    font-style: italic;
+  }
+
+  /* CKEditor content styling in team modal */
+  .team-member-modal .member-details p {
+    margin-bottom: 15px;
+    line-height: 1.8;
+  }
+
+  .team-member-modal .member-details figure {
+    margin: 15px 0;
+  }
+
+  .team-member-modal .member-details figure.image-style-side,
+  .team-member-modal .member-details figure.image-style-left {
+    float: left;
+    margin: 0 20px 15px 0;
+  }
+
+  .team-member-modal .member-details figure.image-style-right {
+    float: right;
+    margin: 0 0 15px 20px;
+  }
+
+  .team-member-modal .member-details figure.image-style-center {
+    text-align: center;
+    clear: both;
+  }
+
+  .team-member-modal .member-details figure img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .team-member-modal .member-details figcaption {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 8px;
+    text-align: center;
+    font-style: italic;
+  }
 </style>
 
 @section('content')
@@ -98,7 +200,9 @@
           <div class="member-info">
             <h4>{{ $member->name }}</h4>
             <span>{{ $member->position }}</span>
-            <p>{{ $member->bio }}</p>
+            <div class="member-bio-content">
+              {!! $member->bio !!}
+            </div>
             <div class="social">
               @if($member->twitter)<a href="{{ $member->twitter }}"><i class="bi bi-twitter-x"></i></a>@endif
               @if($member->facebook)<a href="{{ $member->facebook }}"><i class="bi bi-facebook"></i></a>@endif

@@ -16,19 +16,22 @@ class ServiceController extends Controller
         return view('frontend.services.index', compact('services', 'siteName'));
     }
 
-    public function show(Portfolio $service)
+    public function show($service)
     {
-        if (!$service->published) {
+        // Only accept slug, not numeric ID
+        $portfolio = Portfolio::where('slug', $service)->firstOrFail();
+        
+        if (!$portfolio->published) {
             abort(404);
         }
         
         $siteName = SettingHelper::get('site_name', 'AMS');
         $relatedServices = Portfolio::where('published', true)
-            ->where('id', '!=', $service->id)
+            ->where('id', '!=', $portfolio->id)
             ->orderBy('order')
             ->take(3)
             ->get();
         
-        return view('frontend.services.show', compact('service', 'relatedServices', 'siteName'));
+        return view('frontend.services.show', ['service' => $portfolio, 'relatedServices' => $relatedServices, 'siteName' => $siteName]);
     }
 }

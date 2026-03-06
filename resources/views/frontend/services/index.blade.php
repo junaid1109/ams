@@ -40,7 +40,7 @@
             <img src="{{ asset('storage/' . $service->image) }}" class="img-fluid" alt="{{ $service->title }}">
           </div>
           @endif
-          <h2><a href="{{ route('portfolio.show', $service) }}" class="stretched-link">{{ $service->title }}</a></h2>
+          <h2><a href="{{ route('portfolio.show', $service->slug) }}" class="stretched-link">{{ $service->title }}</a></h2>
           <p>{{ $service->short_description }}</p>
         </div>
       </div>
