@@ -102,7 +102,7 @@
     };
   }
 
-  ClassicEditor.create(document.querySelector('#description-editor'), {
+   ClassicEditor.create(document.querySelector('#description-editor'), {
     toolbar: ['heading', '|', 'bold', 'italic', '|', 'bulletedList', 'numberedList', '|', 'link', 'imageUpload', 'blockQuote', '|', 'insertTable', '|', 'undo', 'redo'],
     heading: {
       options: [
@@ -113,7 +113,17 @@
       ]
     },
     image: {
-      toolbar: ['imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:alignCenter', 'imageStyle:alignRight', '|', 'imageStyle:full', 'imageStyle:side'],
+      toolbar: [
+        'toggleImageCaption',
+        'imageTextAlternative',
+        '|',
+        'imageStyle:alignLeft',
+        'imageStyle:alignCenter',
+        'imageStyle:alignRight',
+        '|',
+        'imageStyle:full',
+        'imageStyle:side'
+      ],
       styles: [
         'full',
         'side',
@@ -121,6 +131,9 @@
         'alignCenter',
         'alignRight'
       ]
+    },
+    caption: {
+      alignToolbar: true
     }
   })
   .then(editor => {

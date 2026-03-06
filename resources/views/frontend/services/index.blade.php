@@ -28,6 +28,24 @@
   </div>
 </section>
 
+<!-- Portfolio Intro Section -->
+@php
+  $portfolioIntro = \App\Helpers\SettingHelper::get('portfolio_intro');
+@endphp
+@if($portfolioIntro)
+<section class="portfolio-intro section light-background">
+  <div class="container">
+    <div class="row ">
+      <div class="col-lg-12">
+        <div class="intro-content">
+          {!! $portfolioIntro !!}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+@endif
+
 <!-- Services Section -->
 <section class="services section">
   <div class="container">

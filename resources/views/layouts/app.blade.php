@@ -187,10 +187,13 @@
 
     /* Center align images - HIGHEST PRIORITY */
     figure.image.image-style-center,
+    figure.image.image-style-align-center,
     figure.image[style*="align-center"],
     figure.image[style*="text-align:center"],
     .text-block-content figure.image-style-center,
-    .member-details figure.image-style-center {
+    .member-details figure.image-style-center,
+    .portfolio-details div figure.image-style-center,
+    .portfolio-details div figure[style*="text-align:center"] {
       display: block !important;
       text-align: center !important;
       margin: 15px auto !important;
@@ -200,8 +203,11 @@
     }
 
     figure.image.image-style-center img,
+    figure.image.image-style-align-center img,
     figure.image[style*="align-center"] img,
-    figure.image[style*="text-align:center"] img {
+    figure.image[style*="text-align:center"] img,
+    .portfolio-details div figure.image-style-center img,
+    .portfolio-details div figure[style*="text-align:center"] img {
       width: auto !important;
       max-width: 100%;
       height: auto;
@@ -209,8 +215,22 @@
       margin: 0 auto !important;
     }
 
+    /* Universal center align for all figure elements */
+    figure[style*="text-align: center"] {
+      text-align: center !important;
+      margin: 15px auto !important;
+      display: block !important;
+      width: auto !important;
+    }
+
+    figure[style*="text-align: center"] img {
+      display: inline-block !important;
+      margin: 0 auto !important;
+    }
+
     /* Side/Float right images */
     figure.image.image-style-side,
+    figure.image.image-style-align-right,
     figure.image.image_resized.w50 figure,
     .text-block-content figure.image-style-side {
       float: right;
@@ -220,7 +240,8 @@
       display: block;
     }
 
-    figure.image.image-style-side img {
+    figure.image.image-style-side img,
+    figure.image.image-style-align-right img {
       width: 100%;
       height: auto;
       display: block;
@@ -228,6 +249,7 @@
 
     /* Left align images */
     figure.image.image-style-left,
+    figure.image.image-style-align-left,
     figure.image[style*="align-left"],
     .text-block-content figure.image-style-left {
       float: left;
@@ -237,7 +259,8 @@
       display: block;
     }
 
-    figure.image.image-style-left img {
+    figure.image.image-style-left img,
+    figure.image.image-style-align-left img {
       width: 100%;
       height: auto;
       display: block;
@@ -245,6 +268,7 @@
 
     /* Right align images */
     figure.image.image-style-right,
+    figure.image.image-style-align-right,
     figure.image[style*="align-right"],
     .text-block-content figure.image-style-right {
       float: right;
@@ -254,7 +278,8 @@
       display: block;
     }
 
-    figure.image.image-style-right img {
+    figure.image.image-style-right img,
+    figure.image.image-style-align-right img {
       width: 100%;
       height: auto;
       display: block;
@@ -263,12 +288,6 @@
     /* Handle inline styles from CKEditor */
     figure[style*="text-align"] {
       text-align: inherit !important;
-    }
-
-    figure[style*="text-align: center"] {
-      text-align: center !important;
-      margin: 15px auto !important;
-      display: block !important;
     }
 
     figure[style*="text-align: left"] {
@@ -334,6 +353,16 @@
       .member-bio-content figure img {
         width: 100%;
       }
+
+      .member-img {
+        height: auto !important;
+        max-height: none !important;
+      }
+
+      .member-img img {
+        height: auto !important;
+        width: 100%;
+      }
     }
 
     .footer-map h4 {
@@ -350,6 +379,93 @@
       width: 100%;
       height: 180px;
       border-radius: 8px;
+    }
+
+    /* Portfolio Intro Section */
+    .portfolio-intro {
+      padding: 60px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .portfolio-intro .intro-content {
+      line-height: 1.8;
+      color: #555;
+      font-size: 16px;
+    }
+
+    .portfolio-intro .intro-content p {
+      margin-bottom: 15px;
+      color: #666;
+    }
+
+    .portfolio-intro .intro-content h2 {
+      margin-top: 30px;
+      margin-bottom: 20px;
+      font-size: 24px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .portfolio-intro .intro-content strong {
+      color: #333;
+      font-weight: 600;
+    }
+
+    /* Mobile Footer Centering */
+    @media (max-width: 768px) {
+      .footer-info,
+      .footer-links,
+      .footer-contact,
+      .footer-map {
+        text-align: center !important;
+      }
+
+      .footer-info .logo {
+        justify-content: center;
+      }
+
+      .footer-info .social-links {
+        justify-content: center;
+      }
+
+      .footer-links h4,
+      .footer-contact h4,
+      .footer-map h4 {
+        text-align: center !important;
+      }
+
+      .footer-links ul {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding-left: 0 !important;
+        list-style: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+      }
+
+      .footer-links ul li {
+        text-align: center !important;
+        width: auto !important;
+      }
+
+      .footer-links ul li a {
+        display: inline-block !important;
+        padding: 5px 0 !important;
+      }
+
+      .footer-contact p {
+        text-align: center !important;
+      }
+
+      .footer-contact strong {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .footer-map {
+        margin-top: 20px;
+      }
     }
   </style>
 
@@ -443,7 +559,7 @@
             </div>
           </div>
           <!-- <div class="col-lg-1"></div> -->
-          <div class="col-lg-2 col-6 footer-links">
+          <div class="col-lg-2 col-md-12 footer-links">
             <h4>Useful Links</h4>
             <ul>
               <li><a href="{{ route('home') }}">Home</a></li>
@@ -457,11 +573,11 @@
             </ul>
           </div>
 
-          <div class="col-lg-2 col-6 footer-links">
+          <div class="col-lg-2 col-md-12 footer-links">
             <h4>Portfolio Services</h4>
             <ul>
               @forelse(\App\Models\Portfolio::where('published', 1)->orderBy('order')->limit(4)->get() as $service)
-              <li><a href="{{ route('portfolio.show', $service) }}">{{ $service->title }}</a></li>
+              <li><a href="{{ route('portfolio.show', $service->slug) }}">{{ $service->title }}</a></li>
               @empty
               <li><a href="#">Web Design</a></li>
               <li><a href="#">Web Development</a></li>

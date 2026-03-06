@@ -119,7 +119,17 @@
       ]
     },
     image: {
-      toolbar: ['imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:alignCenter', 'imageStyle:alignRight', '|', 'imageStyle:full', 'imageStyle:side'],
+      toolbar: [
+        'toggleImageCaption',
+        'imageTextAlternative',
+        '|',
+        'imageStyle:alignLeft',
+        'imageStyle:alignCenter',
+        'imageStyle:alignRight',
+        '|',
+        'imageStyle:full',
+        'imageStyle:side'
+      ],
       styles: [
         'full',
         'side',
@@ -127,6 +137,9 @@
         'alignCenter',
         'alignRight'
       ]
+    },
+    caption: {
+      alignToolbar: true
     }
   })
   .then(editor => {

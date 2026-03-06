@@ -21,6 +21,7 @@
 
   <!-- CKEditor 5 -->
   <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
+  
 
   <!-- Admin CSS -->
   <style>
@@ -321,6 +322,25 @@
         gap: 10px;
       }
     }
+
+    /* CKEditor Caption Styles */
+    .ck-content .image-style-block {
+      margin: 15px auto;
+      text-align: center;
+    }
+
+    .ck-content figcaption {
+      background-color: #f5f5f5;
+      padding: 10px;
+      border-left: 3px solid #0d6efd;
+      font-size: 13px;
+      color: #555;
+      margin-top: 5px;
+    }
+
+    .ck-editor__editable .ck-placeholder {
+      color: #999;
+    }
   </style>
 
   @stack('css')
@@ -466,6 +486,74 @@
 
   <!-- Scripts -->
   <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/super-build/ckeditor.js"></script>
+  <!-- Decoupled Document build -->
+<script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/decoupled-document/ckeditor.js"></script>
+
+  <!-- CKEditor Initialization -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      
+      // Initialize CKEditor for all elements with class 'ckeditor'
+      const ckeditorElements = document.querySelectorAll('.ckeditor');
+      const editors = {};
+      
+      ckeditorElements.forEach(function(element) {
+        ClassicEditor
+          .create(element, {
+            toolbar: [
+              'heading', '|', 
+              'bold', 'italic', 'underline', 'strikethrough', '|',
+              'bulletedList', 'numberedList', '|',
+              'alignment', '|',
+              'blockQuote', 'insertTable', '|',
+              'link', 'imageUpload', '|',
+              'undo', 'redo'
+            ],
+            image: {
+              toolbar: [
+                'toggleImageCaption',      // ← Caption toggle button
+                'imageTextAlternative', 
+                '|',
+                'imageStyle:block',        // ← Block style (caption ke liye zaroori)
+                'imageStyle:side',
+                'imageStyle:inline',
+                '|',
+                'imageStyle:alignLeft',
+                'imageStyle:alignCenter',
+                'imageStyle:alignRight'
+              ],
+              // Caption settings yahan andar honi chahiye
+              caption: {
+                placeholderText: 'Enter image caption'
+              }
+            }
+          })
+          .then(editor => {
+            editors[element.id] = editor;
+            // Update hidden textarea on editor change
+            editor.model.document.on('change:data', () => {
+              element.value = editor.getData();
+            });
+          })
+          .catch(error => {
+            console.error('CKEditor initialization error:', error);
+          });
+      });
+
+      // Handle form submission to sync CKEditor content with textareas
+      const forms = document.querySelectorAll('form');
+      forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+          ckeditorElements.forEach(element => {
+            if (editors[element.id]) {
+              element.value = editors[element.id].getData();
+            }
+          });
+        });
+      });
+    });
+  </script>
 
   @stack('js')
 

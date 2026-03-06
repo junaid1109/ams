@@ -214,9 +214,9 @@
             <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->title }}" style="width: 100%; height: 100%;">
           </div>
           @endif
-          <h2><a href="{{ route('portfolio.show', $service) }}" class="stretched-link">{{ $service->title }}</a></h2>
+          <h2><a href="{{ route('portfolio.show', $service->slug) }}" class="stretched-link">{{ $service->title }}</a></h2>
           <p>{{ $service->short_description }}</p>
-          <a href="{{ route('portfolio.show', $service) }}" class="service-link">
+          <a href="{{ route('portfolio.show', $service->slug) }}" class="service-link">
             Learn More <i class="bi bi-arrow-right"></i>
           </a>
         </div>
