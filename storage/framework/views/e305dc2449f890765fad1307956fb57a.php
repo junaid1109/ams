@@ -467,6 +467,17 @@
         margin-top: 20px;
       }
     }
+
+    /* Reduce gap between portfolio-intro and services sections */
+    .portfolio-intro {
+      margin-bottom: 0 !important;
+      padding-bottom: 30px !important;
+    }
+
+    .portfolio-intro + .services {
+      margin-top: 0 !important;
+      padding-top: 30px !important;
+    }
   </style>
 
   <?php echo $__env->yieldPushContent('css'); ?>

@@ -109,7 +109,18 @@
   }
 
   ClassicEditor.create(document.querySelector('#description-editor'), {
-    toolbar: ['heading', '|', 'bold', 'italic', '|', 'bulletedList', 'numberedList', '|', 'link', 'imageUpload', 'blockQuote', '|', 'insertTable', '|', 'undo', 'redo'],
+    toolbar: [
+      'heading', '|',
+      'bold', 'italic', 'underline', 'strikethrough', '|',
+      'bulletedList', 'numberedList', '|',
+      'alignment', '|',
+      'link', 'imageUpload', 'blockQuote', '|',
+      'insertTable', '|',
+      'undo', 'redo'
+    ],
+    alignment: {
+      options: [ 'left', 'center', 'right', 'justify' ]
+    },
     heading: {
       options: [
         { model: 'paragraph', title: 'Paragraph' },

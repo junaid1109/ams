@@ -32,24 +32,18 @@
 @php
   $portfolioIntro = \App\Helpers\SettingHelper::get('portfolio_intro');
 @endphp
-@if($portfolioIntro)
-<section class="portfolio-intro section light-background">
-  <div class="container">
-    <div class="row ">
-      <div class="col-lg-12">
-        <div class="intro-content">
-          {!! $portfolioIntro !!}
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-@endif
 
 <!-- Services Section -->
-<section class="services section">
+<section class=" section">
   <div class="container">
     <div class="row gy-4">
+@if($portfolioIntro)
+
+      <div class="intro-content text-center">
+          {!! $portfolioIntro !!}
+        </div>
+@endif
+
       @foreach($services as $service)
       <div class="col-lg-4 col-md-6">
         <div class="service-item position-relative">

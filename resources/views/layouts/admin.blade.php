@@ -486,9 +486,9 @@
 
   <!-- Scripts -->
   <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/super-build/ckeditor.js"></script>
-  <!-- Decoupled Document build -->
-<script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/decoupled-document/ckeditor.js"></script>
+
+  <!-- CKEditor 5 Classic -->
+  <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
 
   <!-- CKEditor Initialization -->
   <script>
@@ -502,7 +502,7 @@
         ClassicEditor
           .create(element, {
             toolbar: [
-              'heading', '|', 
+              'heading', '|',
               'bold', 'italic', 'underline', 'strikethrough', '|',
               'bulletedList', 'numberedList', '|',
               'alignment', '|',
@@ -510,12 +510,15 @@
               'link', 'imageUpload', '|',
               'undo', 'redo'
             ],
+            alignment: {
+              options: [ 'left', 'center', 'right', 'justify' ]
+            },
             image: {
               toolbar: [
-                'toggleImageCaption',      // ← Caption toggle button
+                'toggleImageCaption',
                 'imageTextAlternative', 
                 '|',
-                'imageStyle:block',        // ← Block style (caption ke liye zaroori)
+                'imageStyle:block',
                 'imageStyle:side',
                 'imageStyle:inline',
                 '|',
@@ -523,7 +526,6 @@
                 'imageStyle:alignCenter',
                 'imageStyle:alignRight'
               ],
-              // Caption settings yahan andar honi chahiye
               caption: {
                 placeholderText: 'Enter image caption'
               }

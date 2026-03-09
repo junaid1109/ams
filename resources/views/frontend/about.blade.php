@@ -89,7 +89,7 @@
     @if($page)
     <div class="row gy-4">
       @if($page->image)
-      <div class="col-lg-6">
+      <div class="col-lg-6" style="margin-top: 50px;">
         <img src="{{ asset('storage/' . $page->image) }}" class="img-fluid rounded" alt="About Image">
       </div>
       @endif

@@ -32,25 +32,18 @@
 <?php
   $portfolioIntro = \App\Helpers\SettingHelper::get('portfolio_intro');
 ?>
-<?php if($portfolioIntro): ?>
-<section class="portfolio-intro section light-background">
-  <div class="container">
-    <div class="row ">
-      <div class="col-lg-12">
-        <div class="intro-content">
-          <?php echo $portfolioIntro; ?>
-
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<?php endif; ?>
-
 <!-- Services Section -->
 <section class="services section">
   <div class="container">
     <div class="row gy-4">
+    <?php if($portfolioIntro): ?>
+     <div class="col-lg-8 offset-lg-2">
+        <div class="intro-content ">
+          <?php echo $portfolioIntro; ?>
+
+        </div>
+      </div>
+    <?php endif; ?>
       <?php $__currentLoopData = $services; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $service): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
       <div class="col-lg-4 col-md-6">
         <div class="service-item position-relative">

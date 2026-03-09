@@ -117,7 +117,7 @@
     <!-- Main Heading & Sub Heading -->
     @if($advisorySection)
     <div class="text-center">
-      <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 15px; color: #1a1a1a;">{{ $advisorySection->title }}</h2>
+      <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 15px; color: #666;">{{ $advisorySection->title }}</h2>
       <p style="font-size: 1.1rem; color: #666; max-width: 700px; margin: 0 auto; line-height: 1.6;">{{ $advisorySection->subtitle }}</p>
     </div>
     @endif

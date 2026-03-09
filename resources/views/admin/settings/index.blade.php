@@ -289,29 +289,29 @@
 </div>
 
 <script>
-document.getElementById('video-input')?.addEventListener('change', function(e) {
-  const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function(event) {
-      let previewContainer = document.getElementById('video-preview');
-      previewContainer.innerHTML = '<div style="margin-top: 10px;"><strong>Preview:</strong><br><video width="200" height="120" controls style="border-radius: 5px; margin-top: 10px;"><source src="' + event.target.result + '" type="video/mp4">Your browser does not support the video tag.</video></div>';
-    };
-    reader.readAsDataURL(file);
-  }
-});
+  document.getElementById('video-input')?.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        let previewContainer = document.getElementById('video-preview');
+        previewContainer.innerHTML = '<div style="margin-top: 10px;"><strong>Preview:</strong><br><video width="200" height="120" controls style="border-radius: 5px; margin-top: 10px;"><source src="' + event.target.result + '" type="video/mp4">Your browser does not support the video tag.</video></div>';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
 
-// Initialize Bootstrap tabs
-document.addEventListener('DOMContentLoaded', function() {
-  const triggerTabList = [].slice.call(document.querySelectorAll('#settingsTabs button'));
-  triggerTabList.forEach(function(triggerEl) {
-    const tabTrigger = new bootstrap.Tab(triggerEl);
-    triggerEl.addEventListener('click', function(event) {
-      event.preventDefault();
-      tabTrigger.show();
+  // Initialize Bootstrap tabs
+  document.addEventListener('DOMContentLoaded', function() {
+    const triggerTabList = [].slice.call(document.querySelectorAll('#settingsTabs button'));
+    triggerTabList.forEach(function(triggerEl) {
+      const tabTrigger = new bootstrap.Tab(triggerEl);
+      triggerEl.addEventListener('click', function(event) {
+        event.preventDefault();
+        tabTrigger.show();
+      });
     });
   });
-});
 </script>
 
 @endsection
