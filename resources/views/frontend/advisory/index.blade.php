@@ -118,7 +118,7 @@
     @if($advisorySection)
     <div class="text-center">
       <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 15px; color: #666;">{{ $advisorySection->title }}</h2>
-      <p style="font-size: 1.1rem; color: #666; max-width: 700px; margin: 0 auto; line-height: 1.6;">{{ $advisorySection->subtitle }}</p>
+      <p style="font-size: 1.1rem; color: #666; max-width: 700px; margin: 0 auto; line-height: 1.6; text-align: center;">{!! $advisorySection->description !!}</p>
     </div>
     @endif
 
