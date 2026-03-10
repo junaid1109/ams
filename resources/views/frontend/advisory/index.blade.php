@@ -101,7 +101,7 @@
 
   .advisory-accordion-header {
     padding: 20px;
-    background-color: #f8f9fa;
+    background-color: #0ea5e9;
     border-bottom: 1px solid #dee2e6;
     cursor: pointer;
     display: flex;
@@ -125,6 +125,7 @@
     font-weight: 600;
     color: #333;
     flex-grow: 1;
+    word-break: break-word;
   }
 
   .accordion-toggle-icon {
@@ -137,6 +138,7 @@
     color: #666;
     transition: transform 0.3s ease;
     margin-left: 10px;
+    flex-shrink: 0;
   }
 
   .accordion-toggle-icon.open {
@@ -149,6 +151,8 @@
     background-color: white;
     color: #666;
     line-height: 1.8;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .advisory-accordion-body.show {
@@ -158,6 +162,66 @@
   .advisory-accordion-body table {
     margin-top: 15px;
     margin-bottom: 15px;
+    min-width: 100%;
+  }
+
+  /* Mobile responsive for accordion */
+  @media (max-width: 768px) {
+    .advisory-accordion-header {
+      padding: 15px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .advisory-accordion-header h4 {
+      font-size: 1rem;
+      width: 100%;
+    }
+
+    .accordion-toggle-icon {
+      margin-left: 0;
+      align-self: flex-end;
+      margin-top: -25px;
+    }
+
+    .advisory-accordion-body {
+      padding: 15px;
+      overflow-x: auto;
+    }
+
+    .advisory-accordion-body table {
+      font-size: 13px;
+      min-width: 100%;
+    }
+
+    .advisory-accordion-body table th,
+    .advisory-accordion-body table td {
+      padding: 8px 6px !important;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .advisory-accordion-header {
+      padding: 12px;
+    }
+
+    .advisory-accordion-header h4 {
+      font-size: 0.95rem;
+    }
+
+    .advisory-accordion-body {
+      padding: 10px;
+    }
+
+    .advisory-accordion-body table {
+      font-size: 12px;
+    }
+
+    .advisory-accordion-body table th,
+    .advisory-accordion-body table td {
+      padding: 6px 4px !important;
+    }
   }
 </style>
 
