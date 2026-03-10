@@ -86,6 +86,79 @@
     line-height: 1.6;
     flex-grow: 1;
   }
+
+  /* Accordion Styles for advisory_text_block_4 */
+  .advisory-accordion {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .advisory-accordion-item {
+    margin-bottom: 0;
+  }
+
+  .advisory-accordion-header {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    user-select: none;
+  }
+
+  .advisory-accordion-header:hover {
+    background-color: #e9ecef;
+  }
+
+  .advisory-accordion-header.active {
+    background-color: #e9ecef;
+  }
+
+  .advisory-accordion-header h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    flex-grow: 1;
+  }
+
+  .accordion-toggle-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #666;
+    transition: transform 0.3s ease;
+    margin-left: 10px;
+  }
+
+  .accordion-toggle-icon.open {
+    transform: rotate(180deg);
+  }
+
+  .advisory-accordion-body {
+    padding: 20px;
+    display: none;
+    background-color: white;
+    color: #666;
+    line-height: 1.8;
+  }
+
+  .advisory-accordion-body.show {
+    display: block;
+  }
+
+  .advisory-accordion-body table {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
 </style>
 
 @section('content')
@@ -148,26 +221,50 @@
     @if($textBlocks->count() > 0)
     <div class="row gy-5">
       @foreach($textBlocks as $block)
-      <div class="col-md-12 text-block-content">
-        <div style="overflow: auto; text-align: justify;">{!! $block->description !!}</div>
-      </div>
-      @endforeach
-    </div>
-    @endif
 
-    <!-- Dynamic Table Blocks Section -->
-    @if($tableBlocks->count() > 0)
-    <div class="row gy-5" style="margin-top: 40px;">
-      @foreach($tableBlocks as $block)
-      <div class="col-md-12">
-        @if($block->title)
-        <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 20px; color: #666;">{{ $block->title }}</h3>
+        @if($block->section_name === 'advisory_text_block_4')
+          <!-- Accordion Style for advisory_text_block_4 -->
+          <div class="col-md-12">
+            <div class="advisory-accordion">
+              <div class="advisory-accordion-item">
+                <div class="advisory-accordion-header" onclick="toggleAccordion(this)">
+                  <h4>{{ $block->title ?? 'Content' }}</h4>
+                  <div class="accordion-toggle-icon">▼</div>
+                </div>
+                <div class="advisory-accordion-body text-block-content">
+                  {!! $block->description !!}
+                </div>
+              </div>
+            </div>
+          </div>
+        @else
+          <!-- Regular Text Block -->
+          <div class="col-md-12 text-block-content">
+            <div style="overflow: auto; text-align: justify;">{!! $block->description !!}</div>
+          </div>
         @endif
-        <div style="overflow: auto; text-align: justify;" class="table-block-content">
-          {!! $block->description !!}
-        </div>
-      </div>
+
       @endforeach
     </div>
     @endif
 
+    <script>
+      function toggleAccordion(header) {
+        header.classList.toggle('active');
+        const body = header.nextElementSibling;
+        const icon = header.querySelector('.accordion-toggle-icon');
+        
+        if (body.classList.contains('show')) {
+          body.classList.remove('show');
+          icon.classList.remove('open');
+        } else {
+          body.classList.add('show');
+          icon.classList.add('open');
+        }
+      }
+    </script>
+
+  </div>
+</section>
+
+@endsection

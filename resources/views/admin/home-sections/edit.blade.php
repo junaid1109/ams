@@ -20,7 +20,13 @@
             <input type="hidden" name="section_name" value="{{ $homeSection->section_name }}">
             <small class="form-text text-muted">Cannot be changed after creation</small>
           </div>
-
+          @if(str_contains($homeSection->section_name, 'advisory_text_block_4') && $homeSection->section_name !== 'section-name')
+        <div class="form-group">
+            <label>Title *</label>
+            <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title', $homeSection->title) }}" required>
+            @error('title')<span class="invalid-feedback">{{ $message }}</span>@enderror
+          </div>
+          @endif
           @if($homeSection->section_name === 'advisory_intro')
           <!-- Advisory Intro Section: Title and Description -->
           <div class="form-group">

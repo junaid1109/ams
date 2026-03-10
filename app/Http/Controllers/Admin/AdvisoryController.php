@@ -26,11 +26,8 @@ class AdvisoryController extends \App\Http\Controllers\Controller
         $textBlocks = \App\Models\HomeSection::where('section_name', 'like', 'advisory_text_block_%')
             ->orderBy('display_order')
             ->get();
-        $tableBlocks = \App\Models\HomeSection::where('section_name', 'like', 'advisory_table_block_%')
-            ->orderBy('display_order')
-            ->get();
         
-        return view('admin.advisory.index', compact('advisory', 'advisoryIntro', 'textBlocks', 'tableBlocks'));
+        return view('admin.advisory.index', compact('advisory', 'advisoryIntro', 'textBlocks'));
     }
 
     public function create()

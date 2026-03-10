@@ -17,11 +17,8 @@ class PortfolioController extends Controller
         $textBlocks = \App\Models\HomeSection::where('section_name', 'like', 'advisory_text_block_%')
             ->orderBy('display_order')
             ->get();
-        $tableBlocks = \App\Models\HomeSection::where('section_name', 'like', 'advisory_table_block_%')
-            ->orderBy('display_order')
-            ->get();
         
-        return view('frontend.advisory.index', compact('portfolios', 'categories', 'siteName', 'advisorySection', 'textBlocks', 'tableBlocks'));
+        return view('frontend.advisory.index', compact('portfolios', 'categories', 'siteName', 'advisorySection', 'textBlocks'));
     }
 
     public function show(Advisory $advisory)
