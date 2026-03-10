@@ -22,7 +22,7 @@
           </div>
 
           @if($homeSection->section_name === 'advisory_intro')
-          <!-- Advisory Intro Section: Only Title and Subtitle -->
+          <!-- Advisory Intro Section: Title and Description -->
           <div class="form-group">
             <label>Title *</label>
             <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title', $homeSection->title) }}" required>
@@ -30,9 +30,9 @@
           </div>
 
           <div class="form-group">
-            <label>Subtitle</label>
-            <input type="text" name="subtitle" class="form-control @error('subtitle') is-invalid @enderror" value="{{ old('subtitle', $homeSection->subtitle) }}">
-            @error('subtitle')<span class="invalid-feedback">{{ $message }}</span>@enderror
+            <label>Description</label>
+            <textarea name="description" id="editor-{{ $homeSection->id }}" class="form-control @error('description') is-invalid @enderror">{{ old('description', $homeSection->description) }}</textarea>
+            @error('description')<span class="invalid-feedback">{{ $message }}</span>@enderror
           </div>
 
           @elseif(!str_contains($homeSection->section_name, 'advisory_text_block') && $homeSection->section_name !== 'section-name')
@@ -274,8 +274,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Initialize CKEditor for description field (only for sections that are not 'section-name' or 'advisory_intro')
-  @if($homeSection->section_name !== 'section-name' && $homeSection->section_name !== 'advisory_intro')
+  // Initialize CKEditor for description field
+  @if($homeSection->section_name !== 'section-name')
   const editorId = 'editor-{{ $homeSection->id }}';
   const editorElement = document.getElementById(editorId);
   

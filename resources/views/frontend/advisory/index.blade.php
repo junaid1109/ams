@@ -146,7 +146,7 @@
 
     <!-- Dynamic Text Blocks Section -->
     @if($textBlocks->count() > 0)
-    <div class="row gy-5 mt-5">
+    <div class="row gy-5">
       @foreach($textBlocks as $block)
       <div class="col-md-12 text-block-content">
         <div style="overflow: auto; text-align: justify;">{!! $block->description !!}</div>

@@ -8,7 +8,22 @@
   <title><?php echo $__env->yieldContent('title', 'Admin Panel - AMS'); ?></title>
 
   <!-- Favicons -->
-  <link href="<?php echo e(asset('assets/img/favicon.png')); ?>" rel="icon">
+  <?php
+    $favicon = \App\Helpers\SettingHelper::get('site_favicon');
+  ?>
+  <?php if($favicon): ?>
+  <link href="<?php echo e(asset('storage/' . $favicon)); ?>" rel="icon" type="image/x-icon">
+  <link href="<?php echo e(asset('storage/' . $favicon)); ?>" rel="icon" type="image/png" sizes="any">
+  <link href="<?php echo e(asset('storage/' . $favicon)); ?>" rel="apple-touch-icon">
+  <?php else: ?>
+  <link href="<?php echo e(asset('assets/img/favicon.png')); ?>" rel="icon" type="image/x-icon">
+  <link href="<?php echo e(asset('assets/img/favicon.png')); ?>" rel="icon" type="image/png" sizes="any">
+  <link href="<?php echo e(asset('assets/img/apple-touch-icon.png')); ?>" rel="apple-touch-icon">
+  <?php endif; ?>
+  <link href="<?php echo e(asset('manifest.json')); ?>" rel="manifest">
+  <meta name="theme-color" content="#0d6efd">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">

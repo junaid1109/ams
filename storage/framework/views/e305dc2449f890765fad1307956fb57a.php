@@ -21,10 +21,17 @@
   <?php endif; ?>
   
   <!-- Apple Touch Icon - Multiple sizes for iPad and iPhone -->
+  <?php if($favicon): ?>
+  <link href="<?php echo e(asset('storage/' . $favicon)); ?>" rel="apple-touch-icon" sizes="180x180">
+  <link href="<?php echo e(asset('storage/' . $favicon)); ?>" rel="apple-touch-icon" sizes="152x152">
+  <link href="<?php echo e(asset('storage/' . $favicon)); ?>" rel="apple-touch-icon" sizes="144x144">
+  <link href="<?php echo e(asset('storage/' . $favicon)); ?>" rel="apple-touch-icon" sizes="120x120">
+  <?php else: ?>
   <link href="<?php echo e(asset('assets/img/apple-touch-icon.png')); ?>" rel="apple-touch-icon" sizes="180x180">
   <link href="<?php echo e(asset('assets/img/apple-touch-icon.png')); ?>" rel="apple-touch-icon" sizes="152x152">
   <link href="<?php echo e(asset('assets/img/apple-touch-icon.png')); ?>" rel="apple-touch-icon" sizes="144x144">
   <link href="<?php echo e(asset('assets/img/apple-touch-icon.png')); ?>" rel="apple-touch-icon" sizes="120x120">
+  <?php endif; ?>
   
   <!-- Web App Manifest for PWA and Android -->
   <link href="<?php echo e(asset('manifest.json')); ?>" rel="manifest">
