@@ -86,6 +86,23 @@
     line-height: 1.6;
     flex-grow: 1;
   }
+
+  /* Advisory Description Center Alignment */
+  .advisory-description-wrapper {
+    text-align: center !important;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .advisory-description-wrapper p,
+  .advisory-description-wrapper div,
+  .advisory-description-wrapper span {
+    text-align: center !important;
+  }
+
+  .advisory-description-wrapper * {
+    text-align: center !important;
+  }
 </style>
 
 @section('content')
@@ -118,7 +135,9 @@
     @if($advisorySection)
     <div class="text-center">
       <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 15px; color: #666;">{{ $advisorySection->title }}</h2>
-      <p style="font-size: 1.1rem; color: #666; max-width: 700px; margin: 0 auto; line-height: 1.6; text-align: center;">{!! $advisorySection->description !!}</p>
+      <div class="advisory-description-wrapper" style="font-size: 1.1rem; color: #666; line-height: 1.6;">
+        {!! $advisorySection->description !!}
+      </div>
     </div>
     @endif
 
