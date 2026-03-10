@@ -8,7 +8,13 @@
   <title>@yield('title', 'Admin Panel - AMS')</title>
 
   <!-- Favicons -->
-  <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
+  <link href="{{ asset('assets/img/favicon.png') }}" rel="icon" type="image/x-icon">
+  <link href="{{ asset('assets/img/favicon.png') }}" rel="icon" type="image/png" sizes="any">
+  <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+  <link href="{{ asset('manifest.json') }}" rel="manifest">
+  <meta name="theme-color" content="#0d6efd">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">

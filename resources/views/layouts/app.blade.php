@@ -13,11 +13,27 @@
     $favicon = \App\Helpers\SettingHelper::get('site_favicon');
   @endphp
   @if($favicon)
-  <link href="{{ asset('storage/' . $favicon) }}" rel="icon">
+  <link href="{{ asset('storage/' . $favicon) }}" rel="icon" type="image/x-icon">
+  <link href="{{ asset('storage/' . $favicon) }}" rel="icon" type="image/png" sizes="any">
   @else
-  <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
+  <link href="{{ asset('assets/img/favicon.png') }}" rel="icon" type="image/x-icon">
+  <link href="{{ asset('assets/img/favicon.png') }}" rel="icon" type="image/png" sizes="any">
   @endif
-  <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+  
+  <!-- Apple Touch Icon - Multiple sizes for iPad and iPhone -->
+  <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon" sizes="180x180">
+  <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon" sizes="152x152">
+  <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon" sizes="144x144">
+  <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon" sizes="120x120">
+  
+  <!-- Web App Manifest for PWA and Android -->
+  <link href="{{ asset('manifest.json') }}" rel="manifest">
+  
+  <!-- Theme Color for Mobile -->
+  <meta name="theme-color" content="#0d6efd">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
