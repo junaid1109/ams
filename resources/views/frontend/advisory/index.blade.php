@@ -127,7 +127,7 @@
       <div class="container">
         <div class="row gy-4">
           @foreach($portfolios as $portfolio)
-          <div class="col-lg-3 col-md-6">
+          <div class="col-lg-3 col-md-4 col-sm-6">
             <div class="service-item">
               @if($portfolio->image)
               <div class="service-image">
