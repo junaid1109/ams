@@ -86,23 +86,6 @@
     line-height: 1.6;
     flex-grow: 1;
   }
-
-  /* Advisory Description Center Alignment */
-  .advisory-description-wrapper {
-    text-align: center !important;
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
-  .advisory-description-wrapper p,
-  .advisory-description-wrapper div,
-  .advisory-description-wrapper span {
-    text-align: center !important;
-  }
-
-  .advisory-description-wrapper * {
-    text-align: center !important;
-  }
 </style>
 
 @section('content')
@@ -135,9 +118,7 @@
     @if($advisorySection)
     <div class="text-center">
       <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 15px; color: #666;">{{ $advisorySection->title }}</h2>
-      <div class="advisory-description-wrapper" style="font-size: 1.1rem; color: #666; line-height: 1.6;">
-        {!! $advisorySection->description !!}
-      </div>
+      <p style="font-size: 1.1rem; color: #666; max-width: 700px; margin: 0 auto; line-height: 1.6; text-align: center;">{!! $advisorySection->description !!}</p>
     </div>
     @endif
 
@@ -174,7 +155,19 @@
     </div>
     @endif
 
-  </div>
-</section>
+    <!-- Dynamic Table Blocks Section -->
+    @if($tableBlocks->count() > 0)
+    <div class="row gy-5" style="margin-top: 40px;">
+      @foreach($tableBlocks as $block)
+      <div class="col-md-12">
+        @if($block->title)
+        <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 20px; color: #666;">{{ $block->title }}</h3>
+        @endif
+        <div style="overflow: auto; text-align: justify;" class="table-block-content">
+          {!! $block->description !!}
+        </div>
+      </div>
+      @endforeach
+    </div>
+    @endif
 
-@endsection

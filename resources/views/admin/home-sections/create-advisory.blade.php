@@ -1,14 +1,14 @@
 @extends('layouts.admin')
 
-@section('title', 'Create Advisory Text Block - Admin')
-@section('page-title', 'Add Advisory Text Block')
+@section('title', isset($blockType) && $blockType === 'table' ? 'Create Advisory Table Block - Admin' : 'Create Advisory Text Block - Admin')
+@section('page-title', isset($blockType) && $blockType === 'table' ? 'Add Advisory Table Block' : 'Add Advisory Text Block')
 
 @section('content')
 
 <div class="row">
   <div class="col-md-8">
     <div class="card">
-      <div class="card-header">Create New Advisory Text Block</div>
+      <div class="card-header">{{ isset($blockType) && $blockType === 'table' ? 'Create New Advisory Table Block' : 'Create New Advisory Text Block' }}</div>
       <div class="card-body" style="padding: 20px;">
         <form method="POST" action="{{ route('admin.home-sections.store') }}" enctype="multipart/form-data">
           @csrf
@@ -20,11 +20,21 @@
             <strong>ℹ️ Section Name:</strong> {{ $sectionName }}
           </div>
 
+          @if(isset($blockType) && $blockType === 'table')
+          <!-- Title field for table blocks -->
           <div class="form-group">
-            <label>Description (Text Content) *</label>
-            <textarea name="description" id="editor" class="form-control @error('description') is-invalid @enderror" placeholder="Enter the text content for this block" required>{{ old('description') }}</textarea>
+            <label>Title *</label>
+            <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" placeholder="Enter table title" value="{{ old('title') }}" required>
+            @error('title')<span class="invalid-feedback">{{ $message }}</span>@enderror
+            <small class="form-text text-muted">This title will appear above the table</small>
+          </div>
+          @endif
+
+          <div class="form-group">
+            <label>{{ isset($blockType) && $blockType === 'table' ? 'Table Content (HTML Table)' : 'Description (Text Content)' }} *</label>
+            <textarea name="description" id="editor" class="form-control @error('description') is-invalid @enderror" placeholder="Enter the content for this block" required>{{ old('description') }}</textarea>
             @error('description')<span class="invalid-feedback">{{ $message }}</span>@enderror
-            <small class="form-text text-muted">This text will appear on the Advisory page</small>
+            <small class="form-text text-muted">{{ isset($blockType) && $blockType === 'table' ? 'Create your table using the editor' : 'This text will appear on the Advisory page' }}</small>
           </div>
 
           <script>
@@ -71,12 +81,14 @@
             </label>
           </div>
 
-          <button type="submit" class="btn btn-primary">Create Text Block</button>
+          <button type="submit" class="btn btn-primary">{{ isset($blockType) && $blockType === 'table' ? 'Create Table Block' : 'Create Text Block' }}</button>
           <a href="{{ route('admin.advisory.index') }}" class="btn btn-secondary">Cancel</a>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+@endsection
 
 @endsection

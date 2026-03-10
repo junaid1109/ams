@@ -57,8 +57,34 @@ class HomeSectionController extends Controller
         
         $sectionName = 'advisory_text_block_' . $nextNumber;
         $isAdvisoryTextBlock = true;
+        $blockType = 'text';
         
-        return view('admin.home-sections.create-advisory', compact('sectionName', 'isAdvisoryTextBlock'));
+        return view('admin.home-sections.create-advisory', compact('sectionName', 'isAdvisoryTextBlock', 'blockType'));
+    }
+
+    /**
+     * Create form for advisory table blocks (auto-generates section name)
+     */
+    public function createAdvisoryTableBlock()
+    {
+        // Find the next available advisory table block number
+        $lastBlock = HomeSection::where('section_name', 'like', 'advisory_table_block_%')
+            ->orderBy('section_name', 'desc')
+            ->first();
+        
+        $nextNumber = 1;
+        if ($lastBlock) {
+            preg_match('/advisory_table_block_(\d+)/', $lastBlock->section_name, $matches);
+            if (isset($matches[1])) {
+                $nextNumber = (int)$matches[1] + 1;
+            }
+        }
+        
+        $sectionName = 'advisory_table_block_' . $nextNumber;
+        $isAdvisoryTableBlock = true;
+        $blockType = 'table';
+        
+        return view('admin.home-sections.create-advisory', compact('sectionName', 'isAdvisoryTableBlock', 'blockType'));
     }
 
     /**
@@ -89,10 +115,15 @@ class HomeSectionController extends Controller
 
         $section = HomeSection::create($validated);
 
-        // Redirect back to advisory page if it's an advisory text block
+        // Redirect back to advisory page if it's an advisory text block or table block
         if (str_contains($section->section_name, 'advisory_text_block')) {
             return redirect()->route('admin.advisory.index')
                 ->with('success', 'Text block created successfully.');
+        }
+
+        if (str_contains($section->section_name, 'advisory_table_block')) {
+            return redirect()->route('admin.advisory.index')
+                ->with('success', 'Table block created successfully.');
         }
 
         return redirect()->route('admin.home-sections.index')
@@ -182,10 +213,15 @@ class HomeSectionController extends Controller
 
         $homeSection->update($validated);
 
-        // Redirect back to advisory page if it's an advisory text block
+        // Redirect back to advisory page if it's an advisory text block or table block
         if (str_contains($homeSection->section_name, 'advisory_text_block')) {
             return redirect()->route('admin.advisory.index')
                 ->with('success', 'Text block updated successfully.');
+        }
+
+        if (str_contains($homeSection->section_name, 'advisory_table_block')) {
+            return redirect()->route('admin.advisory.index')
+                ->with('success', 'Table block updated successfully.');
         }
 
         return redirect()->route('admin.home-sections.index')
@@ -200,10 +236,15 @@ class HomeSectionController extends Controller
         $sectionName = $homeSection->section_name;
         $homeSection->delete();
 
-        // Redirect back to advisory page if it's an advisory text block
+        // Redirect back to advisory page if it's an advisory text block or table block
         if (str_contains($sectionName, 'advisory_text_block')) {
             return redirect()->route('admin.advisory.index')
                 ->with('success', 'Text block deleted successfully.');
+        }
+
+        if (str_contains($sectionName, 'advisory_table_block')) {
+            return redirect()->route('admin.advisory.index')
+                ->with('success', 'Table block deleted successfully.');
         }
 
         return redirect()->route('admin.home-sections.index')

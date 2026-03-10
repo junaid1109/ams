@@ -62,7 +62,7 @@
             </tr>
             @empty
             <tr>
-              <td colspan="4" class="text-center text-muted py-4">No text blocks added yet. <a href="{{ route('admin.home-sections.create') }}">Create one now</a></td>
+              <td colspan="4" class="text-center text-muted py-4">No text blocks added yet. <a href="{{ route('admin.home-sections.create-advisory') }}">Create one now</a></td>
             </tr>
             @endforelse
           </tbody>
@@ -72,11 +72,56 @@
   </div>
 </div>
 
-<!-- Delete Block Form (Hidden) -->
-<form id="deleteBlockForm" method="POST" style="display:none;">
-  @csrf
-  @method('DELETE')
-</form>
+<!-- Table Blocks Section -->
+<div class="row mb-4">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <strong>Table Blocks</strong>
+        <a href="{{ route('admin.home-sections.create-advisory-table') }}" class="btn btn-success btn-sm" style="float: right;">+ Add New Table Block</a>
+      </div>
+      <div style="padding: 20px;">
+        <table id="tableBlocksTable" class="table table-striped table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>Title</th>
+              <th>Content Preview</th>
+              <th>Status</th>
+              <th>Order</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @forelse($tableBlocks as $block)
+            <tr>
+              <td><strong>{{ $block->title ?? '-' }}</strong></td>
+              <td>{{ Str::limit($block->description, 60) ?? '-' }}</td>
+              <td>
+                <span class="badge @if($block->is_active) badge-success @else badge-secondary @endif">
+                  @if($block->is_active) Active @else Inactive @endif
+                </span>
+              </td>
+              <td>{{ $block->display_order ?? '-' }}</td>
+              <td>
+                <a href="{{ route('admin.home-sections.edit', $block->id) }}" class="btn btn-sm btn-primary" title="Edit">
+                  <i class="fas fa-edit"></i> Edit
+                </a>
+                <button class="btn btn-sm btn-danger" onclick="deleteBlock({{ $block->id }})" title="Delete">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </td>
+            </tr>
+            @empty
+            <tr>
+              <td colspan="5" class="text-center text-muted py-4">No table blocks added yet. <a href="{{ route('admin.home-sections.create-advisory-table') }}">Create one now</a></td>
+            </tr>
+            @endforelse
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="row">
   <div class="col-md-12">

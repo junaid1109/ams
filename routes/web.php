@@ -71,6 +71,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     // Home Sections Management
     Route::get('home-sections/create-advisory', [App\Http\Controllers\Admin\HomeSectionController::class, 'createAdvisoryTextBlock'])->name('home-sections.create-advisory');
+    Route::get('home-sections/create-advisory-table', [App\Http\Controllers\Admin\HomeSectionController::class, 'createAdvisoryTableBlock'])->name('home-sections.create-advisory-table');
     Route::resource('home-sections', App\Http\Controllers\Admin\HomeSectionController::class);
 
     // Features Management
