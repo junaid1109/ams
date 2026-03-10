@@ -5,8 +5,16 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Register - AMS Admin</title>
+  @php
+    $favicon = \App\Helpers\SettingHelper::get('site_favicon');
+  @endphp
+  @if($favicon)
+  <link href="{{ asset('storage/' . $favicon) }}" rel="icon" type="image/x-icon">
+  <link href="{{ asset('storage/' . $favicon) }}" rel="apple-touch-icon">
+  @else
   <link href="{{ asset('assets/img/favicon.png') }}" rel="icon" type="image/x-icon">
   <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+  @endif
   <link href="{{ asset('manifest.json') }}" rel="manifest">
   <meta name="theme-color" content="#0d6efd">
   <link href="https://fonts.googleapis.com" rel="preconnect">

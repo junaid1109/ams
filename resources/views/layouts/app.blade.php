@@ -21,10 +21,17 @@
   @endif
   
   <!-- Apple Touch Icon - Multiple sizes for iPad and iPhone -->
+  @if($favicon)
+  <link href="{{ asset('storage/' . $favicon) }}" rel="apple-touch-icon" sizes="180x180">
+  <link href="{{ asset('storage/' . $favicon) }}" rel="apple-touch-icon" sizes="152x152">
+  <link href="{{ asset('storage/' . $favicon) }}" rel="apple-touch-icon" sizes="144x144">
+  <link href="{{ asset('storage/' . $favicon) }}" rel="apple-touch-icon" sizes="120x120">
+  @else
   <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon" sizes="180x180">
   <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon" sizes="152x152">
   <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon" sizes="144x144">
   <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon" sizes="120x120">
+  @endif
   
   <!-- Web App Manifest for PWA and Android -->
   <link href="{{ asset('manifest.json') }}" rel="manifest">

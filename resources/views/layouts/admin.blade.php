@@ -8,9 +8,18 @@
   <title>@yield('title', 'Admin Panel - AMS')</title>
 
   <!-- Favicons -->
+  @php
+    $favicon = \App\Helpers\SettingHelper::get('site_favicon');
+  @endphp
+  @if($favicon)
+  <link href="{{ asset('storage/' . $favicon) }}" rel="icon" type="image/x-icon">
+  <link href="{{ asset('storage/' . $favicon) }}" rel="icon" type="image/png" sizes="any">
+  <link href="{{ asset('storage/' . $favicon) }}" rel="apple-touch-icon">
+  @else
   <link href="{{ asset('assets/img/favicon.png') }}" rel="icon" type="image/x-icon">
   <link href="{{ asset('assets/img/favicon.png') }}" rel="icon" type="image/png" sizes="any">
   <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+  @endif
   <link href="{{ asset('manifest.json') }}" rel="manifest">
   <meta name="theme-color" content="#0d6efd">
   <meta name="apple-mobile-web-app-capable" content="yes">
