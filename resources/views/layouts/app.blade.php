@@ -356,6 +356,81 @@
       clear: both;
     }
 
+    /* CKEditor Table Styling */
+    table,
+    .text-block-content table,
+    .member-details table,
+    .member-bio-content table,
+    [class*="content"] table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      border: 1px solid #ddd;
+    }
+
+    table thead,
+    .text-block-content table thead,
+    .member-details table thead,
+    .member-bio-content table thead {
+      background-color: #f8f9fa;
+    }
+
+    table th,
+    .text-block-content table th,
+    .member-details table th,
+    .member-bio-content table th {
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      text-align: left;
+      font-weight: 600;
+      color: #333;
+      background-color: #f8f9fa;
+    }
+
+    table td,
+    .text-block-content table td,
+    .member-details table td,
+    .member-bio-content table td {
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      color: #555;
+    }
+
+    table tbody tr:hover,
+    .text-block-content table tbody tr:hover,
+    .member-details table tbody tr:hover,
+    .member-bio-content table tbody tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    table tbody tr:nth-child(odd),
+    .text-block-content table tbody tr:nth-child(odd),
+    .member-details table tbody tr:nth-child(odd),
+    .member-bio-content table tbody tr:nth-child(odd) {
+      background-color: #fafafa;
+    }
+
+    /* Responsive table */
+    @media (max-width: 768px) {
+      table,
+      .text-block-content table,
+      .member-details table,
+      .member-bio-content table {
+        font-size: 14px;
+      }
+
+      table th,
+      table td,
+      .text-block-content table th,
+      .text-block-content table td,
+      .member-details table th,
+      .member-details table td,
+      .member-bio-content table th,
+      .member-bio-content table td {
+        padding: 8px 10px;
+      }
+    }
+
     /* Responsive adjustments for smaller screens */
     @media (max-width: 768px) {
       figure.image.image-style-side,
