@@ -32,6 +32,17 @@
           </div>
 
           <div class="form-group">
+            <label>Display Location *</label>
+            <select name="display_location" class="form-control @error('display_location') is-invalid @enderror" required>
+              <option value="">-- Select Location --</option>
+              <option value="header" @if(old('display_location', $page->display_location) == 'header') selected @endif>Header Only</option>
+              <option value="footer" @if(old('display_location', $page->display_location) == 'footer') selected @endif>Footer Only</option>
+              <option value="both" @if(old('display_location', $page->display_location) == 'both') selected @endif>Both Header and Footer</option>
+            </select>
+            @error('display_location')<span class="invalid-feedback">{{ $message }}</span>@enderror
+          </div>
+
+          <div class="form-group">
             <label>Content *</label>
             <textarea id="content-editor" name="content" class="form-control @error('content') is-invalid @enderror" rows="10">{{ old('content', $page->content) }}</textarea>
             <div id="content-error" class="invalid-feedback" style="display: none;">Content is required</div>

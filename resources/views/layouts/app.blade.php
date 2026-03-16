@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>@yield('title', (isset($siteName) ? $siteName : config('app.name', 'AMS')) . ' - Professional Business')</title>
+  <title>@yield('title', (isset($siteName) ? $siteName : config('app.name', 'ASML')) . ' - Professional Business')</title>
   <meta name="description" content="@yield('meta_description', 'Professional Business')">
   <meta name="keywords" content="@yield('meta_keywords', '')">
 
@@ -40,7 +40,7 @@
   <meta name="theme-color" content="#0d6efd">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}">
+  <meta name="apple-mobile-web-app-title" content="{{ isset($siteName) ? $siteName : config('app.name', 'ASML') }}">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -581,52 +581,42 @@
   @stack('css')
 </head>
 
-<body>
+<body @if(Route::currentRouteName() == 'home') class="index-page" @endif>
 
   <header id="header" class="header d-flex align-items-center fixed-top">
-    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
-      <a href="{{ route('home') }}" class="logo d-flex align-items-center">
+      <a href="{{ route('home') }}" class="logo d-flex align-items-center me-auto">
         @php
           $logo = \App\Helpers\SettingHelper::get('site_logo');
         @endphp
         @if($logo)
-        <img src="{{ asset('storage/' . $logo) }}" alt="{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}" style="max-height: 50px;">
+        <img src="{{ asset('storage/' . $logo) }}" alt="{{ isset($siteName) ? $siteName : config('app.name', 'ASML') }}" style="max-height: 50px;">
         @else
-        <h1 class="sitename">{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}</h1>
+        <h1 class="sitename">{{ isset($siteName) ? $siteName : config('app.name', 'ASML') }}</h1>
         @endif
       </a>
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          @php
-            $menus = \App\Models\Menu::getActive();
-            $currentRoute = Route::currentRouteName();
-          @endphp
-          @forelse($menus as $menu)
-          <li>
-            <a href="{{ $menu->getLink() }}" 
-               class="@if($menu->route_name && str_contains($currentRoute, explode('.', $menu->route_name)[0])) active @elseif($menu->route_name === $currentRoute) active @endif">
-              {{ $menu->label }}
-            </a>
-          </li>
-          @empty
-          <!-- Fallback menu if no dynamic menus configured -->
           <li><a href="{{ route('home') }}" class="@if(Route::currentRouteName() == 'home') active @endif">Home</a></li>
-          <li><a href="{{ route('about') }}" class="@if(Route::currentRouteName() == 'about') active @endif">About</a></li>
-          <li><a href="{{ route('advisory.index') }}" class="@if(str_contains(Route::currentRouteName(), 'advisory')) active @endif">Advisory</a></li>
-          <li><a href="{{ route('team') }}" class="@if(Route::currentRouteName() == 'team') active @endif">Team</a></li>
-          <li><a href="{{ route('faq.index') }}" class="@if(Route::currentRouteName() == 'faq.index') active @endif">FAQs</a></li>
-          <li><a href="{{ route('contact.index') }}" class="@if(Route::currentRouteName() == 'contact.index') active @endif">Contact</a></li>
+          <li><a href="{{ route('about') }}" class="@if(Route::currentRouteName()  == 'about') active @endif">About</a></li>
+          <!-- <li><a href="{{ route('team') }}" class="@if(Route::currentRouteName() == 'team') active @endif">Team</a></li> -->
+          @forelse(\App\Models\Page::published()->whereIn('display_location', ['header', 'both'])->orderBy('title')->get() as $page)
+          <li><a href="{{ route('page.show', $page) }}" class="@if(Route::currentRouteName() == 'page.show' && Route::input('page')->id === $page->id) active @endif">{{ $page->title }}</a></li>
+          @empty
           @endforelse
+          <li><a href="{{ route('contact.index') }}" class="@if(Route::currentRouteName() == 'contact.index') active @endif">Contact</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
+      <a class="btn-getstarted" href="{{ route('contact.index') }}">Get Started</a>
+
     </div>
   </header>
 
-  <main class="main">
+  <main class="main main-page">
     @yield('content')
   </main>
 
@@ -640,9 +630,9 @@
                 $logo = \App\Helpers\SettingHelper::get('site_logo');
               @endphp
               @if($logo)
-              <img src="{{ asset('storage/' . $logo) }}" alt="{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}" style="margin-top: 25px;max-height: 120px;">
+              <img src="{{ asset('storage/' . $logo) }}" alt="{{ isset($siteName) ? $siteName : config('app.name', 'ASML') }}" style="margin-top: 25px;max-height: 120px;">
               @else
-              <h1 class="sitename">{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}</h1>
+              <h1 class="sitename">{{ isset($siteName) ? $siteName : config('app.name', 'ASML') }}</h1>
               @endif
             </a>
             <p>{{ \App\Helpers\SettingHelper::get('footer_description', 'Your company description goes here. This is a professional business template.') }}</p>
@@ -672,10 +662,7 @@
             <h4>Useful Links</h4>
             <ul>
               <li><a href="{{ route('home') }}">Home</a></li>
-              <li><a href="{{ route('portfolio.index') }}">Portfolio</a></li>
-              <li><a href="{{ route('advisory.index') }}">Advisory</a></li>
-              <li><a href="{{ route('faq.index') }}">Faqs</a></li>
-              @forelse(\App\Models\Page::where('published', 1)->orderBy('title')->get() as $page)
+              @forelse(\App\Models\Page::published()->whereIn('display_location', ['footer', 'both'])->orderBy('title')->get() as $page)
               <li><a href="{{ route('page.show', $page) }}">{{ $page->title }}</a></li>
               @empty
               @endforelse
@@ -683,15 +670,9 @@
           </div>
 
           <div class="col-lg-2 col-md-12 footer-links">
-            <h4>Portfolio Services</h4>
+            <h4>Support</h4>
             <ul>
-              @forelse(\App\Models\Portfolio::where('published', 1)->orderBy('order')->limit(4)->get() as $service)
-              <li><a href="{{ route('portfolio.show', $service->slug) }}">{{ $service->title }}</a></li>
-              @empty
-              <li><a href="#">Web Design</a></li>
-              <li><a href="#">Web Development</a></li>
-              <li><a href="#">Product Management</a></li>
-              @endforelse
+              <li><a href="{{ route('contact.index') }}">Contact Us</a></li>
             </ul>
           </div>
 
@@ -735,7 +716,7 @@
       </div>
 
       <div class="container copyright text-center mt-4">
-        <p>© <span>{{ date('Y') }}</span> <strong class="px-1">{{ isset($siteName) ? $siteName : config('app.name', 'AMS') }}</strong> <span>All Rights Reserved</span></p>
+        <p>© <span>{{ date('Y') }}</span> <strong class="px-1">{{ isset($siteName) ? $siteName : config('app.name', 'ASML') }}</strong> <span>All Rights Reserved</span></p>
       </div>
   </footer>
 

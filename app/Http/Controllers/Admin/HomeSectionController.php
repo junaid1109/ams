@@ -38,30 +38,6 @@ class HomeSectionController extends Controller
     }
 
     /**
-     * Create form for advisory text blocks (auto-generates section name)
-     */
-    public function createAdvisoryTextBlock()
-    {
-        // Find the next available advisory text block number
-        $lastBlock = HomeSection::where('section_name', 'like', 'advisory_text_block_%')
-            ->orderBy('section_name', 'desc')
-            ->first();
-        
-        $nextNumber = 1;
-        if ($lastBlock) {
-            preg_match('/advisory_text_block_(\d+)/', $lastBlock->section_name, $matches);
-            if (isset($matches[1])) {
-                $nextNumber = (int)$matches[1] + 1;
-            }
-        }
-        
-        $sectionName = 'advisory_text_block_' . $nextNumber;
-        $isAdvisoryTextBlock = true;
-        
-        return view('admin.home-sections.create-advisory', compact('sectionName', 'isAdvisoryTextBlock'));
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -133,6 +109,14 @@ class HomeSectionController extends Controller
             'stats' => 'nullable|array',
             'stats.*.number' => 'nullable|string',
             'stats.*.label' => 'nullable|string',
+            'clients' => 'nullable|array',
+            'clients.*.image' => 'nullable|string',
+            'steps' => 'nullable|array',
+            'steps.*.number' => 'nullable|string',
+            'steps.*.title' => 'nullable|string',
+            'steps.*.description' => 'nullable|string',
+            'steps.*.image' => 'nullable|string',
+            'steps.*.features' => 'nullable|array',
             'portfolio_cta_button_enabled' => 'nullable|boolean',
             'portfolio_more_projects_button_enabled' => 'nullable|boolean',
         ]);
@@ -177,8 +161,52 @@ class HomeSectionController extends Controller
             $validated['content'] = $stats;
         }
 
-        // Remove stats and portfolio buttons from validated (not DB columns)
-        unset($validated['stats'], $validated['portfolio_cta_button_enabled'], $validated['portfolio_more_projects_button_enabled']);
+        // Handle Clients - JSON content array with uploaded logos
+        if ($homeSection->section_name === 'clients') {
+            $clients = [];
+            
+            // Get all clients from form (both existing and newly uploaded via AJAX)
+            if ($request->has('clients')) {
+
+                $clientsInput = $request->input('clients', []);
+                foreach ($clientsInput as $client) {
+                    if (!empty($client['image'])) {
+                        $clients[] = [
+                            'image' => $client['image'],
+                            'uploaded_at' => $client['uploaded_at'] ?? now()->toDateTimeString(),
+                        ];
+                    }
+                    else{
+                        dd('Client entry missing image field:', $client);
+                    }
+                }
+            }
+
+            $validated['content'] = $clients;
+        }
+
+        // Handle Work Process Steps - JSON content array with step details
+        if ($homeSection->section_name === 'work-process') {
+            $steps = [];
+            if ($request->has('steps')) {
+                $stepsInput = $request->input('steps', []);
+                foreach ($stepsInput as $step) {
+                    if (!empty($step['title']) || !empty($step['number'])) {
+                        $steps[] = [
+                            'number' => $step['number'] ?? '',
+                            'title' => $step['title'] ?? '',
+                            'description' => $step['description'] ?? '',
+                            'image' => $step['image'] ?? '',
+                            'features' => $step['features'] ?? [],
+                        ];
+                    }
+                }
+            }
+            $validated['content'] = $steps;
+        }
+
+        // Remove stats, steps and portfolio buttons from validated (not DB columns)
+        unset($validated['stats'], $validated['steps'], $validated['portfolio_cta_button_enabled'], $validated['portfolio_more_projects_button_enabled']);
 
         $homeSection->update($validated);
 

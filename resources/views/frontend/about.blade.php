@@ -6,246 +6,160 @@
   $breadcrumbs = \App\Models\Menu::getBreadcrumbs();
 @endphp
 
-@section('title', (isset($siteName) ? $siteName : 'AMS') . ' - ' . $pageTitle)
+@section('title', (isset($siteName) ? $siteName : 'ASML') . ' - ' . $pageTitle)
 
-<style>
-  .read-more-btn {
-    margin-top: 15px;
-  }
-
-  .team-member-modal .modal-body {
-    text-align: center;
-  }
-
-  .team-member-modal .member-modal-img {
-    width: 250px;
-    height: 250px;
-    margin: 0 auto 20px;
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .team-member-modal .member-modal-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .team-member-modal .member-details {
-    text-align: left;
-  }
-
-  .team-member-modal .social {
-    margin-top: 20px;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-  }
-
-  .team-member-modal .social a {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background-color: #f0f0f0;
-    color: #333;
-    transition: all 0.3s ease;
-  }
-
-  .team-member-modal .social a:hover {
-    background-color: #007bff;
-    color: white;
-  }
-</style>
 
 @section('content')
 
-<!-- Page Title Section -->
-<section class="page-title light-background" style="padding-top: 100px; padding-bottom: 60px;">
-  <div class="container">
-    <h1>{{ $pageTitle }}</h1>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        @foreach($breadcrumbs as $breadcrumb)
-          @if($breadcrumb['url'])
-          <li class="breadcrumb-item"><a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['label'] }}</a></li>
-          @else
-          <li class="breadcrumb-item active">{{ $breadcrumb['label'] }}</li>
-          @endif
-        @endforeach
-      </ol>
-    </nav>
-  </div>
-</section>
+ <main class="main main-page">
 
-<!-- About Section -->
-<section class="about section">
-  <div class="container">
-    @if($page)
-    <div class="row gy-4">
-      @if($page->image)
-      <div class="col-lg-6" style="margin-top: 50px;">
-        <img src="{{ asset('storage/' . $page->image) }}" class="img-fluid rounded" alt="About Image">
-      </div>
-      @endif
-      <div class="col-lg-6 content">
-        <h2>{{ $page->title }}</h2>
-        {!! $page->content !!}
-      </div>
-    </div>
-    @endif
-  </div>
-</section>
+    <!-- About Section -->
+    <section id="about" class="about section">
 
-@php
-  // Helper function for home sections
-  $getSection = function($name) use ($homeSections) {
-    if ($homeSections) {
-      return $homeSections->firstWhere('section_name', $name);
-    }
-    return null;
-  };
-@endphp
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>About Us</h2>
+      </div><!-- End Section Title -->
 
+      <div class="container">
 
+        <div class="row gy-4">
 
-@php $teamSection = $getSection('team');  @endphp
-<section id="team" class="team section">
-  <div class="container section-title" data-aos="fade-up">
-    <h2>{{ $teamSection?->title ?? 'Meet Our Team' }}</h2>
-    <p>{{ $teamSection?->subtitle ?? 'Our Professional Team' }}</p>
-  </div>
-
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <div class="row gy-5">
-      @foreach($teamMembers as $member)
-      <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
-        <div class="team-member">
-          <div class="member-img">
-            @if($member->image)
-              <img src="{{ asset('storage/' . $member->image) }}" class="img-fluid" alt="{{ $member->name }}">
-            @else
-              @php
-                $personPlaceholders = ['person-f-8.webp', 'person-m-12.webp', 'person-f-3.webp', 'person-m-7.webp', 'person-f-12.webp', 'person-m-8.webp', 'person-f-6.webp', 'person-m-12.webp'];
-                $personPlaceholder = $personPlaceholders[$loop->index % count($personPlaceholders)];
-              @endphp
-              <img src="{{ asset('assets/img/person/' . $personPlaceholder) }}" class="img-fluid" alt="{{ $member->name }}">
-            @endif
+          <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+              magna aliqua.
+            </p>
+            <ul>
+              <li><i class="bi bi-check2-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
+              <li><i class="bi bi-check2-circle"></i> <span>Duis aute irure dolor in reprehenderit in voluptate velit.</span></li>
+              <li><i class="bi bi-check2-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo</span></li>
+            </ul>
           </div>
-          <div class="member-info">
-            <h4>{{ $member->name }}</h4>
-            <span>{{ $member->position }}</span>
-            <button class="btn btn-primary btn-sm read-more-btn" onclick="openTeamModal({{ $member->id }})">Read More</button>
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+            <p>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+            <a href="#" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
           </div>
+
         </div>
-      </div>
-      @endforeach
-    </div>
-  </div>
-</section>
 
-<!-- Team Member Modal -->
-<div class="modal fade" id="teamMemberModal" tabindex="-1" role="dialog" aria-labelledby="teamMemberModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content team-member-modal">
-      <div class="modal-header">
-        <h5 class="modal-title" id="teamMemberModalLabel">Team Member Detail</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body" style="padding:50px">
-        <div class="member-modal-img" id="memberModalImage">
-          <!-- Image will be inserted here -->
-        </div>
-        <h3 id="memberModalName"></h3>
-        <p style="color: #666; font-size: 16px; font-weight: 500;" id="memberModalPosition"></p>
-        
-        <div id="memberContactInfo" style="margin: 20px 0; padding: 15px; background-color: #f9f9f9; border-radius: 5px;">
-          <div id="memberEmailDiv" style="display: none; margin-bottom: 10px;">
-            <strong>📧 Email:</strong> <a href="mailto:" id="memberEmail"></a>
+
+    </section><!-- /About Section -->
+
+    <!-- Why Us Section -->
+    <section id="why-us" class="section why-us light-background" data-builder="section">
+
+      <div class="container-fluid">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-7 d-flex flex-column justify-content-center order-2 order-lg-1">
+
+            <div class="content px-xl-5" data-aos="fade-up" data-aos-delay="100">
+              <h3><span>Eum ipsam laborum deleniti </span><strong>velit pariatur architecto aut nihil</strong></h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
+              </p>
+            </div>
+
+            <div class="faq-container px-xl-5" data-aos="fade-up" data-aos-delay="200">
+
+              <div class="faq-item faq-active">
+
+                <h3><span>01</span> Non consectetur a erat nam at lectus urna duis?</h3>
+                <div class="faq-content">
+                  <p>Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3><span>02</span> Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque?</h3>
+                <div class="faq-content">
+                  <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3><span>03</span> Dolor sit amet consectetur adipiscing elit pellentesque?</h3>
+                <div class="faq-content">
+                  <p>Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+            </div>
+
           </div>
-          <div id="memberPhoneDiv" style="display: none;">
-            <strong>📞 Phone:</strong> <a href="tel:" id="memberPhone"></a>
+
+          <div class="col-lg-5 order-1 order-lg-2 why-us-img">
+            <img src="assets/img/why-us.png" class="img-fluid" alt="" data-aos="zoom-in" data-aos-delay="100">
           </div>
         </div>
 
-        <div class="member-details">
-          <p id="memberModalBio"></p>
-        </div>
-        <div class="social" id="memberModalSocial">
-          <!-- Social links will be inserted here -->
-        </div>
       </div>
-    </div>
-  </div>
-</div>
 
-<script>
-  const teamMembers = @json($teamMembers);
+    </section><!-- /Why Us Section -->
 
-  function openTeamModal(memberId) {
-    const member = teamMembers.find(m => m.id === memberId);
-    
-    if (!member) return;
+    <!-- Skills Section -->
+    <section id="skills" class="skills section">
 
-    // Set member details
-    document.getElementById('memberModalName').textContent = member.name;
-    document.getElementById('memberModalPosition').textContent = member.position;
-    document.getElementById('memberModalBio').innerHTML = member.bio || '';
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-    // Set image
-    let imageHtml = '';
-    if (member.image) {
-      imageHtml = `<img src="/storage/${member.image}" alt="${member.name}">`;
-    } else {
-      const personPlaceholders = ['person-f-8.webp', 'person-m-12.webp', 'person-f-3.webp', 'person-m-7.webp', 'person-f-12.webp', 'person-m-8.webp', 'person-f-6.webp', 'person-m-12.webp'];
-      const placeholderImg = personPlaceholders[Math.floor(Math.random() * personPlaceholders.length)];
-      imageHtml = `<img src="/assets/img/person/${placeholderImg}" alt="${member.name}">`;
-    }
-    document.getElementById('memberModalImage').innerHTML = imageHtml;
+        <div class="row">
 
-    // Set email
-    if (member.email) {
-      document.getElementById('memberEmail').href = `mailto:${member.email}`;
-      document.getElementById('memberEmail').textContent = member.email;
-      document.getElementById('memberEmailDiv').style.display = 'block';
-    } else {
-      document.getElementById('memberEmailDiv').style.display = 'none';
-    }
+          <div class="col-lg-6 d-flex align-items-center">
+            <img src="assets/img/illustration/illustration-10.webp" class="img-fluid" alt="">
+          </div>
 
-    // Set phone
-    if (member.phone) {
-      document.getElementById('memberPhone').href = `tel:${member.phone}`;
-      document.getElementById('memberPhone').textContent = member.phone;
-      document.getElementById('memberPhoneDiv').style.display = 'block';
-    } else {
-      document.getElementById('memberPhoneDiv').style.display = 'none';
-    }
+          <div class="col-lg-6 pt-4 pt-lg-0 content">
 
-    // Set social links
-    let socialHtml = '';
-    if (member.twitter) {
-      socialHtml += `<a href="${member.twitter}" target="_blank"><i class="bi bi-twitter-x"></i></a>`;
-    }
-    if (member.facebook) {
-      socialHtml += `<a href="${member.facebook}" target="_blank"><i class="bi bi-facebook"></i></a>`;
-    }
-    if (member.instagram) {
-      socialHtml += `<a href="${member.instagram}" target="_blank"><i class="bi bi-instagram"></i></a>`;
-    }
-    if (member.linkedin) {
-      socialHtml += `<a href="${member.linkedin}" target="_blank"><i class="bi bi-linkedin"></i></a>`;
-    }
-    document.getElementById('memberModalSocial').innerHTML = socialHtml;
+            <h3>Voluptatem dignissimos provident quasi corporis voluptas</h3>
+            <p class="fst-italic">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
 
-    // Show modal
-    const modal = new bootstrap.Modal(document.getElementById('teamMemberModal'));
-    modal.show();
-  }
-</script>
+            <div class="skills-content skills-animation">
 
+              <div class="progress">
+                <span class="skill"><span>HTML</span> <i class="val">100%</i></span>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div><!-- End Skills Item -->
+
+              <div class="progress">
+                <span class="skill"><span>CSS</span> <i class="val">90%</i></span>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div><!-- End Skills Item -->
+
+              <div class="progress">
+                <span class="skill"><span>JavaScript</span> <i class="val">75%</i></span>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div><!-- End Skills Item -->
+
+              <div class="progress">
+                <span class="skill"><span>Photoshop</span> <i class="val">55%</i></span>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div><!-- End Skills Item -->
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /Skills Section -->
+
+  </main>
 @endsection

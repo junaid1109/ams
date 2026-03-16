@@ -6,7 +6,7 @@
   $breadcrumbs = \App\Models\Menu::getBreadcrumbs();
 @endphp
 
-@section('title', (isset($siteName) ? $siteName : 'AMS') . ' - ' . $pageTitle)
+@section('title', (isset($siteName) ? $siteName : 'ASML') . ' - ' . $pageTitle)
 
 <style>
   /* Contact Form Styling */

@@ -2,11 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\FAQController;
 use App\Http\Controllers\PageController;
 
 /*
@@ -19,14 +16,9 @@ use App\Http\Controllers\PageController;
 // Frontend Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
-Route::get('/portfolio', [ServiceController::class, 'index'])->name('portfolio.index');
-Route::get('/portfolio/{service}', [ServiceController::class, 'show'])->name('portfolio.show');
-Route::get('/advisory', [PortfolioController::class, 'index'])->name('advisory.index');
-Route::get('/advisory/{advisory}', [PortfolioController::class, 'show'])->name('advisory.show');
 Route::get('/team', [TeamController::class, 'index'])->name('team');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
-Route::get('/faqs', [FAQController::class, 'index'])->name('faq.index');
 
 // Authentication Routes (must come before the catch-all route)
 Route::middleware('guest')->group(function () {
@@ -51,12 +43,6 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Dashboard
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
-    // Portfolio Management (uses Portfolio model)
-    Route::resource('portfolios', App\Http\Controllers\Admin\PortfolioController::class);
-
-    // Advisory Management
-    Route::resource('advisory', App\Http\Controllers\Admin\AdvisoryController::class);
-
     // Team Members Management
     Route::resource('team', App\Http\Controllers\Admin\TeamMemberController::class);
 
@@ -70,14 +56,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('pages', App\Http\Controllers\Admin\PageController::class);
 
     // Home Sections Management
-    Route::get('home-sections/create-advisory', [App\Http\Controllers\Admin\HomeSectionController::class, 'createAdvisoryTextBlock'])->name('home-sections.create-advisory');
     Route::resource('home-sections', App\Http\Controllers\Admin\HomeSectionController::class);
-
-    // Features Management
-    Route::resource('features', App\Http\Controllers\Admin\FeatureController::class);
-
-    // FAQ Management
-    Route::resource('faqs', App\Http\Controllers\Admin\FAQController::class);
 
     // Menu Management
     Route::resource('menus', App\Http\Controllers\Admin\MenuController::class);

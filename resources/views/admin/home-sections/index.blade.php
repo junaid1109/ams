@@ -24,6 +24,7 @@
           </thead>
           <tbody>
             @foreach($sections as $section)
+            @if($section->section_name != 'advisory_intro' && !str_contains($section->section_name, 'advisory_text_block'))
             <tr>
               <td><strong>{{ ucwords(str_replace('-', ' ', $section->section_name)) }}</strong></td>
               <td>{{ substr($section->title, 0, 50) }}{{ strlen($section->title) > 50 ? '...' : '' }}</td>
@@ -42,6 +43,7 @@
                 </form> -->
               </td>
             </tr>
+            @endif
             @endforeach
           </tbody>
         </table>

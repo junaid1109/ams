@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
-@section('title', (isset($siteName) ? $siteName : 'AMS') . ' - Home')
+@section('title', (isset($siteName) ? $siteName : 'ASML') . ' - Home')
 
 @section('content')
+
 
 @php
   // Helper function to get home section content
@@ -15,601 +16,808 @@
   };
 @endphp
 
-<!-- Hero Section -->
+
+<main class="main">
+
 @php $heroSection = $getSection('hero'); @endphp
 @if($heroSection?->is_active ?? true)
-<section id="hero" class="hero section light-background">
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <div class="row align-items-center">
-      <div class="col-lg-6">
-        <div class="hero-content">
-         
-          <h1 data-aos="fade-up" data-aos-delay="200">{{ $getSection('hero')?->title ?? 'Transform Your Business Vision Into Reality' }}</h1>
-           @if($getSection('hero')?->subtitle)
-          <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="150">{{ $getSection('hero')->subtitle }}</p>
-          @endif
-          <p data-aos="fade-up" data-aos-delay="300">{!! $getSection('hero')?->description ?? 'We create innovative solutions.' !!}</p>
-           <div class="hero-cta" data-aos="fade-up" data-aos-delay="400">
-            @php 
+    <!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="zoom-out">
+            <h1>{{ $getSection('hero')?->title ?? 'Better Solutions For Your Business' }}</h1>
+            <p data-aos="fade-up" data-aos-delay="300">{!! $getSection('hero')?->description ?? 'We create innovative solutions.' !!}</p>
+              @php 
               $heroSection = $getSection('hero');
               $videoFile = \App\Helpers\SettingHelper::get('demo_video_file');
               $videoUrl = \App\Helpers\SettingHelper::get('demo_video_url', 'https://www.youtube.com/watch?v=Y7f98aduVJ8');
             @endphp
-            @if(\App\Helpers\SettingHelper::get('hero_cta_button_enabled', true))
-            <a href="{{ $heroSection?->button_link ?? route('contact.index') }}" class="btn-primary">{{ $heroSection?->button_text ?? 'Get Started Today' }}</a>
-            @endif
-            @if(\App\Helpers\SettingHelper::get('demo_video_button_enabled', true))
-              @if($videoFile)
-                <!-- Play uploaded video file -->
-                <a href="#videoModal" class="btn-secondary" data-bs-toggle="modal" onclick="playVideo('{{ asset('storage/' . $videoFile) }}', 'video/mp4')">
-                  <i class="bi bi-play-circle"></i>
-                  Watch Demo
-                </a>
-              @else
-                <!-- Play YouTube/Vimeo video -->
-                <a href="{{ $videoUrl }}" class="btn-secondary glightbox">
-                  <i class="bi bi-play-circle"></i>
-                  Watch Demo
-                </a>
+
+            <div class="d-flex">
+              @if(\App\Helpers\SettingHelper::get('hero_cta_button_enabled', true))
+              <a href="{{ route('about') }}" class="btn-get-started">Get Started</a>
               @endif
-            @endif
-          </div>
-
-          <!-- Video Modal for uploaded files -->
-          @if($videoFile)
-          <div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Demo Video</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <video id="demoVideo" width="100%" controls style="border-radius: 8px;">
-                    <source src="{{ asset('storage/' . $videoFile) }}" type="video/mp4">
-                    Your browser does not support the video tag.
-                  </video>
-                </div>
-              </div>
+              @if(\App\Helpers\SettingHelper::get('demo_video_button_enabled', true))
+                @if($videoFile)
+                <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+                @else
+                  <!-- Play YouTube/Vimeo video -->
+                  <a href="{{ $videoUrl }}"  class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+                @endif
+              @endif
             </div>
           </div>
-
-          <script>
-            function playVideo(src, type) {
-              const video = document.getElementById('demoVideo');
-              video.src = src;
-              video.type = type;
-              video.load();
-              const modal = new bootstrap.Modal(document.getElementById('videoModal'));
-              modal.show();
-            }
-          </script>
-          @endif
-          <!-- Hero Stats -->
-          <div class="hero-stats" data-aos="fade-up" data-aos-delay="500" style="display: flex;  justify-content: flex-start; gap: 30px; margin-top: 30px; max-width: 100%;">
-            @php
-              $heroSection = $getSection('hero');
-              $heroStats = $heroSection?->content ?? [];
-              if (!is_array($heroStats)) {
-                $heroStats = json_decode($heroStats, true) ?? [];
-              }
-              // Fallback stats if none configured
-              if (empty($heroStats)) {
-                $heroStats = [
-                  ['number' => '500+', 'label' => 'Successful Projects'],
-                  ['number' => '98%', 'label' => 'Client Satisfaction'],
-                  ['number' => '10+', 'label' => 'Years Experience'],
-                ];
-              }
-            @endphp
-            @foreach($heroStats as $stat)
-            <div class="stat-item" style="text-align: left; min-width: 100px;">
-              <div class="stat-number" style="font-size: 1.8rem; font-weight: 600; margin-bottom: 5px;">{{ $stat['number'] ?? '0' }}</div>
-              <div class="stat-label" style="font-size: 0.9rem; color: #666;">{{ $stat['label'] ?? 'Statistic' }}</div>
-            </div>
-            @endforeach
+          <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="200">
+             @php $heroImg = $getSection('hero')?->image; @endphp
+            <img src="{{ $heroImg ? asset('storage/' . $heroImg) : asset('assets/img/hero-img.png') }}" class="img-fluid animated" alt="Hero Image" data-aos="zoom-out" data-aos-delay="300">
           </div>
-          
-          <style>
-            @media (max-width: 768px) {
-              .hero-stats {
-                justify-content: center !important;
-              }
-              .hero-stats .stat-item {
-                text-align: center !important;
-              }
-            }
-          </style>
         </div>
       </div>
-      <div class="col-lg-6">
-        @php $heroImg = $getSection('hero')?->image; @endphp
-        <img src="{{ $heroImg ? asset('storage/' . $heroImg) : asset('assets/img/about/about-square-10.webp') }}" class="img-fluid" alt="Hero Image" data-aos="zoom-out" data-aos-delay="300">
+
+    </section><!-- /Hero Section -->
+
+@endif
+@php $clientsSection = $getSection('clients'); @endphp
+@if($clientsSection?->is_active ?? true)
+    <!-- Clients Section -->
+    <section id="clients" class="clients section light-background">
+
+      <div class="container" data-aos="zoom-in">
+
+        <div class="swiper init-swiper">
+          <script type="application/json" class="swiper-config">
+            {
+              "loop": true,
+              "speed": 600,
+              "autoplay": {
+                "delay": 5000
+              },
+              "slidesPerView": "auto",
+              "pagination": {
+                "el": ".swiper-pagination",
+                "type": "bullets",
+                "clickable": true
+              },
+              "breakpoints": {
+                "320": {
+                  "slidesPerView": 2,
+                  "spaceBetween": 40
+                },
+                "480": {
+                  "slidesPerView": 3,
+                  "spaceBetween": 60
+                },
+                "640": {
+                  "slidesPerView": 4,
+                  "spaceBetween": 80
+                },
+                "992": {
+                  "slidesPerView": 5,
+                  "spaceBetween": 120
+                },
+                "1200": {
+                  "slidesPerView": 6,
+                  "spaceBetween": 120
+                }
+              }
+            }
+          </script>
+          <div class="swiper-wrapper align-items-center">
+            @php
+              $clients = [];
+              if ($clientsSection && $clientsSection->content) {
+                if (is_array($clientsSection->content)) {
+                  $clients = $clientsSection->content;
+                } elseif (is_string($clientsSection->content)) {
+                  $decoded = json_decode($clientsSection->content, true);
+                  $clients = is_array($decoded) ? $decoded : [];
+                }
+              }
+            @endphp
+
+            @forelse($clients as $client)
+            <div class="swiper-slide"><img src="{{ asset('storage/' . $client['image']) }}" class="img-fluid" alt="Client Logo"></div>
+            @empty
+            <!-- Default client logos fallback -->
+            <div class="swiper-slide"><img src="assets/img/clients/clients-1.webp" class="img-fluid" alt=""></div>
+            @endforelse
+          </div>
+        </div>
+
       </div>
-    </div>
-  </div>
-</section>
+
+    </section><!-- /Clients Section -->
 @endif
 
-<!-- About Preview Section -->
+
 @php $aboutSection = $getSection('about'); @endphp
 @if($aboutSection?->is_active ?? true)
 <section id="about" class="about section">
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <div class="row align-items-center">
-      <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
-        <div class="content">
-          @php $aboutSection = $getSection('about'); @endphp
-          <h2>{{ $aboutSection?->title ?? 'Crafting Excellence Through Innovation and Dedication' }}</h2>
-          <p class="lead">{{ $aboutSection?->subtitle ?? 'We are passionate professionals committed to delivering exceptional results that exceed expectations and drive meaningful transformation.' }}</p>
-          <p>{{ $aboutSection?->description ?? 'We are a team of passionate professionals dedicated to transforming ideas into digital reality. With years of experience in web design, development, and digital marketing, we help businesses of all sizes achieve their goals.' }}</p>
 
-          <!-- About Stats with Counters -->
-          <div class="stats-row">
-            @php
-              $aboutSection = $getSection('about');
-              $stats = $aboutSection?->content ?? [];
-              if (!is_array($stats)) {
-                $stats = json_decode($stats, true) ?? [];
-              }
-              // Fallback to hardcoded stats if none configured
-              if (empty($stats)) {
-                $stats = [
-                  ['number' => 15, 'label' => 'Years Experience'],
-                  ['number' => 850, 'label' => 'Projects Completed'],
-                  ['number' => 240, 'label' => 'Happy Clients'],
-                ];
-              }
-            @endphp
-            @foreach($stats as $stat)
-              <div class="stat-item">
-                  @php
-                      $rawNumber = $stat['number'] ?? '0';
-                      preg_match('/[\d.]+/', $rawNumber, $matches);
-                      $numericValue = $matches[0] ?? 0;
-                      $suffix = preg_replace('/[\d.]+/', '', $rawNumber);
-                  @endphp
-                  <div class="stat-number" style="font-size: 2rem; font-weight: 300; color: #313131;">
-                      <span class="purecounter" 
-                            data-purecounter-start="0" 
-                            data-purecounter-end="{{ $numericValue }}" 
-                            data-purecounter-duration="1">0</span>{{ $suffix }}
-                  </div>
-                  <div class="stat-label">{{ $stat['label'] ?? 'Statistic' }}</div>
-              </div>
-              @endforeach
-          </div>
+    <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>About Us</h2>
+      </div><!-- End Section Title -->
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row align-items-center">
+          <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
+            <div class="content">
+              @php $aboutSection = $getSection('about'); @endphp
+              <h2>{{ $aboutSection?->title ?? 'Crafting Excellence Through Innovation and Dedication' }}</h2>
+              <p class="lead">{{ $aboutSection?->subtitle ?? 'We are passionate professionals.' }}</p>
+              <p>{!! $aboutSection?->description ?? 'We are a team of passionate professionals' !!}</p>
 
-          <div class="cta-section">
-            <a href="{{ $aboutSection?->button_link ?? route('about') }}" class="btn-learn-more">{{ $aboutSection?->button_text ?? 'Learn More' }}</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
-        @php $aboutImg = $getSection('about')?->image; @endphp
-        <img src="{{ $aboutImg ? asset('storage/' . $aboutImg) : asset('assets/img/about/about-square-12.webp') }}" class="img-fluid rounded" alt="About Image">
-      </div>
-    </div>
-  </div>
-</section>
-@endif
-
-<!-- Services Section -->
-@php $servicesSection = $getSection('services'); @endphp
-@if($servicesSection?->is_active ?? true)
-<section id="services" class="services section light-background">
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <div class="section-title">
-      @php $servicesSection = $getSection('services'); @endphp
-      <h2>{{ $servicesSection?->title ?? 'Services' }}</h2>
-      <p>{{ $servicesSection?->subtitle ?? 'Check our Services' }}</p>
-    </div>
-
-    <div class="row gy-5">
-      @foreach($services as $service)
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-        <div class="service-item">
-          @if($service->image)
-          <div class="service-image" style="width: 100%; height: 200px; overflow: hidden; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa;">
-            <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->title }}" style="width: 100%; height: 100%;">
-          </div>
-          @endif
-          <h2><a href="{{ route('portfolio.show', $service->slug) }}" class="stretched-link">{{ $service->title }}</a></h2>
-          <p>{{ $service->short_description }}</p>
-          <a href="{{ route('portfolio.show', $service->slug) }}" class="service-link">
-            Learn More <i class="bi bi-arrow-right"></i>
-          </a>
-        </div>
-      </div>
-      @endforeach
-    </div>
-  </div>
-</section>
-@endif
-
-<!-- Why Choose Us Section -->
-@php $whyUsSection = $getSection('why-us'); @endphp
-@if($whyUsSection?->is_active==1)
-<section id="why-us" class="why-us section">
-  <div class="container section-title" data-aos="fade-up">
-    <h2>{{ $whyUsSection?->title ?? 'Why Choose Us' }}</h2>
-    @if($whyUsSection?->tagline)
-    <p>{{ $whyUsSection->tagline }}</p>
-    @endif
-  </div>
-
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <div class="row">
-      <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
-        <div class="content">
-          <h2>{{ $whyUsSection?->subtitle ?? 'Why Partner With Us' }}</h2>
-          <p>{!! $whyUsSection?->description ?? 'We deliver exceptional results through proven expertise,' !!}</p>
-        </div>
-      </div>
-      <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
-        @php $whyUsImg = $getSection('why-us')?->image; @endphp
-        <img src="{{ $whyUsImg ? asset('storage/' . $whyUsImg) : asset('assets/img/about/about-8.webp') }}" alt="Professional team collaboration" class="img-fluid">
-      </div>
-    </div>
-
-    <div class="features-grid" data-aos="fade-up" data-aos-delay="400">
-      <div class="row g-5">
-        @forelse($features as $feature)
-        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-          <div class="feature-item">
-            <div class="icon-wrapper">
-              @if($feature->icon_file)
-              <img src="{{ asset('storage/' . $feature->icon_file) }}" alt="{{ $feature->title }} icon" class="feature-icon" style="max-width: 48px; max-height: 48px;">
-              @else
-              <i class="bi bi-lightbulb"></i>
-              @endif
-            </div>
-            <div class="feature-content">
-              <h3>{{ $feature->title }}</h3>
-              <p>{{ $feature->description }}</p>
             </div>
           </div>
+          <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
+            @php $aboutImg = $getSection('about')?->image; @endphp
+            <img src="{{ $aboutImg ? asset('storage/' . $aboutImg) : asset('assets/img/about/about-square-12.webp') }}" class="img-fluid rounded" alt="About Image">
+          </div>
         </div>
-        @empty
-        <div class="col-lg-12 text-center">
-          <p>No features available.</p>
-        </div>
-        @endforelse
       </div>
-    </div>
-  </div>
 </section>
 @endif
 
+    <!-- Why Us Section -->
+    <section id="why-us" class="section why-us light-background" data-builder="section">
 
-<!-- Portfolio Section -->
-@php 
-  $portfolioSection = $getSection('portfolio');
-  $portfolioMenuActive = \App\Models\Menu::where('route_name', 'portfolio.index')->where('active', true)->exists();
-@endphp
-@if($portfolioSection?->is_active==1)
-<section id="portfolio" class="portfolio section">
-  <div class="container section-title" data-aos="fade-up">
-  
-    <h2>{{ $portfolioSection?->title ?? 'Check Our Portfolio' }}</h2>
-    <p>{{ $portfolioSection?->description ?? 'Explore our latest projects and success stories' }}</p>
-  </div>
+      <div class="container-fluid">
 
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+        <div class="row gy-4">
 
-      <div class="row gy-5 isotope-container" data-aos="fade-up" data-aos-delay="300">
-        @forelse($portfolios as $portfolio)
-        <div class="col-lg-12 portfolio-item isotope-item filter-web">
-          <article class="portfolio-card">
-            <div class="row g-4">
-              @if($loop->even)
-              <div class="col-md-6 order-md-2">
-              @else
-              <div class="col-md-6">
-              @endif
-                <div class="project-visual">
-                  @if($portfolio->image)
-                    <img src="{{ asset('storage/' . $portfolio->image) }}" alt="{{ $portfolio->title }}" class="img-fluid">
-                  @else
-                    @php
-                      $placeholders = ['portfolio-1.webp', 'portfolio-2.webp', 'portfolio-3.webp', 'portfolio-4.webp', 'portfolio-5.webp', 'portfolio-6.webp'];
-                      $placeholder = $placeholders[$loop->index % count($placeholders)];
-                    @endphp
-                    <img src="{{ asset('assets/img/portfolio/' . $placeholder) }}" alt="{{ $portfolio->title }}" class="img-fluid">
-                  @endif
-                  <div class="project-overlay">
-                    <div class="overlay-content">
-                      @if($portfolio->image)
-                        <a href="{{ asset('storage/' . $portfolio->image) }}" class="view-project glightbox" title="{{ $portfolio->title }}">
-                          <i class="bi bi-eye"></i>
-                        </a>
-                      @else
-                        <a href="{{ asset('assets/img/portfolio/' . $placeholder) }}" class="view-project glightbox" title="{{ $portfolio->title }}">
-                          <i class="bi bi-eye"></i>
-                        </a>
-                      @endif
-                      <a href="{{ route('advisory.show', $portfolio) }}" class="project-link">
-                        <i class="bi bi-arrow-up-right"></i>
-                      </a>
-                    </div>
-                  </div>
+          <div class="col-lg-7 d-flex flex-column justify-content-center order-2 order-lg-1">
+
+            <div class="content px-xl-5" data-aos="fade-up" data-aos-delay="100">
+              <h3><span>Eum ipsam laborum deleniti </span><strong>velit pariatur architecto aut nihil</strong></h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
+              </p>
+            </div>
+
+            <div class="faq-container px-xl-5" data-aos="fade-up" data-aos-delay="200">
+
+              <div class="faq-item faq-active">
+
+                <h3><span>01</span> Non consectetur a erat nam at lectus urna duis?</h3>
+                <div class="faq-content">
+                  <p>Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.</p>
                 </div>
-              </div>
-              @if($loop->even)
-              <div class="col-md-6 order-md-1">
-              @else
-              <div class="col-md-6">
-              @endif
-                <div class="project-details">
-                  <div class="project-header">
-                    <span class="project-category">{{ $portfolio->category }}</span>
-                  </div>
-                  <h3 class="project-title">{{ $portfolio->title }}</h3>
-                  <p class="project-description">{!! $portfolio->description !!}</p>
-                  <div class="project-meta">
-                    <span class="client-name">{{ $portfolio->client ?? 'Professional Project' }}</span>
-                  </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3><span>02</span> Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque?</h3>
+                <div class="faq-content">
+                  <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
                 </div>
-              </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3><span>03</span> Dolor sit amet consectetur adipiscing elit pellentesque?</h3>
+                <div class="faq-content">
+                  <p>Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
             </div>
-          </article>
-        </div>
-        @empty
-        <div class="col-lg-12 text-center">
-          <p>No portfolio items available yet.</p>
-        </div>
-        @endforelse
-      </div>
-    </div>
 
-    <div class="portfolio-conclusion" data-aos="fade-up" data-aos-delay="400">
-      <div class="conclusion-content">
-        @php $portfolioConclusion = $getSection('portfolio-conclusion'); @endphp
-        <h4>{{ $portfolioConclusion?->title ?? 'Ready to elevate your business?' }}</h4>
-        <p>{{ $portfolioConclusion?->description ?? 'Let\'s discuss how we can transform your digital presence and drive meaningful results for your organization.' }}</p>
-        <div class="conclusion-actions">
-          @if(\App\Helpers\SettingHelper::get('portfolio_cta_button_enabled', true))
-          <a href="{{ $portfolioConclusion?->button_link ?? route('contact.index') }}" class="primary-action">
-            {{ $portfolioConclusion?->button_text ?? 'Start Conversation' }}
-            <i class="bi bi-arrow-right"></i>
-          </a>
-          @endif
-          @if(\App\Helpers\SettingHelper::get('portfolio_more_projects_button_enabled', true))
-          <a href="{{ route('portfolio.index') }}" class="secondary-action">
-            View All Projects
-          </a>
-          @endif
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-@endif
-
-
-<!-- Team Section -->
-@php $teamSection = $getSection('team');  @endphp
-@if($teamSection?->is_active==1) 
-<section id="team" class="team section">
-  <div class="container section-title" data-aos="fade-up">
-    <h2>{{ $teamSection?->title ?? 'Meet Our Team' }}</h2>
-    <p>{{ $teamSection?->subtitle ?? 'Our Professional Team' }}</p>
-  </div>
-
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <div class="row gy-5">
-      @foreach($teamMembers as $member)
-      <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
-        <div class="team-member">
-          <div class="member-img">
-            @if($member->image)
-              <img src="{{ asset('storage/' . $member->image) }}" class="img-fluid" alt="{{ $member->name }}">
-            @else
-              @php
-                $personPlaceholders = ['person-f-8.webp', 'person-m-12.webp', 'person-f-3.webp', 'person-m-7.webp', 'person-f-12.webp', 'person-m-8.webp', 'person-f-6.webp', 'person-m-12.webp'];
-                $personPlaceholder = $personPlaceholders[$loop->index % count($personPlaceholders)];
-              @endphp
-              <img src="{{ asset('assets/img/person/' . $personPlaceholder) }}" class="img-fluid" alt="{{ $member->name }}">
-            @endif
           </div>
-          <div class="member-info">
-            <h4>{{ $member->name }}</h4>
-            <span>{{ $member->position }}</span>
-            <div class="member-bio-content">
-              {!! $member->bio !!}
-            </div>
-            <div class="social">
-              @if($member->twitter)<a href="{{ $member->twitter }}"><i class="bi bi-twitter-x"></i></a>@endif
-              @if($member->linkedin)<a href="{{ $member->linkedin }}"><i class="bi bi-linkedin"></i></a>@endif
-              @if($member->instagram)<a href="{{ $member->instagram }}"><i class="bi bi-instagram"></i></a>@endif
-              @if($member->facebook)<a href="{{ $member->facebook }}"><i class="bi bi-facebook"></i></a>@endif
-            </div>
+
+          <div class="col-lg-5 order-1 order-lg-2 why-us-img">
+            <img src="assets/img/why-us.png" class="img-fluid" alt="" data-aos="zoom-in" data-aos-delay="100">
           </div>
         </div>
+
       </div>
-      @endforeach
-    </div>
-  </div>
-</section>
-@endif
 
+    </section><!-- /Why Us Section -->
 
-<!-- Testimonials Section -->
-@if($getSection('testimonials'))
-<section id="testimonials" class="testimonials section light-background">
-  <div class="container section-title" data-aos="fade-up">
-    @php $testimonialSection = $getSection('testimonials'); @endphp
-    <h2>{{ $testimonialSection?->title ?? 'What They Say' }}</h2>
-    <p>{{ $testimonialSection?->description ?? 'Hear from our satisfied clients and partners' }}</p>
-  </div>
+    <!-- Skills Section -->
+    <section id="skills" class="skills section">
 
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <div class="testimonial-slider swiper init-swiper">
-      <script type="application/json" class="swiper-config">
-        {
-          "loop": true,
-          "speed": 600,
-          "autoplay": {
-            "delay": 4000
-          },
-          "slidesPerView": 1,
-          "spaceBetween": 30,
-          "navigation": {
-            "nextEl": ".swiper-button-next",
-            "prevEl": ".swiper-button-prev"
-          },
-          "breakpoints": {
-            "768": {
-              "slidesPerView": 2
-            },
-            "1200": {
-              "slidesPerView": 3
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row">
+
+          <div class="col-lg-6 d-flex align-items-center">
+            <img src="assets/img/illustration/illustration-10.webp" class="img-fluid" alt="">
+          </div>
+
+          <div class="col-lg-6 pt-4 pt-lg-0 content">
+
+            <h3>Voluptatem dignissimos provident quasi corporis voluptas</h3>
+            <p class="fst-italic">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+
+            <div class="skills-content skills-animation">
+
+              <div class="progress">
+                <span class="skill"><span>HTML</span> <i class="val">100%</i></span>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div><!-- End Skills Item -->
+
+              <div class="progress">
+                <span class="skill"><span>CSS</span> <i class="val">90%</i></span>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div><!-- End Skills Item -->
+
+              <div class="progress">
+                <span class="skill"><span>JavaScript</span> <i class="val">75%</i></span>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div><!-- End Skills Item -->
+
+              <div class="progress">
+                <span class="skill"><span>Photoshop</span> <i class="val">55%</i></span>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div><!-- End Skills Item -->
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /Skills Section -->
+
+    <!-- Work Process Section -->
+    <section id="work-process" class="work-process section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        @php $workProcessSection = $getSection('work-process'); @endphp
+        <h2>{{ $workProcessSection?->title ?? 'Work Process' }}</h2>
+        <p>{{ $workProcessSection?->description ?? 'Our proven approach to delivering exceptional results' }}</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-5">
+          @php
+            $workSteps = [];
+            if ($workProcessSection && $workProcessSection->content) {
+              if (is_array($workProcessSection->content)) {
+                $workSteps = $workProcessSection->content;
+              } elseif (is_string($workProcessSection->content)) {
+                $decoded = json_decode($workProcessSection->content, true);
+                $workSteps = is_array($decoded) ? $decoded : [];
+              }
             }
-          }
-        }
-      </script>
+          @endphp
 
-      <div class="swiper-wrapper">
-        <!-- Testimonial 1 -->
-        <div class="swiper-slide">
-          <div class="testimonial-item" data-aos="zoom-in" data-aos-delay="200">
-            <div class="testimonial-header">
-              <img src="{{ asset('assets/img/person/person-f-12.webp') }}" alt="Jessica Martinez" class="img-fluid rounded-circle">
-              <div class="rating">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
+          @forelse($workSteps as $index => $step)
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="{{ 200 + ($index * 100) }}">
+            <div class="steps-item">
+              @if(!empty($step['image']))
+              <div class="steps-image">
+                <img src="{{ asset($step['image']) }}" alt="{{ $step['title'] ?? '' }}" class="img-fluid" loading="lazy">
               </div>
-            </div>
-            <div class="testimonial-body">
-              <p>"Exceptional work and professionalism. The team delivered exactly what we needed and exceeded our expectations. Highly recommended!"</p>
-            </div>
-            <div class="testimonial-footer">
-              <h5>Jessica Martinez</h5>
-              <span>UX Designer</span>
-              <div class="quote-icon">
-                <i class="bi bi-chat-quote-fill"></i>
+              @endif
+              <div class="steps-content">
+                <div class="steps-number">{{ $step['number'] ?? ($index + 1) }}</div>
+                <h3>{{ $step['title'] ?? '' }}</h3>
+                <p>{{ $step['description'] ?? '' }}</p>
+                <div class="steps-features">
+                  @if(!empty($step['features']) && is_array($step['features']))
+                    @foreach($step['features'] as $feature)
+                    <div class="feature-item">
+                      <i class="bi {{ $feature['icon'] ?? 'bi-check-circle' }}"></i>
+                      <span>{{ $feature['text'] ?? '' }}</span>
+                    </div>
+                    @endforeach
+                  @endif
+                </div>
               </div>
-            </div>
+            </div><!-- End Steps Item -->
+          </div>
+          @empty
+          <!-- Default fallback if no steps configured -->
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="steps-item">
+              <div class="steps-image">
+                <img src="assets/img/steps/steps-1.webp" alt="Step 1" class="img-fluid" loading="lazy">
+              </div>
+              <div class="steps-content">
+                <div class="steps-number">01</div>
+                <h3>Research &amp; Analysis</h3>
+                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione.</p>
+                <div class="steps-features">
+                  <div class="feature-item">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Market Research</span>
+                  </div>
+                  <div class="feature-item">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Data Analysis</span>
+                  </div>
+                  <div class="feature-item">
+                    <i class="bi bi-check-circle"></i>
+                    <span>User Feedback</span>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Steps Item -->
+          </div>
+
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="steps-item">
+              <div class="steps-image">
+                <img src="assets/img/steps/steps-2.webp" alt="Step 2" class="img-fluid" loading="lazy">
+              </div>
+              <div class="steps-content">
+                <div class="steps-number">02</div>
+                <h3>Design &amp; Planning</h3>
+                <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur.</p>
+                <div class="steps-features">
+                  <div class="feature-item">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Wireframing</span>
+                  </div>
+                  <div class="feature-item">
+                    <i class="bi bi-check-circle"></i>
+                    <span>UI/UX Design</span>
+                  </div>
+                  <div class="feature-item">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Prototyping</span>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Steps Item -->
+          </div>
+
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="400">
+            <div class="steps-item">
+              <div class="steps-image">
+                <img src="assets/img/steps/steps-3.webp" alt="Step 3" class="img-fluid" loading="lazy">
+              </div>
+              <div class="steps-content">
+                <div class="steps-number">03</div>
+                <h3>Development &amp; Launch</h3>
+                <p>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil.</p>
+                <div class="steps-features">
+                  <div class="feature-item">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Development</span>
+                  </div>
+                  <div class="feature-item">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Testing</span>
+                  </div>
+                  <div class="feature-item">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Deployment</span>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Steps Item -->
+          </div>
+          @endforelse
+
+        </div>
+
+      </div>
+
+    </section><!-- /Work Process Section -->
+
+    <!-- Call To Action Section -->
+    <section id="call-to-action" class="call-to-action section dark-background">
+
+      <img src="assets/img/bg/bg-8.webp" alt="">
+
+      <div class="container">
+
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+          <div class="col-xl-9 text-center text-xl-start">
+            <h3>Call To Action</h3>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+          <div class="col-xl-3 cta-btn-container text-center">
+            <a class="cta-btn align-middle" href="#">Call To Action</a>
           </div>
         </div>
 
-        <!-- Testimonial 2 -->
-        <div class="swiper-slide">
-          <div class="testimonial-item" data-aos="zoom-in" data-aos-delay="300">
-            <div class="testimonial-header">
-              <img src="{{ asset('assets/img/person/person-m-8.webp') }}" alt="Client" class="img-fluid rounded-circle">
-              <div class="rating">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
+      </div>
+
+    </section><!-- /Call To Action Section -->
+
+
+    <!-- Team Section -->
+    <section id="team" class="team section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Team</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="team-member d-flex align-items-start">
+              <div class="pic"><img src="assets/img/person/person-m-7.webp" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>Walter White</h4>
+                <span>Chief Executive Officer</span>
+                <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter-x"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""> <i class="bi bi-linkedin"></i> </a>
+                </div>
               </div>
             </div>
-            <div class="testimonial-body">
-              <p>"Outstanding results and great communication throughout the project. They understood our requirements perfectly and delivered on time."</p>
-            </div>
-            <div class="testimonial-footer">
-              <h5>David Rodriguez</h5>
-              <span>Software Engineer</span>
-              <div class="quote-icon">
-                <i class="bi bi-chat-quote-fill"></i>
+          </div><!-- End Team Member -->
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="team-member d-flex align-items-start">
+              <div class="pic"><img src="assets/img/person/person-f-8.webp" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>Sarah Jhonson</h4>
+                <span>Product Manager</span>
+                <p>Aut maiores voluptates amet et quis praesentium qui senda para</p>
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter-x"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""> <i class="bi bi-linkedin"></i> </a>
+                </div>
               </div>
             </div>
-          </div>
+          </div><!-- End Team Member -->
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="team-member d-flex align-items-start">
+              <div class="pic"><img src="assets/img/person/person-m-6.webp" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>William Anderson</h4>
+                <span>CTO</span>
+                <p>Quisquam facilis cum velit laborum corrupti fuga rerum quia</p>
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter-x"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""> <i class="bi bi-linkedin"></i> </a>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Team Member -->
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="team-member d-flex align-items-start">
+              <div class="pic"><img src="assets/img/person/person-f-4.webp" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>Amanda Jepson</h4>
+                <span>Accountant</span>
+                <p>Dolorum tempora officiis odit laborum officiis et et accusamus</p>
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter-x"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""> <i class="bi bi-linkedin"></i> </a>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Team Member -->
+
         </div>
 
-        <!-- Testimonial 3 -->
-        <div class="swiper-slide">
-          <div class="testimonial-item" data-aos="zoom-in" data-aos-delay="400">
-            <div class="testimonial-header">
-              <img src="{{ asset('assets/img/person/person-f-6.webp') }}" alt="Amanda Wilson" class="img-fluid rounded-circle">
-              <div class="rating">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-              </div>
+      </div>
+
+    </section><!-- /Team Section -->
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing section light-background">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Pricing</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
+            <div class="pricing-item">
+              <h3>Free Plan</h3>
+              <h4><sup>$</sup>0<span> / month</span></h4>
+              <ul>
+                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
+                <li><i class="bi bi-check"></i> <span>Nec feugiat nisl pretium</span></li>
+                <li><i class="bi bi-check"></i> <span>Nulla at volutpat diam uteera</span></li>
+                <li class="na"><i class="bi bi-x"></i> <span>Pharetra massa massa ultricies</span></li>
+                <li class="na"><i class="bi bi-x"></i> <span>Massa ultricies mi quis hendrerit</span></li>
+              </ul>
+              <a href="#" class="buy-btn">Buy Now</a>
             </div>
-            <div class="testimonial-body">
-              <p>"Perfect partnership! They understood our vision and brought it to life beautifully. The attention to detail was remarkable."</p>
+          </div><!-- End Pricing Item -->
+
+          <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="200">
+            <div class="pricing-item featured">
+              <h3>Business Plan</h3>
+              <h4><sup>$</sup>29<span> / month</span></h4>
+              <ul>
+                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
+                <li><i class="bi bi-check"></i> <span>Nec feugiat nisl pretium</span></li>
+                <li><i class="bi bi-check"></i> <span>Nulla at volutpat diam uteera</span></li>
+                <li><i class="bi bi-check"></i> <span>Pharetra massa massa ultricies</span></li>
+                <li><i class="bi bi-check"></i> <span>Massa ultricies mi quis hendrerit</span></li>
+              </ul>
+              <a href="#" class="buy-btn">Buy Now</a>
             </div>
-            <div class="testimonial-footer">
-              <h5>Amanda Wilson</h5>
-              <span>Creative Director</span>
-              <div class="quote-icon">
-                <i class="bi bi-chat-quote-fill"></i>
-              </div>
+          </div><!-- End Pricing Item -->
+
+          <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="300">
+            <div class="pricing-item">
+              <h3>Developer Plan</h3>
+              <h4><sup>$</sup>49<span> / month</span></h4>
+              <ul>
+                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
+                <li><i class="bi bi-check"></i> <span>Nec feugiat nisl pretium</span></li>
+                <li><i class="bi bi-check"></i> <span>Nulla at volutpat diam uteera</span></li>
+                <li><i class="bi bi-check"></i> <span>Pharetra massa massa ultricies</span></li>
+                <li><i class="bi bi-check"></i> <span>Massa ultricies mi quis hendrerit</span></li>
+              </ul>
+              <a href="#" class="buy-btn">Buy Now</a>
             </div>
-          </div>
+          </div><!-- End Pricing Item -->
+
         </div>
 
-        <!-- Testimonial 4 -->
-        <div class="swiper-slide">
-          <div class="testimonial-item" data-aos="zoom-in" data-aos-delay="500">
-            <div class="testimonial-header">
-              <img src="{{ asset('assets/img/person/person-m-12.webp') }}" alt="Ryan Thompson" class="img-fluid rounded-circle">
-              <div class="rating">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
+      </div>
+
+    </section><!-- /Pricing Section -->
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Testimonials</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="swiper init-swiper">
+          <script type="application/json" class="swiper-config">
+            {
+              "loop": true,
+              "speed": 600,
+              "autoplay": {
+                "delay": 5000
+              },
+              "slidesPerView": "auto",
+              "pagination": {
+                "el": ".swiper-pagination",
+                "type": "bullets",
+                "clickable": true
+              }
+            }
+          </script>
+          <div class="swiper-wrapper">
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="assets/img/person/person-m-9.webp" class="testimonial-img" alt="">
+                <h3>Saul Goodman</h3>
+                <h4>Ceo &amp; Founder</h4>
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i>
+                  <span>Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.</span>
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
               </div>
-            </div>
-            <div class="testimonial-body">
-              <p>"Professional team with excellent attention to detail. They delivered on time and on budget. Would work with them again in a heartbeat!"</p>
-            </div>
-            <div class="testimonial-footer">
-              <h5>Ryan Thompson</h5>
-              <span>Business Analyst</span>
-              <div class="quote-icon">
-                <i class="bi bi-chat-quote-fill"></i>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="assets/img/person/person-f-5.webp" class="testimonial-img" alt="">
+                <h3>Sara Wilsson</h3>
+                <h4>Designer</h4>
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i>
+                  <span>Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.</span>
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
               </div>
-            </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="assets/img/person/person-f-12.webp" class="testimonial-img" alt="">
+                <h3>Jena Karlis</h3>
+                <h4>Store Owner</h4>
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i>
+                  <span>Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.</span>
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="assets/img/person/person-m-12.webp" class="testimonial-img" alt="">
+                <h3>Matt Brandon</h3>
+                <h4>Freelancer</h4>
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i>
+                  <span>Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.</span>
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="assets/img/person/person-m-13.webp" class="testimonial-img" alt="">
+                <h3>John Larson</h3>
+                <h4>Entrepreneur</h4>
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i>
+                  <span>Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.</span>
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+
           </div>
+          <div class="swiper-pagination"></div>
         </div>
 
-        <!-- Testimonial 5 -->
-        <div class="swiper-slide">
-          <div class="testimonial-item" data-aos="zoom-in" data-aos-delay="600">
-            <div class="testimonial-header">
-              <img src="{{ asset('assets/img/person/person-f-10.webp') }}" alt="Rachel Chen" class="img-fluid rounded-circle">
-              <div class="rating">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-              </div>
+      </div>
+
+    </section><!-- /Testimonials Section -->
+
+    <!-- Subscribe Section -->
+    <section id="subscribe" class="subscribe section">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4 justify-content-between align-items-center">
+          <div class="col-lg-6">
+            <div class="cta-content" data-aos="fade-up" data-aos-delay="200">
+              <h2>Subscribe to our newsletter</h2>
+              <p>Proin eget tortor risus. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Curabitur aliquet quam id dui posuere blandit.</p>
+              <form action="forms/newsletter.php" method="post" class="php-email-form cta-form" data-aos="fade-up" data-aos-delay="300">
+                <div class="input-group mb-3">
+                  <input type="email" class="form-control" placeholder="Email address..." aria-label="Email address" aria-describedby="button-subscribe">
+                  <button class="btn btn-primary" type="submit" id="button-subscribe">Subscribe</button>
+                </div>
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your subscription request has been sent. Thank you!</div>
+              </form>
             </div>
-            <div class="testimonial-body">
-              <p>"Fantastic collaboration and support. They truly care about client success. Our project went from concept to completion seamlessly."</p>
-            </div>
-            <div class="testimonial-footer">
-              <h5>Rachel Chen</h5>
-              <span>Project Manager</span>
-              <div class="quote-icon">
-                <i class="bi bi-chat-quote-fill"></i>
-              </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="cta-image" data-aos="zoom-out" data-aos-delay="200">
+              <img src="assets/img/cta/cta-1.webp" alt="" class="img-fluid">
             </div>
           </div>
         </div>
       </div>
+    </section><!-- /Subscribe Section -->
 
-      <div class="swiper-navigation">
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
+   
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Contact</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-5">
+
+            <div class="info-wrap">
+              <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="200">
+                <i class="bi bi-geo-alt flex-shrink-0"></i>
+                <div>
+                  <h3>Address</h3>
+                  <p>A108 Adam Street, New York, NY 535022</p>
+                </div>
+              </div><!-- End Info Item -->
+
+              <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
+                <i class="bi bi-telephone flex-shrink-0"></i>
+                <div>
+                  <h3>Call Us</h3>
+                  <p>+1 5589 55488 55</p>
+                </div>
+              </div><!-- End Info Item -->
+
+              <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
+                <i class="bi bi-envelope flex-shrink-0"></i>
+                <div>
+                  <h3>Email Us</h3>
+                  <p>info@example.com</p>
+                </div>
+              </div><!-- End Info Item -->
+
+              <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d48389.78314118045!2d-74.006138!3d40.710059!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a22a3bda30d%3A0xb89d1fe6bc499443!2sDowntown%20Conference%20Center!5e0!3m2!1sen!2sus!4v1676961268712!5m2!1sen!2sus" frameborder="0" style="border:0; width: 100%; height: 270px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+          </div>
+
+          <div class="col-lg-7">
+            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+              <div class="row gy-4">
+
+                <div class="col-md-6">
+                  <label for="name-field" class="pb-2">Your Name</label>
+                  <input type="text" name="name" id="name-field" class="form-control" required="">
+                </div>
+
+                <div class="col-md-6">
+                  <label for="email-field" class="pb-2">Your Email</label>
+                  <input type="email" class="form-control" name="email" id="email-field" required="">
+                </div>
+
+                <div class="col-md-12">
+                  <label for="subject-field" class="pb-2">Subject</label>
+                  <input type="text" class="form-control" name="subject" id="subject-field" required="">
+                </div>
+
+                <div class="col-md-12">
+                  <label for="message-field" class="pb-2">Message</label>
+                  <textarea class="form-control" name="message" rows="10" id="message-field" required=""></textarea>
+                </div>
+
+                <div class="col-md-12 text-center">
+                  <div class="loading">Loading</div>
+                  <div class="error-message"></div>
+                  <div class="sent-message">Your message has been sent. Thank you!</div>
+
+                  <button type="submit">Send Message</button>
+                </div>
+
+              </div>
+            </form>
+          </div><!-- End Contact Form -->
+
+        </div>
+
       </div>
-    </div>
-  </div>
-</section>
-@endif
 
+    </section><!-- /Contact Section -->
+
+  </main>
 
 @endsection

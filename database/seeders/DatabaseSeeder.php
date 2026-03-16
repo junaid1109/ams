@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Portfolio;
-use App\Models\Advisory;
 use App\Models\TeamMember;
 use App\Models\Page;
 use App\Models\Setting;
@@ -27,68 +25,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@ams.com',
             'password' => Hash::make('password'),
             'role' => 'admin',
-        ]);
-
-        // Create Sample Services
-        Portfolio::create([
-            'title' => 'Web Design',
-            'slug' => 'web-design',
-            'description' => 'Professional web design services tailored to your business needs. We create beautiful, responsive websites that convert visitors into customers.',
-            'short_description' => 'Professional web design services for modern businesses',
-            'icon' => 'bi bi-layers',
-            'published' => true,
-            'order' => 1,
-        ]);
-
-        Portfolio::create([
-            'title' => 'Web Development',
-            'slug' => 'web-development',
-            'description' => 'Full-stack web development using the latest technologies. From frontend to backend, we build scalable and maintainable web applications.',
-            'short_description' => 'Complete web development solutions',
-            'icon' => 'bi bi-code-slash',
-            'published' => true,
-            'order' => 2,
-        ]);
-
-        Portfolio::create([
-            'title' => 'Digital Marketing',
-            'slug' => 'digital-marketing',
-            'description' => 'Boost your online presence with our comprehensive digital marketing solutions including SEO, social media, and content marketing.',
-            'short_description' => 'Comprehensive digital marketing strategies',
-            'icon' => 'bi bi-megaphone',
-            'published' => true,
-            'order' => 3,
-        ]);
-
-        // Create Sample Advisory Items
-        Advisory::create([
-            'title' => 'E-Commerce Platform',
-            'slug' => 'ecommerce-platform',
-            'description' => 'A complete e-commerce solution with shopping cart, payment integration, and inventory management.',
-            'category' => 'Web Development',
-            'client' => 'Tech Store Inc.',
-            'published' => true,
-            'order' => 1,
-        ]);
-
-        Advisory::create([
-            'title' => 'Corporate Website',
-            'slug' => 'corporate-website',
-            'description' => 'Professional corporate website with CMS integration for easy content management.',
-            'category' => 'Web Design',
-            'client' => 'Business Solutions Ltd.',
-            'published' => true,
-            'order' => 2,
-        ]);
-
-        Advisory::create([
-            'title' => 'Mobile App Design',
-            'slug' => 'mobile-app-design',
-            'description' => 'Beautiful and functional mobile app design for iOS and Android platforms.',
-            'category' => 'UI/UX Design',
-            'client' => 'Innovation Labs',
-            'published' => true,
-            'order' => 3,
         ]);
 
         // Create Sample Team Members

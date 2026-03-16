@@ -7,7 +7,7 @@
   ];
 @endphp
 
-@section('title', $page->title . ' - ' . (isset($siteName) ? $siteName : 'AMS'))
+@section('title', $page->title . ' - ' . (isset($siteName) ? $siteName : 'ASML'))
 @section('meta_description', $page->meta_description)
 
 @section('content')
