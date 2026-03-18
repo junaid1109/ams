@@ -206,7 +206,7 @@
     </div>
 
     <div class="row gy-5">
-      @foreach($services as $service)
+      @forelse($services as $service)
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
         <div class="service-item">
           @if($service->image)
@@ -214,14 +214,18 @@
             <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->title }}" style="width: 100%; height: 100%;">
           </div>
           @endif
-          <h2><a href="{{ route('portfolio.show', $service->slug) }}" class="stretched-link">{{ $service->title }}</a></h2>
+          <h2>{{ $service->title }}</h2>
           <p>{{ $service->short_description }}</p>
-          <a href="{{ route('portfolio.show', $service->slug) }}" class="service-link">
+          <a href="#" class="service-link">
             Learn More <i class="bi bi-arrow-right"></i>
           </a>
         </div>
       </div>
-      @endforeach
+      @empty
+      <div class="col-12">
+        <p class="text-center">No services available at the moment.</p>
+      </div>
+      @endforelse
     </div>
   </div>
 </section>
@@ -285,7 +289,7 @@
 <!-- Portfolio Section -->
 @php 
   $portfolioSection = $getSection('portfolio');
-  $portfolioMenuActive = \App\Models\Menu::where('route_name', 'portfolio.index')->where('active', true)->exists();
+  $portfolioMenuActive = false;
 @endphp
 @if($portfolioSection?->is_active==1)
 <section id="portfolio" class="portfolio section">
@@ -376,7 +380,7 @@
           </a>
           @endif
           @if(\App\Helpers\SettingHelper::get('portfolio_more_projects_button_enabled', true))
-          <a href="{{ route('portfolio.index') }}" class="secondary-action">
+          <a href="#" class="secondary-action">
             View All Projects
           </a>
           @endif

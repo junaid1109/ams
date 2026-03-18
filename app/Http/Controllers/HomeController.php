@@ -21,11 +21,19 @@ class HomeController extends Controller
         // Get homepage sections data
         $homeSections = HomeSection::where('is_active', true)->orderBy('display_order')->get();
         
+        // Services (empty array - service feature removed)
+        $services = [];
+        
+        // Features (empty array - feature model removed)
+        $features = [];
+        
         return view('frontend.index', compact(
             'teamMembers',
             'siteName',
             'siteTagline',
-            'homeSections'
+            'homeSections',
+            'services',
+            'features'
         ));
     }
 

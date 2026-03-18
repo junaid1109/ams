@@ -601,7 +601,7 @@
         <ul>
           <li><a href="{{ route('home') }}" class="@if(Route::currentRouteName() == 'home') active @endif">Home</a></li>
           <li><a href="{{ route('about') }}" class="@if(Route::currentRouteName() == 'about') active @endif">About</a></li>
-          <li><a href="{{ route('portfolio.index') }}" class="@if(str_contains(Route::currentRouteName(), 'portfolio')) active @endif">Services</a></li>
+          <li><a href="#" class="">Services</a></li>
           <li><a href="{{ route('advisory.index') }}" class="@if(str_contains(Route::currentRouteName(), 'advisory')) active @endif">Portfolio</a></li>
           <li><a href="{{ route('team') }}" class="@if(Route::currentRouteName() == 'team') active @endif">Team</a></li>
           <li><a href="{{ route('faq.index') }}" class="@if(Route::currentRouteName() == 'faq.index') active @endif">Pricing</a></li>
@@ -659,7 +659,7 @@
             <h4>Useful Links</h4>
             <ul>
               <li><a href="{{ route('home') }}">Home</a></li>
-              <li><a href="{{ route('portfolio.index') }}">Portfolio</a></li>
+              <li><a href="#">Portfolio</a></li>
               <li><a href="{{ route('advisory.index') }}">Advisory</a></li>
               <li><a href="{{ route('faq.index') }}">Faqs</a></li>
               @forelse(\App\Models\Page::where('published', 1)->orderBy('title')->get() as $page)
@@ -673,7 +673,7 @@
             <h4>Portfolio Services</h4>
             <ul>
               @forelse(\App\Models\Portfolio::where('published', 1)->orderBy('order')->limit(4)->get() as $service)
-              <li><a href="{{ route('portfolio.show', $service->slug) }}">{{ $service->title }}</a></li>
+              <li><a href="#">{{ $service->title }}</a></li>
               @empty
               <li><a href="#">Web Design</a></li>
               <li><a href="#">Web Development</a></li>
