@@ -333,7 +333,7 @@
                           <i class="bi bi-eye"></i>
                         </a>
                       @endif
-                      <a href="{{ route('advisory.show', $portfolio) }}" class="project-link">
+                      <a href="#" class="project-link">
                         <i class="bi bi-arrow-up-right"></i>
                       </a>
                     </div>

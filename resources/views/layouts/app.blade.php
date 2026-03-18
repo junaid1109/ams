@@ -602,9 +602,9 @@
           <li><a href="{{ route('home') }}" class="@if(Route::currentRouteName() == 'home') active @endif">Home</a></li>
           <li><a href="{{ route('about') }}" class="@if(Route::currentRouteName() == 'about') active @endif">About</a></li>
           <li><a href="#" class="">Services</a></li>
-          <li><a href="{{ route('advisory.index') }}" class="@if(str_contains(Route::currentRouteName(), 'advisory')) active @endif">Portfolio</a></li>
+          <li><a href="#" class="">Portfolio</a></li>
           <li><a href="{{ route('team') }}" class="@if(Route::currentRouteName() == 'team') active @endif">Team</a></li>
-          <li><a href="{{ route('faq.index') }}" class="@if(Route::currentRouteName() == 'faq.index') active @endif">Pricing</a></li>
+          <li><a href="#" class="">Pricing</a></li>
           <li><a href="{{ route('contact.index') }}" class="@if(Route::currentRouteName() == 'contact.index') active @endif">Contact</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -660,8 +660,8 @@
             <ul>
               <li><a href="{{ route('home') }}">Home</a></li>
               <li><a href="#">Portfolio</a></li>
-              <li><a href="{{ route('advisory.index') }}">Advisory</a></li>
-              <li><a href="{{ route('faq.index') }}">Faqs</a></li>
+              <li><a href="#">Advisory</a></li>
+              <li><a href="#">Faqs</a></li>
               @forelse(\App\Models\Page::where('published', 1)->orderBy('title')->get() as $page)
               <li><a href="{{ route('page.show', $page) }}">{{ $page->title }}</a></li>
               @empty
