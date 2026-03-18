@@ -384,24 +384,6 @@
         </li>
 
         <li>
-          <a href="{{ route('admin.features.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.features')) active @endif">
-            <i class="bi bi-laptop"></i> Features
-          </a>
-        </li>
-
-        <li>
-          <a href="{{ route('admin.portfolios.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.portfolios')) active @endif">
-            <i class="bi bi-images"></i> Portfolio
-          </a>
-        </li>
-
-        <li>
-          <a href="{{ route('admin.advisory.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.advisory')) active @endif">
-            <i class="bi bi-gear"></i> Advisory
-          </a>
-        </li>
-
-        <li>
           <a href="{{ route('admin.team.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.team')) active @endif">
             <i class="bi bi-people"></i> Team
           </a>
@@ -416,12 +398,6 @@
         <li>
           <a href="{{ route('admin.menus.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.menus')) active @endif">
             <i class="bi bi-list"></i> Menu Items
-          </a>
-        </li>
-
-        <li>
-          <a href="{{ route('admin.faqs.index') }}" class="@if(str_contains(Route::currentRouteName(), 'admin.faqs')) active @endif">
-            <i class="bi bi-question-circle"></i> FAQs
           </a>
         </li>
 

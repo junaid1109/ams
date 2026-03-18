@@ -18,6 +18,7 @@ class Page extends Model
         'meta_keywords',
         'published',
         'page_type',
+        'display_location',
     ];
 
     protected $casts = [
@@ -34,5 +35,10 @@ class Page extends Model
         }
         
         return 'slug';
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('published', 1);
     }
 }

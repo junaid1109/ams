@@ -52,11 +52,20 @@ class HomeSectionSeeder extends Seeder
                 'is_active' => true,
             ],
             [
+                'section_name' => 'clients',
+                'title' => 'Our Clients',
+                'subtitle' => 'Trusted By',
+                'description' => 'We are proud to work with leading companies and organizations around the world.',
+                'display_order' => 3,
+                'is_active' => true,
+                'content' => json_encode([]), // Empty array - will be populated via admin
+            ],
+            [
                 'section_name' => 'services',
                 'title' => 'What We Do Offer',
                 'subtitle' => 'Services',
                 'description' => 'Check our professional services designed for your business success.',
-                'display_order' => 3,
+                'display_order' => 4,
                 'is_active' => true,
             ],
             [
@@ -64,7 +73,7 @@ class HomeSectionSeeder extends Seeder
                 'title' => 'Why Choose Us',
                 'subtitle' => 'Why Us',
                 'description' => 'We deliver exceptional results through proven expertise, cutting-edge innovation, and unwavering commitment to your success.',
-                'display_order' => 4,
+                'display_order' => 5,
                 'is_active' => true,
             ],
             [
@@ -72,7 +81,7 @@ class HomeSectionSeeder extends Seeder
                 'title' => 'Meet Our Team',
                 'subtitle' => 'Our Professional Team',
                 'description' => 'We are a talented team of professionals dedicated to delivering exceptional results and transforming your business vision into reality.',
-                'display_order' => 5,
+                'display_order' => 6,
                 'is_active' => true,
             ],
             [
@@ -80,7 +89,49 @@ class HomeSectionSeeder extends Seeder
                 'title' => 'Check Our Portfolio',
                 'subtitle' => 'Portfolio',
                 'description' => 'Explore our latest projects and success stories.',
-                'display_order' => 6,
+                'display_order' => 7,
+                'is_active' => true,
+            ],
+            [
+                'section_name' => 'work-process',
+                'title' => 'Work Process',
+                'description' => 'Our proven approach to delivering exceptional results',
+                'content' => json_encode([
+                    [
+                        'number' => '01',
+                        'title' => 'Research & Analysis',
+                        'description' => 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione.',
+                        'features' => [
+                            ['icon' => 'bi-check-circle', 'text' => 'Market Research'],
+                            ['icon' => 'bi-check-circle', 'text' => 'Data Analysis'],
+                            ['icon' => 'bi-check-circle', 'text' => 'User Feedback'],
+                        ],
+                        'image' => 'assets/img/steps/steps-1.webp'
+                    ],
+                    [
+                        'number' => '02',
+                        'title' => 'Design & Planning',
+                        'description' => 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur.',
+                        'features' => [
+                            ['icon' => 'bi-check-circle', 'text' => 'Wireframing'],
+                            ['icon' => 'bi-check-circle', 'text' => 'UI/UX Design'],
+                            ['icon' => 'bi-check-circle', 'text' => 'Prototyping'],
+                        ],
+                        'image' => 'assets/img/steps/steps-2.webp'
+                    ],
+                    [
+                        'number' => '03',
+                        'title' => 'Development & Launch',
+                        'description' => 'Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil.',
+                        'features' => [
+                            ['icon' => 'bi-check-circle', 'text' => 'Development'],
+                            ['icon' => 'bi-check-circle', 'text' => 'Testing'],
+                            ['icon' => 'bi-check-circle', 'text' => 'Deployment'],
+                        ],
+                        'image' => 'assets/img/steps/steps-3.webp'
+                    ]
+                ]),
+                'display_order' => 7.5,
                 'is_active' => true,
             ],
             [
@@ -88,7 +139,7 @@ class HomeSectionSeeder extends Seeder
                 'title' => 'What They Say',
                 'subtitle' => 'Testimonials',
                 'description' => 'Hear from our satisfied clients and partners.',
-                'display_order' => 7,
+                'display_order' => 8,
                 'is_active' => true,
             ],
             [
@@ -97,7 +148,7 @@ class HomeSectionSeeder extends Seeder
                 'description' => 'Let\'s discuss how we can transform your digital presence and drive meaningful results for your organization.',
                 'button_text' => 'Start Conversation',
                 'button_link' => '/contact',
-                'display_order' => 8,
+                'display_order' => 9,
                 'is_active' => true,
             ],
         ];

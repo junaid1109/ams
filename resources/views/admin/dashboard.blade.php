@@ -8,20 +8,6 @@
 <!-- Stats Cards -->
 <div class="row">
   <div class="col-md-6 col-lg-3">
-    <div class="stat-card">
-      <div class="stat-value">{{ $stats['services'] }}</div>
-      <div class="stat-label">Services</div>
-    </div>
-  </div>
-
-  <div class="col-md-6 col-lg-3">
-    <div class="stat-card" style="border-left-color: #28a745;">
-      <div class="stat-value" style="color: #28a745;">{{ $stats['portfolios'] }}</div>
-      <div class="stat-label">Portfolio Items</div>
-    </div>
-  </div>
-
-  <div class="col-md-6 col-lg-3">
     <div class="stat-card" style="border-left-color: #ffc107;">
       <div class="stat-value" style="color: #ffc107;">{{ $stats['team_members'] }}</div>
       <div class="stat-label">Team Members</div>
@@ -34,24 +20,15 @@
       <div class="stat-label">Unread Messages</div>
     </div>
   </div>
-</div>
 
-<!-- Quick Actions -->
-<div class="row">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">Quick Actions</div>
-      <div class="card-body" style="padding: 20px;">
-        <a href="{{ route('admin.home-sections.index') }}" class="btn btn-success">📋 Manage Home Sections</a>
-        <a href="{{ route('admin.portfolios.create') }}" class="btn btn-primary">+ Add Service</a>
-        <a href="{{ route('admin.advisory.create') }}" class="btn btn-primary">+ Add Portfolio Item</a>
-        <a href="{{ route('admin.team.create') }}" class="btn btn-primary">+ Add Team Member</a>
-        <a href="{{ route('admin.pages.create') }}" class="btn btn-primary">+ Add Page</a>
-        <a href="{{ route('admin.settings.index') }}" class="btn btn-warning">⚙️ Settings</a>
-      </div>
+  <div class="col-md-6 col-lg-3">
+    <div class="stat-card" style="border-left-color: #17a2b8;">
+      <div class="stat-value" style="color: #17a2b8;">{{ $stats['pages'] }}</div>
+      <div class="stat-label">Pages</div>
     </div>
   </div>
 </div>
+
 
 <!-- Recent Contacts -->
 <div class="row">

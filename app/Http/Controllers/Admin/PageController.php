@@ -40,6 +40,7 @@ class PageController extends \App\Http\Controllers\Controller
             'meta_description' => 'nullable|string|max:255',
             'meta_keywords' => 'nullable|string',
             'page_type' => 'nullable|string',
+            'display_location' => 'nullable|string',
             'published' => 'boolean',
         ]);
 
@@ -70,6 +71,7 @@ class PageController extends \App\Http\Controllers\Controller
             'meta_description' => 'nullable|string|max:255',
             'meta_keywords' => 'nullable|string',
             'page_type' => 'nullable|string',
+            'display_location' => 'nullable|string',
             'published' => 'boolean',
         ]);
 

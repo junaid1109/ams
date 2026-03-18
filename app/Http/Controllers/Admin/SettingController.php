@@ -35,7 +35,6 @@ class SettingController extends \App\Http\Controllers\Controller
             'site_address' => 'nullable|string',
             'site_description' => 'nullable|string',
             'footer_description' => 'nullable|string',
-            'portfolio_intro' => 'nullable|string',
             'demo_video_url' => 'nullable|url',
             'demo_video_file' => 'nullable|file|mimes:mp4,webm,ogg,mov,avi|max:102400',
             'site_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',

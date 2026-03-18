@@ -24,11 +24,6 @@
             </button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="portfolio-tab" data-bs-toggle="tab" data-bs-target="#portfolio-content" type="button" role="tab" aria-controls="portfolio-content" aria-selected="false" style="padding: 15px 20px; border: none; border-bottom: 3px solid transparent;">
-              <i class="bi bi-images"></i> Portfolio
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
             <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social-content" type="button" role="tab" aria-controls="social-content" aria-selected="false" style="padding: 15px 20px; border: none; border-bottom: 3px solid transparent;">
               <i class="bi bi-link-45deg"></i> Social Media
             </button>
@@ -232,20 +227,6 @@
                     <small class="d-block text-muted">Show/hide the demo video button in the hero section</small>
                   </label>
                 </div>
-              </div>
-
-              <button type="submit" class="btn btn-primary mt-3">Save Settings</button>
-            </div>
-
-            <!-- PORTFOLIO TAB -->
-            <div class="tab-pane fade" id="portfolio-content" role="tabpanel" aria-labelledby="portfolio-tab">
-              <h4 class="mb-3">Portfolio Settings</h4>
-
-              <div class="form-group">
-                <label>Portfolio Page Intro (Rich Text)</label>
-                <textarea name="portfolio_intro" id="portfolio_intro" class="form-control ckeditor @error('portfolio_intro') is-invalid @enderror">{{ old('portfolio_intro', $settings['portfolio_intro'] ?? '') }}</textarea>
-                <small class="form-text text-muted">Add an introduction paragraph that appears at the top of the portfolio page. Supports rich text formatting.</small>
-                @error('portfolio_intro')<span class="invalid-feedback">{{ $message }}</span>@enderror
               </div>
 
               <button type="submit" class="btn btn-primary mt-3">Save Settings</button>
