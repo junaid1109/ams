@@ -283,7 +283,7 @@
 
     <!-- Dynamic Text Blocks Section -->
     @if($textBlocks->count() > 0)
-    <div class="row gy-5">
+    <div class="row">
       @foreach($textBlocks as $block)
 
         @if($block->section_name === 'advisory_text_block_4')

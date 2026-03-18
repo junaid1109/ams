@@ -141,8 +141,8 @@
         <div class="content">
           @php $aboutSection = $getSection('about'); @endphp
           <h2>{{ $aboutSection?->title ?? 'Crafting Excellence Through Innovation and Dedication' }}</h2>
-          <p class="lead">{{ $aboutSection?->subtitle ?? 'We are passionate professionals committed to delivering exceptional results that exceed expectations and drive meaningful transformation.' }}</p>
-          <p>{{ $aboutSection?->description ?? 'We are a team of passionate professionals dedicated to transforming ideas into digital reality. With years of experience in web design, development, and digital marketing, we help businesses of all sizes achieve their goals.' }}</p>
+          <p class="lead">{{ $aboutSection?->subtitle ?? 'We are passionate professionals.' }}</p>
+          <p>{!! $aboutSection?->description ?? 'We are a team of passionate professionals.' !!}</p>
 
           <!-- About Stats with Counters -->
           <div class="stats-row">

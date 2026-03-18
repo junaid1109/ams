@@ -599,27 +599,13 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <?php
-            $menus = \App\Models\Menu::getActive();
-            $currentRoute = Route::currentRouteName();
-          ?>
-          <?php $__empty_1 = true; $__currentLoopData = $menus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $menu): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-          <li>
-            <a href="<?php echo e($menu->getLink()); ?>" 
-               class="<?php if($menu->route_name && str_contains($currentRoute, explode('.', $menu->route_name)[0])): ?> active <?php elseif($menu->route_name === $currentRoute): ?> active <?php endif; ?>">
-              <?php echo e($menu->label); ?>
-
-            </a>
-          </li>
-          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-          <!-- Fallback menu if no dynamic menus configured -->
           <li><a href="<?php echo e(route('home')); ?>" class="<?php if(Route::currentRouteName() == 'home'): ?> active <?php endif; ?>">Home</a></li>
           <li><a href="<?php echo e(route('about')); ?>" class="<?php if(Route::currentRouteName() == 'about'): ?> active <?php endif; ?>">About</a></li>
-          <li><a href="<?php echo e(route('advisory.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'advisory')): ?> active <?php endif; ?>">Advisory</a></li>
+          <li><a href="<?php echo e(route('portfolio.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'portfolio')): ?> active <?php endif; ?>">Services</a></li>
+          <li><a href="<?php echo e(route('advisory.index')); ?>" class="<?php if(str_contains(Route::currentRouteName(), 'advisory')): ?> active <?php endif; ?>">Portfolio</a></li>
           <li><a href="<?php echo e(route('team')); ?>" class="<?php if(Route::currentRouteName() == 'team'): ?> active <?php endif; ?>">Team</a></li>
-          <li><a href="<?php echo e(route('faq.index')); ?>" class="<?php if(Route::currentRouteName() == 'faq.index'): ?> active <?php endif; ?>">FAQs</a></li>
+          <li><a href="<?php echo e(route('faq.index')); ?>" class="<?php if(Route::currentRouteName() == 'faq.index'): ?> active <?php endif; ?>">Pricing</a></li>
           <li><a href="<?php echo e(route('contact.index')); ?>" class="<?php if(Route::currentRouteName() == 'contact.index'): ?> active <?php endif; ?>">Contact</a></li>
-          <?php endif; ?>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
